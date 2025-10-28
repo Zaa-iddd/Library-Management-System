@@ -74,7 +74,7 @@
         android:background="@drawable/rounded_corner_textfield"
         android:text="Create Account"
         android:textSize="18sp"
-        app:backgroundTint="#FD7C43"
+        app:backgroundTint="#C75151"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/passInput"
         app:layout_constraintHorizontal_bias="0.541"
@@ -130,7 +130,7 @@
         android:layout_height="51dp"
         android:backgroundTint="@android:color/transparent"
         android:text="Login"
-        android:textColor="#FD7C43"
+        android:textColor="#C75151"
         android:textSize="18sp"
         app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -138,7 +138,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createAccount"
         app:layout_constraintVertical_bias="0.063"
-        app:strokeColor="#FD7C43"
+        app:strokeColor="#C75151"
         app:strokeWidth="2dp" />
 
     <TextView
@@ -160,7 +160,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reado"
-        android:textColor="#FD7C43"
+        android:textColor="#C75151"
         android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/userInput"
