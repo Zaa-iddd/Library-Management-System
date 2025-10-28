@@ -8,23 +8,24 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
+
     <EditText
         android:id="@+id/userInput"
         android:layout_width="321dp"
         android:layout_height="50dp"
-        android:inputType="textEmailAddress"
         android:layout_marginHorizontal="32dp"
         android:background="@drawable/rounded_corner_textfield"
         android:hint="Username "
+        android:inputType="textEmailAddress"
         android:padding="12dp"
         android:textColorHint="#6A6A6A"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/passInput"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="0.541"
         app:layout_constraintStart_toStartOf="@+id/passInput"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.354" />
+        app:layout_constraintVertical_bias="0.375" />
 
     <EditText
         android:id="@+id/passInput"
@@ -42,10 +43,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userInput"
-        app:layout_constraintVertical_bias="0.085"
+        app:layout_constraintVertical_bias="0.038"
 
         />
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginButton"
@@ -57,10 +57,10 @@
         app:backgroundTint="#FD7C43"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/passInput"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.541"
         app:layout_constraintStart_toStartOf="@+id/passInput"
         app:layout_constraintTop_toBottomOf="@+id/passInput"
-        app:layout_constraintVertical_bias="0.095" />
+        app:layout_constraintVertical_bias="0.061" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginButton3"
@@ -115,10 +115,10 @@
         app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton"
-        app:layout_constraintVertical_bias="0.105"
+        app:layout_constraintVertical_bias="0.061"
         app:strokeColor="#FD7C43"
         app:strokeWidth="2dp" />
 

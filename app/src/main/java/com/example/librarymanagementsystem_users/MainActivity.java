@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        // Set the initial layout
+
         setAndSetupLoginLayout();
     }
 
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle login logic here
+
                 Toast.makeText(MainActivity.this, "Login Clicked!", Toast.LENGTH_SHORT).show();
             }
         });
