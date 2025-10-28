@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        loginButton = findViewById(R.id.loginButton); // Corrected ID from your layout
-        createButton = findViewById(R.id.create_button); // Corrected to the create button ID
+        loginButton = findViewById(R.id.loginButton);
+        createButton = findViewById(R.id.create_button);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Switch to the create account layout
                 setAndSetupCreateAccountLayout();
             }
         });
@@ -60,14 +59,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        // Make sure your create_account.xml has a button with the id "loginButton" to go back
         MaterialButton loginFromCreateButton = findViewById(R.id.loginButton); 
 
         loginFromCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Switch back to the login layout
                 setAndSetupLoginLayout();
             }
         });
