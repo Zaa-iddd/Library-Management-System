@@ -3,84 +3,128 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_gradient">
+             android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="READo"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+    <View
+        android:id="@+id/view"
+        android:layout_width="413dp"
+        android:layout_height="255dp"
+        android:background="@drawable/Wave"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.361" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Back!"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/login_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.755" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login with Social Media"
+        android:text="READo"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.852" />
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintVertical_bias="0.102" />
 
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="334dp"
-        android:layout_height="74dp"
-        android:layout_marginTop="308dp"
-        android:background="@drawable/border_button"
-        android:text="Sign In"
-        android:textColor="@color/white"
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello! Welcome to READo!"
+        android:textColor="#AB3E52"
         android:textSize="20sp"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.288" />
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintVertical_bias="0.434" />
+
+    <TextView
+        android:id="@+id/welcomeText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Or sign up with"
+        android:textColor="#8E8E8E"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signupButton"
+        app:layout_constraintVertical_bias="0.362" />
 
     <Button
-        android:id="@+id/signup_button"
-        android:layout_width="334dp"
-        android:layout_height="74dp"
+        android:id="@+id/loginButton"
+        android:layout_width="326dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/button"
-        android:text="Sign Up"
-        android:textColor="#6C1F5A"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:backgroundTint="@null"
+        android:text="Login"
+        android:textSize="20dp"
+        android:textStyle="normal"
         app:backgroundTint="@null"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button"
-        app:layout_constraintVertical_bias="0.41" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
+
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="326dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border_button"
+        android:backgroundTint="@null"
+        android:text="Sign Up"
+        android:textSize="20dp"
+        android:textStyle="normal"
+        android:textColor="#AB3E52"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+
+    <ImageButton
+        android:id="@+id/googleButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/google"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/facebookButton"
+        app:layout_constraintHorizontal_bias="0.339"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText2"
+        app:layout_constraintVertical_bias="0.106" />
+
+    <ImageButton
+        android:id="@+id/facebookButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="136dp"
+        android:background="@null"
+        android:contentDescription="Instagram Button"
+        android:scaleType="centerInside"
+        android:src="@drawable/facebook"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText2"
+        app:layout_constraintVertical_bias="0.106" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
