@@ -12,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Animation variables
     Animation topAnim, bottomAnim, middleAnim;
 
-    // UI elements
     View wave;
     TextView reado, welcomeText, welcomeText2;
     Button loginButton, signupButton;
