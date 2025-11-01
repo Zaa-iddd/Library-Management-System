@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:text="READo"
         android:textColor="@color/white"
-        android:textSize="34sp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="153dp"
-        tools:layout_editor_absoluteY="343dp" />
+        tools:layout_editor_absoluteX="168dp"
+        tools:layout_editor_absoluteY="349dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
