@@ -24,12 +24,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_screen);
 
-        // Load Animations
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
         bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
         middleAnim = AnimationUtils.loadAnimation(this, R.anim.middle_animation);
 
-        // Hooks for UI elements
         wave = findViewById(R.id.view);
         reado = findViewById(R.id.textView2);
         welcomeText = findViewById(R.id.welcomeText);
@@ -39,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         googleButton = findViewById(R.id.googleButton);
         facebookButton = findViewById(R.id.facebookButton);
 
-        // Set animations to elements
         wave.setAnimation(topAnim);
         reado.setAnimation(topAnim);
         welcomeText.setAnimation(middleAnim);
