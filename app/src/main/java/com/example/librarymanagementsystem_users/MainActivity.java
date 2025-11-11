@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem_users;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -45,5 +46,11 @@ public class MainActivity extends AppCompatActivity {
         welcomeText2.setAnimation(bottomAnim);
         googleButton.setAnimation(bottomAnim);
         facebookButton.setAnimation(bottomAnim);
+
+        signupButton.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, SignupActivity.class));
+        });
+
+
     }
 }
