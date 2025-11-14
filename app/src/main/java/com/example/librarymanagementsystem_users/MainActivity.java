@@ -47,9 +47,18 @@ public class MainActivity extends AppCompatActivity {
         googleButton.setAnimation(bottomAnim);
         facebookButton.setAnimation(bottomAnim);
 
+        //para lang sa test uni
         signupButton.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, SignupActivity.class));
         });
+
+        //para sa test ulit ki login
+        loginButton.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        });
+
+
+
 
 
     }

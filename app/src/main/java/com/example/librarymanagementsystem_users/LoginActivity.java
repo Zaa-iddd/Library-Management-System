@@ -8,22 +8,22 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SignupActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     Animation topAnim, middleAnim, bottomAnim;
-
     View wave;
-    TextView appTitle, welcomeText, alreadyAccountText;
-    EditText etUsername, etPassword, etConfirmPassword;
-    Button signupButton;
+    TextView appTitle, welcomeText, noAccountText;
+    EditText etUsername, etPassword;
+    Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup);
+        setContentView(R.layout.login);
 
         // load animations
         topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
@@ -34,11 +34,10 @@ public class SignupActivity extends AppCompatActivity {
         wave = findViewById(R.id.view);
         appTitle = findViewById(R.id.appTitle);
         welcomeText = findViewById(R.id.welcomeText);
-        alreadyAccountText = findViewById(R.id.alreadyAccountText);
+        noAccountText = findViewById(R.id.noAccountText);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
-        etConfirmPassword = findViewById(R.id.etConfirmPassword);
-        signupButton = findViewById(R.id.signupButton);
+        loginButton = findViewById(R.id.loginButton);
 
         //  animations
         wave.setAnimation(topAnim);
@@ -46,32 +45,27 @@ public class SignupActivity extends AppCompatActivity {
         welcomeText.setAnimation(middleAnim);
         etUsername.setAnimation(middleAnim);
         etPassword.setAnimation(middleAnim);
-        etConfirmPassword.setAnimation(middleAnim);
-        signupButton.setAnimation(bottomAnim);
-        alreadyAccountText.setAnimation(bottomAnim);
+        loginButton.setAnimation(bottomAnim);
+        noAccountText.setAnimation(bottomAnim);
 
-        // signup button click
-        signupButton.setOnClickListener(v -> {
+        // ogin button click
+        loginButton.setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
-            String confirm = etConfirmPassword.getText().toString().trim();
 
-            if(username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
-                android.widget.Toast.makeText(this, "Fill all fields", android.widget.Toast.LENGTH_SHORT).show();
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(!password.equals(confirm)) {
-                android.widget.Toast.makeText(this, "Passwords do not match", android.widget.Toast.LENGTH_SHORT).show();
-                return;
-            }
+            // TODO: add pa ki fb pang navi lang
 
-            android.widget.Toast.makeText(this, "Sign Up clicked!", android.widget.Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, MainDashActivity.class));
         });
 
-
-        alreadyAccountText.setOnClickListener(v -> {
-            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+        // para diresto ki sigup
+        noAccountText.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, SignupActivity.class));
         });
     }
 }

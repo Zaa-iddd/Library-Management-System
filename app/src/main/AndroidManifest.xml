@@ -21,7 +21,13 @@
             </intent-filter>
         </activity>
 
+        <!--- ito rin test lang kay signup-->
         <activity android:name=".SignupActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MainDashActivity"/>
+
+
+
     </application>
 
 
