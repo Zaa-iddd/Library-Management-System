@@ -20,21 +20,6 @@
 
     <!-- Genre Buttons -->
 
-    <Button
-        android:id="@+id/btnScanQR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="540dp"
-        android:backgroundTint="@color/black"
-        android:padding="12dp"
-        android:text="Scan QR Code"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.943"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genreScrollView" />
-
     <HorizontalScrollView
         android:id="@+id/genreScrollView"
         android:layout_width="0dp"
@@ -66,13 +51,13 @@
             <Button
                 android:id="@+id/btnRomance"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Romance"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
+                android:background="@drawable/genre_button_default"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:background="@drawable/genre_button_default"
-                android:textColor="#000000"/>
+                android:text="Romance"
+                android:textColor="#000000" />
 
             <Button
                 android:id="@+id/btnComedy"
