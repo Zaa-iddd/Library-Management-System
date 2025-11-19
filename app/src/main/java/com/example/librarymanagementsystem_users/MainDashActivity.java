@@ -1,14 +1,17 @@
 package com.example.librarymanagementsystem_users;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 public class MainDashActivity extends AppCompatActivity {
 
     Button btnAction, btnRomance, btnComedy, btnHorror, btnThriller;
+    CardView profileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,12 @@ public class MainDashActivity extends AppCompatActivity {
         btnComedy = findViewById(R.id.btnComedy);
         btnHorror = findViewById(R.id.btnHorror);
         btnThriller = findViewById(R.id.btnThriller);
+        profileButton = findViewById(R.id.profileButton);
+
+        profileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainDashActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
 
 
         View.OnClickListener genreClickListener = v -> {
