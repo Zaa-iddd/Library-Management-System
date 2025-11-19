@@ -47,27 +47,29 @@
         android:layout_marginTop="16dp" />
 
     <!-- User Field -->
+
+
+    <!-- Email Field -->
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="320dp"
         android:layout_height="55dp"
-        android:hint="Username"
+        android:layout_marginTop="32dp"
+        android:animation="@anim/middle_animation"
+        android:background="@drawable/border_button"
         android:drawableStart="@drawable/profile"
         android:drawablePadding="12dp"
+        android:hint="Username"
+        android:inputType="textPersonName"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:background="@drawable/border_button"
-        android:inputType="textPersonName"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:layout_marginTop="20dp"
-        android:animation="@anim/middle_animation"
-        app:layout_constraintTop_toBottomOf="@id/welcomeText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
-
-    <!-- Email Field -->
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="320dp"
