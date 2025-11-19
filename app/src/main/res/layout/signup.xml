@@ -47,14 +47,11 @@
         android:layout_marginTop="16dp" />
 
     <!-- User Field -->
-
-
-    <!-- Email Field -->
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="320dp"
         android:layout_height="55dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:animation="@anim/middle_animation"
         android:background="@drawable/border_button"
         android:drawableStart="@drawable/profile"
@@ -66,10 +63,10 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
+    <!-- Email Field -->
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="320dp"
