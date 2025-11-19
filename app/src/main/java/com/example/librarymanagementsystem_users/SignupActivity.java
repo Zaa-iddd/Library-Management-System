@@ -17,7 +17,7 @@ public class SignupActivity extends AppCompatActivity {
 
     View wave;
     TextView appTitle, welcomeText, alreadyAccountText;
-    EditText etUsername, etPassword, etConfirmPassword;
+    EditText etUsername, etPassword, etConfirmPassword, etEmail;
     Button signupButton;
 
     @Override
@@ -36,6 +36,7 @@ public class SignupActivity extends AppCompatActivity {
         welcomeText = findViewById(R.id.welcomeText);
         alreadyAccountText = findViewById(R.id.alreadyAccountText);
         etUsername = findViewById(R.id.etUsername);
+        etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         signupButton = findViewById(R.id.signupButton);
@@ -45,6 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         appTitle.setAnimation(topAnim);
         welcomeText.setAnimation(middleAnim);
         etUsername.setAnimation(middleAnim);
+        etEmail.setAnimation(middleAnim);
         etPassword.setAnimation(middleAnim);
         etConfirmPassword.setAnimation(middleAnim);
         signupButton.setAnimation(bottomAnim);
@@ -53,6 +55,7 @@ public class SignupActivity extends AppCompatActivity {
         // signup button click
         signupButton.setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
+            String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
             String confirm = etConfirmPassword.getText().toString().trim();
 
