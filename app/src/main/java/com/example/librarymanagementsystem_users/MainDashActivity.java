@@ -2,8 +2,10 @@ package com.example.librarymanagementsystem_users;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,7 +17,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 public class MainDashActivity extends AppCompatActivity {
 
-    Button btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btScan, btHome;
+    Button btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btScan, btHome;
     CardView profileButton;
 
     @Override
@@ -23,6 +25,7 @@ public class MainDashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_dash);
 
+        btnAll = findViewById(R.id.btnAll);
         btnAction = findViewById(R.id.btnAction);
         btnRomance = findViewById(R.id.btnRomance);
         btnComedy = findViewById(R.id.btnComedy);
@@ -31,6 +34,8 @@ public class MainDashActivity extends AppCompatActivity {
         profileButton = findViewById(R.id.profileButton);
         btScan = findViewById(R.id.btScan);
         btHome = findViewById(R.id.btHome);
+
+        addBookViews();
 
         profileButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainDashActivity.this, ProfileActivity.class);
@@ -54,22 +59,54 @@ public class MainDashActivity extends AppCompatActivity {
             resetButtons();
 
             Button clicked = (Button) v;
-            clicked.setBackgroundResource(R.drawable.genre_button_selected);
-            clicked.setTextColor(0xFFFFFFFF);
+            clicked.setBackgroundResource(R.drawable.button_selected);
         };
 
+        btnAll.setOnClickListener(genreClickListener);
         btnAction.setOnClickListener(genreClickListener);
         btnRomance.setOnClickListener(genreClickListener);
         btnComedy.setOnClickListener(genreClickListener);
         btnHorror.setOnClickListener(genreClickListener);
         btnThriller.setOnClickListener(genreClickListener);
+
+        btnAll.setBackgroundResource(R.drawable.button_selected);
+    }
+
+    private void addBookViews() {
+        LinearLayout booksContainer = findViewById(R.id.books_container);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        final int booksPerRow = 3;
+        final int numBooks = 5; // NUMBER OF BOOKS NA MA LUWAS
+
+        LinearLayout.LayoutParams bookLayoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        bookLayoutParams.setMarginEnd(16);
+
+        LinearLayout rowLayout = null;
+
+        for (int i = 0; i < numBooks; i++) {
+            if (i % booksPerRow == 0) {
+                rowLayout = new LinearLayout(this);
+                rowLayout.setOrientation(LinearLayout.HORIZONTAL);
+                rowLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                rowLayout.setWeightSum(booksPerRow);
+                booksContainer.addView(rowLayout);
+            }
+
+            View bookView = inflater.inflate(R.layout.item_book, rowLayout, false);
+            bookView.setLayoutParams(bookLayoutParams);
+            rowLayout.addView(bookView);
+
+            bookView.setOnClickListener(v -> {
+                Intent intent = new Intent(MainDashActivity.this, ViewBookActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     private void resetButtons() {
-        Button[] buttons = {btnAction, btnRomance, btnComedy, btnHorror, btnThriller};
+        Button[] buttons = {btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller};
         for (Button b : buttons) {
-            b.setBackgroundResource(R.drawable.genre_button_default);
-            b.setTextColor(0xFF000000);
+            b.setBackgroundResource(R.drawable.button);
         }
     }
 

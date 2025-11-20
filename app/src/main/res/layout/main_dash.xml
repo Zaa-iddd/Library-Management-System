@@ -106,7 +106,7 @@
                 android:layout_marginEnd="8dp"
                 app:backgroundTint="#AA3E51"
                 android:text="Comedy"
-               />
+                />
 
             <Button
                 android:id="@+id/btnHorror"
@@ -143,59 +143,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/genreScrollView">
-        <!-- LOOP EVERY 3 BOOKS MAKAAG PANIBAGONG LINEARLAYOUT-->
         <LinearLayout
+            android:id="@+id/books_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp"
-                android:weightSum="3">
-                <!-- INI SU BOOKS -->
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"/>
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"/>
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"/>
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"/>
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"/>
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"/>
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"/>
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"/>
-                <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
-            </LinearLayout>
+            <!-- Book items will be added here dynamically -->
 
         </LinearLayout>
     </ScrollView>
