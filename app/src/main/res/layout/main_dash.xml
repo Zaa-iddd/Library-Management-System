@@ -68,10 +68,21 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btnAll"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/button"
+                android:layout_marginStart="8dp"
+                app:backgroundTint="#AA3E51"
+                android:text="All"
+                />
+
+            <Button
                 android:id="@+id/btnAction"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:background="@drawable/button"
+                android:layout_marginStart="16dp"
                 app:backgroundTint="#AA3E51"
                 android:text="Action"
                 />
@@ -80,7 +91,7 @@
                 android:id="@+id/btnRomance"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
                 android:text="Romance"
@@ -90,8 +101,9 @@
                 android:id="@+id/btnComedy"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:background="@drawable/button"
+                android:layout_marginEnd="8dp"
                 app:backgroundTint="#AA3E51"
                 android:text="Comedy"
                />
@@ -100,7 +112,7 @@
                 android:id="@+id/btnHorror"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
                 android:text="Horror"
@@ -110,7 +122,7 @@
                 android:id="@+id/btnThriller"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
                 android:text="Thriller"

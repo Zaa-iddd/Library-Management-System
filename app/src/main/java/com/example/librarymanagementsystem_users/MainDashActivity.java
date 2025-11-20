@@ -9,8 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 public class MainDashActivity extends AppCompatActivity {
-
-    Button btnAction, btnRomance, btnComedy, btnHorror, btnThriller;
+    Button btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btnAll;
     CardView profileButton;
 
     @Override
@@ -18,6 +17,7 @@ public class MainDashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_dash);
 
+        btnAll = findViewById(R.id.btnAll);
         btnAction = findViewById(R.id.btnAction);
         btnRomance = findViewById(R.id.btnRomance);
         btnComedy = findViewById(R.id.btnComedy);
@@ -38,15 +38,17 @@ public class MainDashActivity extends AppCompatActivity {
             clicked.setBackgroundResource(R.drawable.button_selected);
         };
 
+        btnAll.setOnClickListener(genreClickListener);
         btnAction.setOnClickListener(genreClickListener);
         btnRomance.setOnClickListener(genreClickListener);
         btnComedy.setOnClickListener(genreClickListener);
         btnHorror.setOnClickListener(genreClickListener);
         btnThriller.setOnClickListener(genreClickListener);
+        btnAll.setOnClickListener(genreClickListener);
     }
 
     private void resetButtons() {
-        Button[] buttons = {btnAction, btnRomance, btnComedy, btnHorror, btnThriller};
+        Button[] buttons = {btnAll,btnAction, btnRomance, btnComedy, btnHorror, btnThriller};
         for (Button b : buttons) {
             b.setBackgroundResource(R.drawable.button);
         }
