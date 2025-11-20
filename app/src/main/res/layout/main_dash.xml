@@ -70,7 +70,7 @@
             <Button
                 android:id="@+id/btnAction"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
                 android:text="Action"
@@ -79,7 +79,7 @@
             <Button
                 android:id="@+id/btnRomance"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
@@ -89,7 +89,7 @@
             <Button
                 android:id="@+id/btnComedy"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
@@ -99,7 +99,7 @@
             <Button
                 android:id="@+id/btnHorror"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
@@ -109,7 +109,7 @@
             <Button
                 android:id="@+id/btnThriller"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
@@ -161,6 +161,7 @@
                 <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp"/>
                 <include layout="@layout/item_book" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
