@@ -35,8 +35,7 @@ public class MainDashActivity extends AppCompatActivity {
             resetButtons();
 
             Button clicked = (Button) v;
-            clicked.setBackgroundResource(R.drawable.genre_button_selected);
-            clicked.setTextColor(0xFFFFFFFF);
+            clicked.setBackgroundResource(R.drawable.button_selected);
         };
 
         btnAction.setOnClickListener(genreClickListener);
@@ -49,8 +48,7 @@ public class MainDashActivity extends AppCompatActivity {
     private void resetButtons() {
         Button[] buttons = {btnAction, btnRomance, btnComedy, btnHorror, btnThriller};
         for (Button b : buttons) {
-            b.setBackgroundResource(R.drawable.genre_button_default);
-            b.setTextColor(0xFF000000);
+            b.setBackgroundResource(R.drawable.button);
         }
     }
 }
