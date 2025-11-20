@@ -94,6 +94,7 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:animation="@anim/bottom_animation"
+        app:backgroundTint="#AB3E52"
         app:layout_constraintTop_toBottomOf="@id/etPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

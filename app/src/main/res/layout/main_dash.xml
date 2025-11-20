@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF">
@@ -28,6 +29,8 @@
     </androidx.cardview.widget.CardView>
 
     <!-- Search Bar -->
+
+    <!-- Genre Buttons -->
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="0dp"
@@ -36,12 +39,15 @@
         android:layout_marginEnd="8dp"
         android:iconifiedByDefault="false"
         android:queryHint="Search books..."
+        android:background="@drawable/border_button"
+        android:backgroundTint="#B4B4B4"
         app:layout_constraintBottom_toBottomOf="@+id/profileButton"
         app:layout_constraintEnd_toStartOf="@+id/profileButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/profileButton" />
+        app:layout_constraintTop_toTopOf="@+id/profileButton"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Genre Buttons -->
     <HorizontalScrollView
         android:id="@+id/genreScrollView"
         android:layout_width="0dp"
@@ -63,59 +69,67 @@
                 android:id="@+id/btnAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button"
+                app:backgroundTint="#AA3E51"
                 android:text="Action"
-                android:layout_marginEnd="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:background="@drawable/genre_button_default"
-                android:textColor="#000000"/>
+                />
 
             <Button
                 android:id="@+id/btnRomance"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/genre_button_default"
-                android:paddingStart="16dp"
-                android:paddingEnd="1dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/button"
+                app:backgroundTint="#AA3E51"
                 android:text="Romance"
-                android:textColor="#000000" />
+                />
 
             <Button
                 android:id="@+id/btnComedy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/button"
+                app:backgroundTint="#AA3E51"
                 android:text="Comedy"
-                android:layout_marginEnd="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:background="@drawable/genre_button_default"
-                android:textColor="#000000"/>
+               />
 
             <Button
                 android:id="@+id/btnHorror"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/button"
+                app:backgroundTint="#AA3E51"
                 android:text="Horror"
-                android:layout_marginEnd="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:background="@drawable/genre_button_default"
-                android:textColor="#000000"/>
+                />
 
             <Button
                 android:id="@+id/btnThriller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/button"
+                app:backgroundTint="#AA3E51"
                 android:text="Thriller"
-                android:layout_marginEnd="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:background="@drawable/genre_button_default"
-                android:textColor="#000000"/>
+                />
 
 
         </LinearLayout>
     </HorizontalScrollView>
+
+    <ScrollView
+        android:layout_width="399dp"
+        android:layout_height="276dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genreScrollView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
