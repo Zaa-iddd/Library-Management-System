@@ -180,6 +180,7 @@
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
+                android:text="Home"
                 />
 
             <Button
@@ -190,15 +191,18 @@
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
+                android:text="Scan"
                 />
 
             <Button
-                android:id="@+id/btButton"
+                android:id="@+id/btMyBooks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/button"
                 app:backgroundTint="#AA3E51"
+                android:text="My Books"
+
                 />
 
         </LinearLayout>

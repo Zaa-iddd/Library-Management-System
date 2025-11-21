@@ -29,6 +29,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".ProfileActivity" />
 
+
+
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"
