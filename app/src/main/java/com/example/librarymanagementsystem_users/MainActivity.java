@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         middleAnim = AnimationUtils.loadAnimation(this, R.anim.middle_animation);
 
         wave = findViewById(R.id.view);
-        reado = findViewById(R.id.textView2);
         welcomeText = findViewById(R.id.welcomeText);
         welcomeText2 = findViewById(R.id.welcomeText2);
         loginButton = findViewById(R.id.loginButton);
