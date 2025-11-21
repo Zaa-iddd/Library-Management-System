@@ -59,7 +59,8 @@ public class MainDashActivity extends AppCompatActivity {
             resetButtons();
 
             Button clicked = (Button) v;
-            clicked.setBackgroundResource(R.drawable.button_selected);
+            clicked.setBackgroundResource(R.drawable.genre_button_selected);
+            clicked.setTextColor(getResources().getColor(android.R.color.white));
         };
 
         btnAll.setOnClickListener(genreClickListener);
@@ -69,14 +70,16 @@ public class MainDashActivity extends AppCompatActivity {
         btnHorror.setOnClickListener(genreClickListener);
         btnThriller.setOnClickListener(genreClickListener);
 
-        btnAll.setBackgroundResource(R.drawable.button_selected);
+        // Select All by default
+        btnAll.setBackgroundResource(R.drawable.genre_button_selected);
+        btnAll.setTextColor(getResources().getColor(android.R.color.white));
     }
 
     private void addBookViews() {
         LinearLayout booksContainer = findViewById(R.id.books_container);
         LayoutInflater inflater = LayoutInflater.from(this);
         final int booksPerRow = 3;
-        final int numBooks = 5; // NUMBER OF BOOKS NA MA LUWAS
+        final int numBooks = 5; // NUMBER OF BOOKS TO DISPLAY
 
         LinearLayout.LayoutParams bookLayoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
         bookLayoutParams.setMarginEnd(16);
@@ -106,7 +109,8 @@ public class MainDashActivity extends AppCompatActivity {
     private void resetButtons() {
         Button[] buttons = {btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller};
         for (Button b : buttons) {
-            b.setBackgroundResource(R.drawable.button);
+            b.setBackgroundResource(R.drawable.genre_button_default);
+            b.setTextColor(getResources().getColor(android.R.color.black));
         }
     }
 
@@ -118,7 +122,6 @@ public class MainDashActivity extends AppCompatActivity {
             if (intentResult.getContents() == null) {
                 Toast.makeText(getBaseContext(), "Cancelled", Toast.LENGTH_SHORT).show();
             } else {
-                // if the intentResult is not null we are getting the content from toast
                 Toast.makeText(getBaseContext(), intentResult.getContents(), Toast.LENGTH_SHORT).show();
             }
         } else {
