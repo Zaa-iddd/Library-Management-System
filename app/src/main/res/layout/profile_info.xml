@@ -75,8 +75,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Borrowed Books Counter -->
-
     <!-- Edit Profile -->
     <Button
         android:id="@+id/editProfileButton"
@@ -92,6 +90,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- View Favorites Button -->
+    <Button
+        android:id="@+id/viewFavoritesButton"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:text="View Favorites"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/button"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="32dp"
+        app:layout_constraintTop_toBottomOf="@id/editProfileButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- Logout -->
     <Button
         android:id="@+id/logoutButton"
@@ -104,7 +117,7 @@
         android:backgroundTint="#FF5252"
         android:layout_marginTop="12dp"
         android:layout_marginHorizontal="32dp"
-        app:layout_constraintTop_toBottomOf="@id/editProfileButton"
+        app:layout_constraintTop_toBottomOf="@id/viewFavoritesButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

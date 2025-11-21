@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/returnButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -22,12 +22,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2">
+        app:layout_constraintTop_toBottomOf="@+id/returnButton">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
 
             <TextView
                 android:id="@+id/textView3"
@@ -43,7 +44,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="22dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -63,7 +64,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="19dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -83,7 +84,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="21dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -107,33 +108,22 @@
                 android:layout_height="wrap_content"
                 android:text="DESCRIPTION:" />
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="218dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView20"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Embark on a voyage of a lifetime with One Piece. The epic anime series created by renowned mangaka Eiichiro Oda is a global phenomenon, captivating the hearts of fans across generations throughout its 25-year span. This thrilling high seas adventure is filled with unwavering friendship, epic battles for freedom, and the relentless pursuit of dreams. Join Monkey D. Luffy and his lovable pirate crew as they discover the true meaning of power and justice in this great pirate era.  Monkey D. Luffy refuses to let anyone or anything stand in the way of his quest to become King of the Pirates. With his rubber-like stretching powers granted by the supernatural Devil Fruit, the spirited young pirate seeks the legendary treasure known as the One Piece. He’ll chart a course for the treacherous waters of the Grand Line and recruit a motley crew to build his Straw Hat Pirates one bond at a time. This is one captain who’ll never drop anchor until he and his friends all reach their dreams!  One Piece boasts more than 1100 episodes. Currently in the Egghead Arc, the Straw Hats finally meet the long awaited Dr. Vegapunk on Egghead Island. Crunchyroll is home to every subbed episode and also every English dubbed episode, with over 1000 and counting. In addition, One Piece has 13 television specials and 15 movies, with the latest, One Piece Film Red, being the highest-grossing film in the franchise. One Piece is produced by Toei Animation.  Audio: Japanese, English, ไทย Subtitles: English, Bahasa Indonesia, Tiếng Việt, ไทย Awards: 2024 Anime Awards Nominee, 2023 Anime Awards Nominee, 2023 Anime Awards Winner, 2024 Anime Awards Winner, 2025 Anime Awards Nominee Content Advisory: Drug/Alcohol Use, Profanity, Smoking, Violence Genres:  Visual footage assets (subbed): FILM ©1999 Toei Animation Co., Ltd. English Subtitle ©2009 Shueisha, Fuji TV, Toei Animation ©Eiichiro Oda/Shueisha, Toei Animation OR (dubbed) FILM ©1999 Toei Animation Co., Ltd. ©Eiichiro Oda/Shueisha, Toei Animation Marketing (non-footage): Long Form: ©Eiichiro Oda/Shueisha, Toei Animation " />
-                </LinearLayout>
-            </ScrollView>
-
-            <Button
-                android:id="@+id/button"
+            <TextView
+                android:id="@+id/textView20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="BORROW" />
+                android:text="Embark on a voyage of a lifetime with One Piece. The epic anime series created by renowned mangaka Eiichiro Oda is a global phenomenon, captivating the hearts of fans across generations throughout its 25-year span. This thrilling high seas adventure is filled with unwavering friendship, epic battles for freedom, and the relentless pursuit of dreams. Join Monkey D. Luffy and his lovable pirate crew as they discover the true meaning of power and justice in this great pirate era. Monkey D. Luffy refuses to let anyone or anything stand in the way of his quest to become King of the Pirates. With his rubber-like stretching powers granted by the supernatural Devil Fruit, the spirited young pirate seeks the legendary treasure known as the One Piece. He'll chart a course for the treacherous waters of the Grand Line and recruit a motley crew to build his Straw Hat Pirates one bond at a time. This is one captain who'll never drop anchor until he and his friends all reach their dreams! One Piece boasts more than 1100 episodes. Currently in the Egghead Arc, the Straw Hats finally meet the long awaited Dr. Vegapunk on Egghead Island. Crunchyroll is home to every subbed episode and also every English dubbed episode, with over 1000 and counting. In addition, One Piece has 13 television specials and 15 movies, with the latest, One Piece Film Red, being the highest-grossing film in the franchise. One Piece is produced by Toei Animation. Audio: Japanese, English, ไทย Subtitles: English, Bahasa Indonesia, Tiếng Việt, ไทย Awards: 2024 Anime Awards Nominee, 2023 Anime Awards Nominee, 2023 Anime Awards Winner, 2024 Anime Awards Winner, 2025 Anime Awards Nominee Content Advisory: Drug/Alcohol Use, Profanity, Smoking, Violence Genres: Visual footage assets (subbed): FILM ©1999 Toei Animation Co., Ltd. English Subtitle ©2009 Shueisha, Fuji TV, Toei Animation ©Eiichiro Oda/Shueisha, Toei Animation OR (dubbed) FILM ©1999 Toei Animation Co., Ltd. ©Eiichiro Oda/Shueisha, Toei Animation Marketing (non-footage): Long Form: ©Eiichiro Oda/Shueisha, Toei Animation " />
 
-            <LinearLayout
+            <Button
+                android:id="@+id/addToFavoritesButton"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"></LinearLayout>
+                android:layout_height="57dp"
+                android:text="Add to Favorites"
+                android:background="@drawable/button"
+                app:backgroundTint="#9C27B0"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="16dp"/>
 
         </LinearLayout>
     </ScrollView>
