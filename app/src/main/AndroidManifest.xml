@@ -30,7 +30,7 @@
             android:name=".LoginActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ProfileActivity" />
-
+        <activity android:name=".MyBooksDashActivity"/>
 
 
         <activity

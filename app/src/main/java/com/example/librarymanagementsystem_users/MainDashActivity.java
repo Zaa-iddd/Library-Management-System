@@ -17,7 +17,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 public class MainDashActivity extends AppCompatActivity {
 
-    Button btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btScan, btHome;
+    Button btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btScan, btHome,btMyBooks;
     CardView profileButton;
 
     @Override
@@ -34,8 +34,15 @@ public class MainDashActivity extends AppCompatActivity {
         profileButton = findViewById(R.id.profileButton);
         btScan = findViewById(R.id.btScan);
         btHome = findViewById(R.id.btHome);
+        btMyBooks = findViewById(R.id.btMyBooks);
+
 
         addBookViews();
+
+        btMyBooks.setOnClickListener(v ->{
+            Intent intent = new Intent(MainDashActivity.this, MyBooksDashActivity.class);
+            startActivity(intent);
+        });
 
         profileButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainDashActivity.this, ProfileActivity.class);
