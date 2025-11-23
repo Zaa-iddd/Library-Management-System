@@ -37,7 +37,7 @@
             android:background="@drawable/button"
             android:text="History"
             android:textColor="@android:color/white"
-            app:backgroundTint="#AA3E51" />
+            app:backgroundTint="#FB7B42" />
 
         <Button
             android:id="@+id/btnBorrowed"
@@ -49,7 +49,7 @@
             android:background="@drawable/button"
             android:text="Borrowed"
             android:textColor="@android:color/white"
-            app:backgroundTint="#AA3E51" />
+            app:backgroundTint="#FB7B42" />
 
         <Button
             android:id="@+id/btnReturned"
@@ -60,7 +60,7 @@
             android:background="@drawable/button"
             android:text="Returned"
             android:textColor="@android:color/white"
-            app:backgroundTint="#AA3E51" />
+            app:backgroundTint="#FB7B42" />
     </LinearLayout>
 
     <!-- Borrowed Books Content -->
