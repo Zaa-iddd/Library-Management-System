@@ -12,7 +12,6 @@
         android:id="@+id/linearLayout"
         android:layout_width="352dp"
         android:layout_height="342dp"
-        android:animation="@anim/middle_animation"
         android:background="@drawable/button"
         android:backgroundTint="#FFFFFF"
         android:gravity="center_horizontal"
@@ -30,7 +29,6 @@
             android:id="@+id/welcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:animation="@anim/middle_animation"
             android:text="Welcome back!"
             android:textColor="#FD7C43"
             android:textSize="20sp"
@@ -86,7 +84,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:animation="@anim/bottom_animation"
             android:text="Don't have an account? Sign up"
             android:textColor="#8E8E8E"
             android:textSize="16sp" />
