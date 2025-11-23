@@ -23,8 +23,8 @@
 
                 <TextView
                     android:id="@+id/textView6"
-                    android:layout_width="55dp"
-                    android:layout_height="40dp"
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="5mm"
                     android:text="Hello Christian!"
@@ -32,8 +32,8 @@
 
                 <Button
                     android:id="@+id/profileButton"
-                    android:layout_width="20dp"
-                    android:layout_height="65dp"
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
 
                     android:text="Button" />
@@ -46,15 +46,15 @@
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="79dp"
+                    android:layout_width="11dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="TextView" />
 
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="TextView" />
 

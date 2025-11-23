@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#F4F4F4">
 
     <!-- Profile Button -->
     <androidx.cardview.widget.CardView
@@ -23,8 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/sample_book"
-            />
+            android:src="@drawable/sample_book" />
 
     </androidx.cardview.widget.CardView>
 
@@ -37,10 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/border_button"
+        android:backgroundTint="#FFFFFF"
         android:iconifiedByDefault="false"
         android:queryHint="Search books..."
-        android:background="@drawable/border_button"
-        android:backgroundTint="#E7E7E7"
         app:layout_constraintBottom_toBottomOf="@+id/profileButton"
         app:layout_constraintEnd_toStartOf="@+id/profileButton"
         app:layout_constraintHorizontal_bias="0.0"
@@ -52,15 +50,15 @@
         android:id="@+id/genreScrollView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:scrollbars="none"
         android:background="@drawable/button"
         android:backgroundTint="#E9E9E9"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/searchView">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -80,11 +78,10 @@
                 android:id="@+id/btnAction"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:background="@drawable/button"
                 android:layout_marginStart="16dp"
-                app:backgroundTint="#FB7B42"
+                android:background="@drawable/button"
                 android:text="Action"
-                />
+                app:backgroundTint="#FB7B42" />
 
             <Button
                 android:id="@+id/btnRomance"
@@ -92,20 +89,18 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/button"
-                app:backgroundTint="#FB7B42"
                 android:text="Romance"
-                />
+                app:backgroundTint="#FB7B42" />
 
             <Button
                 android:id="@+id/btnComedy"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/button"
                 android:layout_marginEnd="8dp"
-                app:backgroundTint="#FB7B42"
+                android:background="@drawable/button"
                 android:text="Comedy"
-                />
+                app:backgroundTint="#FB7B42" />
 
             <Button
                 android:id="@+id/btnHorror"
@@ -113,9 +108,8 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/button"
-                app:backgroundTint="#FB7B42"
                 android:text="Horror"
-                />
+                app:backgroundTint="#FB7B42" />
 
             <Button
                 android:id="@+id/btnThriller"
@@ -123,9 +117,8 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/button"
-                app:backgroundTint="#FB7B42"
                 android:text="Thriller"
-                />
+                app:backgroundTint="#FB7B42" />
 
 
         </LinearLayout>
@@ -134,14 +127,15 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/genreScrollView">
+
         <LinearLayout
             android:id="@+id/books_container"
             android:layout_width="match_parent"
@@ -159,18 +153,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#2B3D58"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- You can add menu items here using app:menu="@menu/bottom_nav_menu" -->
         <!-- For now, adding buttons directly inside a LinearLayout wrapper as requested -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btHome"
@@ -178,9 +172,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button"
-                app:backgroundTint="#FB7B42"
                 android:text="Home"
-                />
+                app:backgroundTint="#FB7B42" />
 
             <Button
                 android:id="@+id/btScan"
@@ -189,9 +182,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/button"
-                app:backgroundTint="#FB7B42"
                 android:text="Scan"
-                />
+                app:backgroundTint="#FB7B42" />
 
             <Button
                 android:id="@+id/btMyBooks"
@@ -199,8 +191,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/button"
-                app:backgroundTint="#FB7B42"
                 android:text="My Books"
+                app:backgroundTint="#FB7B42"
 
                 />
 
