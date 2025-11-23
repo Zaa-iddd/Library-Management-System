@@ -1,66 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:background="#FD7C43"
     tools:context=".SignupActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Header -->
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@drawable/wave"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/appTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="READo"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/view" />
-
-        <!-- Form Content -->
         <LinearLayout
-            android:id="@+id/form_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button"
+            android:backgroundTint="#FFFFFF"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="16dp"
-            app:layout_constraintTop_toBottomOf="@id/view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:paddingTop="22dp"
+            android:paddingBottom="22dp">
 
             <TextView
                 android:id="@+id/welcomeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:text="Create your account"
-                android:textColor="#AB3E52"
-                android:textSize="20sp" />
+                android:textColor="#FD7C43"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="27dp" />
 
             <EditText
                 android:id="@+id/etUsername"
                 android:layout_width="320dp"
                 android:layout_height="55dp"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/border_button"
+                android:background="@drawable/text_field"
                 android:drawableStart="@drawable/profile"
                 android:drawablePadding="12dp"
                 android:hint="Username"
@@ -75,7 +58,7 @@
                 android:layout_width="320dp"
                 android:layout_height="55dp"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/border_button"
+                android:background="@drawable/text_field"
                 android:drawableStart="@drawable/email"
                 android:drawablePadding="12dp"
                 android:hint="Email"
@@ -90,7 +73,7 @@
                 android:layout_width="320dp"
                 android:layout_height="55dp"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/border_button"
+                android:background="@drawable/text_field"
                 android:drawableStart="@drawable/lock"
                 android:drawablePadding="12dp"
                 android:hint="Password"
@@ -105,7 +88,7 @@
                 android:layout_width="320dp"
                 android:layout_height="55dp"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/border_button"
+                android:background="@drawable/text_field"
                 android:drawableStart="@drawable/lock"
                 android:drawablePadding="12dp"
                 android:hint="Confirm password"
@@ -125,7 +108,7 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:backgroundTint="#AB3E52" />
+                app:backgroundTint="#2B3D58" />
 
             <TextView
                 android:id="@+id/alreadyAccountText"
@@ -136,7 +119,6 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
