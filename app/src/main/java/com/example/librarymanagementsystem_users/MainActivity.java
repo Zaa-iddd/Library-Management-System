@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     Animation topAnim, bottomAnim, middleAnim;
 
     View wave;
-    TextView reado, welcomeText, welcomeText2;
+    TextView welcomeText, welcomeText2;
     Button loginButton, signupButton;
     ImageButton googleButton, facebookButton;
 
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         facebookButton = findViewById(R.id.facebookButton);
 
         wave.setAnimation(topAnim);
-        reado.setAnimation(topAnim);
         welcomeText.setAnimation(middleAnim);
         loginButton.setAnimation(bottomAnim);
         signupButton.setAnimation(bottomAnim);
@@ -47,18 +46,10 @@ public class MainActivity extends AppCompatActivity {
         facebookButton.setAnimation(bottomAnim);
 
         //para lang sa test uni
-        signupButton.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, SignupActivity.class));
-        });
+        signupButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SignupActivity.class)));
 
         //para sa test ulit ki login
-        loginButton.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        });
-
-
-
-
+        loginButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
 
     }
 }

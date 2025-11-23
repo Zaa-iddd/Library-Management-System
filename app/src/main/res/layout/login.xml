@@ -7,87 +7,94 @@
     android:background="#FD7C43"
     tools:context=".LoginActivity">
 
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ScrollView
         android:layout_width="352dp"
-        android:layout_height="342dp"
-        android:background="@drawable/button"
-        android:backgroundTint="#FFFFFF"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="208dp">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
 
-        <Space
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="22dp" />
-
-        <TextView
-            android:id="@+id/welcomeText"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome back!"
-            android:textColor="#FD7C43"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="27dp" />
-
-        <EditText
-            android:id="@+id/etUsername"
-            android:layout_width="320dp"
-            android:layout_height="55dp"
-            android:background="@drawable/text_field"
-            android:drawableStart="@drawable/profile"
-            android:drawablePadding="12dp"
-            android:hint="Username"
-            android:inputType="textPersonName"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="320dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/text_field"
-            android:drawableStart="@drawable/lock"
-            android:drawablePadding="12dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:background="@drawable/button"
-            android:text="Login"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:backgroundTint="#2B3D58" />
+            android:backgroundTint="#FFFFFF"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="22dp">
 
-        <TextView
-            android:id="@+id/noAccountText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Don't have an account? Sign up"
-            android:textColor="#8E8E8E"
-            android:textSize="16sp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="22dp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/welcomeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome back!"
+                android:textColor="#FD7C43"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="27dp" />
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="320dp"
+                android:layout_height="55dp"
+                android:background="@drawable/text_field"
+                android:drawableStart="@drawable/profile"
+                android:drawablePadding="12dp"
+                android:hint="Username"
+                android:inputType="textPersonName"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="320dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/text_field"
+                android:drawableStart="@drawable/lock"
+                android:drawablePadding="12dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button"
+                android:text="Login"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:backgroundTint="#2B3D58" />
+
+            <TextView
+                android:id="@+id/noAccountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Don't have an account? Sign up"
+                android:textColor="#8E8E8E"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

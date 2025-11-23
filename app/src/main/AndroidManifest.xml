@@ -26,7 +26,9 @@
         <activity android:name=".ViewBookActivity" android:exported="true" />
         <activity android:name=".MainDashActivity" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ProfileActivity" />
 
 
