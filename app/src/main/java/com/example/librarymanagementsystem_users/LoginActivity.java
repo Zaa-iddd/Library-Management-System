@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
             // TODO: add pa ki fb pang navi lang
 
-            startActivity(new Intent(LoginActivity.this, MainDashActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         });
 
         // para diresto ki sigup

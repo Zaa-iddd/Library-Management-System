@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FD7C43"
+    android:background="@drawable/background_gradient"
     tools:context=".SignupActivity">
 
     <ScrollView
@@ -38,65 +38,67 @@
                 android:layout_width="match_parent"
                 android:layout_height="27dp" />
 
-            <EditText
-                android:id="@+id/etUsername"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="320dp"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/text_field"
-                android:drawableStart="@drawable/profile"
-                android:drawablePadding="12dp"
-                android:hint="Username"
-                android:inputType="textPersonName"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                android:hint="Username">
 
-            <EditText
-                android:id="@+id/etEmail"
-                android:layout_width="320dp"
-                android:layout_height="55dp"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/text_field"
-                android:drawableStart="@drawable/email"
-                android:drawablePadding="12dp"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/profile"
+                    android:drawablePadding="12dp"
+                    android:inputType="textPersonName" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etPassword"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="320dp"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/text_field"
-                android:drawableStart="@drawable/lock"
-                android:drawablePadding="12dp"
+                android:hint="Email">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/email"
+                    android:drawablePadding="12dp"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:hint="Password"
-                android:inputType="textPassword"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                app:endIconMode="password_toggle">
 
-            <EditText
-                android:id="@+id/etConfirmPassword"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/lock"
+                    android:drawablePadding="12dp"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="320dp"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/text_field"
-                android:drawableStart="@drawable/lock"
-                android:drawablePadding="12dp"
                 android:hint="Confirm password"
-                android:inputType="textPassword"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="#000000"
-                android:textSize="16sp" />
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/lock"
+                    android:drawablePadding="12dp"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/signupButton"
