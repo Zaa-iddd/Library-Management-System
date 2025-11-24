@@ -2,7 +2,6 @@ package com.example.librarymanagementsystem_users;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -11,15 +10,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.librarymanagementsystem_users.api.RetrofitClient;
-import com.example.librarymanagementsystem_users.models.UserResponseDto;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,25 +58,4 @@ public class MainActivity extends AppCompatActivity {
         // fetchUsersFromApi();
     } // The onCreate() method ends here
 
-    // The fetchUsersFromApi() method is now correctly placed within the class
-    private void fetchUsersFromApi() {
-        RetrofitClient.getApiService().getUsers().enqueue(new Callback<List<UserResponseDto>>() {
-            @Override
-            public void onResponse(Call<List<UserResponseDto>> call, Response<List<UserResponseDto>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<UserResponseDto> users = response.body();
-                    for (UserResponseDto user : users) {
-                        Log.d(TAG, "User: " + user.getUsername() + " | Email: " + user.getEmail());
-                    }
-                } else {
-                    Log.e(TAG, "API Response failed: " + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<UserResponseDto>> call, Throwable t) {
-                Log.e(TAG, "API call failed", t);
-            }
-        });
-    }
 }
