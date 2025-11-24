@@ -115,6 +115,8 @@ public class MainDashActivity extends AppCompatActivity {
         LinearLayout rowLayout = null;
 
         for (int i = 0; i < filteredBooks.size(); i++) {
+            final Book book = filteredBooks.get(i);
+
             if (i % booksPerRow == 0) {
                 rowLayout = new LinearLayout(this);
                 LinearLayout.LayoutParams rowLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -133,22 +135,19 @@ public class MainDashActivity extends AppCompatActivity {
             TextView author = bookView.findViewById(R.id.textAuthor);
             TextView genreView = bookView.findViewById(R.id.textGenre);
 
-            Book book = filteredBooks.get(i);
             cover.setImageResource(book.getCoverResourceId());
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             genreView.setText(book.getGenre());
 
             bookView.setLayoutParams(bookLayoutParams);
-            rowLayout.addView(bookView);
+            if (rowLayout != null) {
+                rowLayout.addView(bookView);
+            }
 
             bookView.setOnClickListener(v -> {
                 Intent intent = new Intent(MainDashActivity.this, ViewBookActivity.class);
-                // You can pass book details to ViewBookActivity using intent extras
-                intent.putExtra("bookTitle", book.getTitle());
-                intent.putExtra("bookAuthor", book.getAuthor());
-                intent.putExtra("bookCover", book.getCoverResourceId());
-                intent.putExtra("bookDescription", book.getDescription());
+                intent.putExtra("book", book);
                 startActivity(intent);
             });
         }
