@@ -88,7 +88,7 @@ public class MainDashActivity extends AppCompatActivity {
         LinearLayout booksContainer = findViewById(R.id.books_container);
         LayoutInflater inflater = LayoutInflater.from(this);
         final int booksPerRow = 3;
-        final int numBooks = 5; // NUMBER OF BOOKS TO DISPLAY
+        final int numBooks = 182; // NUMBER OF BOOKS TO DISPLAY
 
         LinearLayout.LayoutParams bookLayoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
         bookLayoutParams.setMarginEnd(16);
@@ -98,8 +98,10 @@ public class MainDashActivity extends AppCompatActivity {
         for (int i = 0; i < numBooks; i++) {
             if (i % booksPerRow == 0) {
                 rowLayout = new LinearLayout(this);
+                LinearLayout.LayoutParams rowLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                rowLayoutParams.setMargins(0, 0, 0, 16); // Add bottom margin to each row
+                rowLayout.setLayoutParams(rowLayoutParams);
                 rowLayout.setOrientation(LinearLayout.HORIZONTAL);
-                rowLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 rowLayout.setWeightSum(booksPerRow);
                 booksContainer.addView(rowLayout);
             }

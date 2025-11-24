@@ -37,13 +37,21 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-
+            // Temporary login logic
+            if (username.equals("admin") && password.equals("password")) {
+                // Successful login
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                // Failed login
+                Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // para diresto ki sigup
         noAccountText.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, SignupActivity.class));
         });
-    }}
-
-
+    }
+}
