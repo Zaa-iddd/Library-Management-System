@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem_users;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.librarymanagementsystem_users.functions.Book;
 import com.example.librarymanagementsystem_users.functions.BookData;
@@ -96,7 +98,6 @@ public class MainDashActivity extends AppCompatActivity {
         btnHorror.setOnClickListener(genreClickListener);
         btnThriller.setOnClickListener(genreClickListener);
 
-        // Select All by default
         btnAll.setSelected(true);
         bookGenre.setText(btnAll.getText().toString() + " Books");
     }
@@ -145,16 +146,24 @@ public class MainDashActivity extends AppCompatActivity {
 
             View bookView = inflater.inflate(R.layout.item_book, rowLayout, false);
 
-            // Set book details
             ImageView cover = bookView.findViewById(R.id.imageBook);
             TextView title = bookView.findViewById(R.id.textTitle);
             TextView author = bookView.findViewById(R.id.textAuthor);
             TextView genreView = bookView.findViewById(R.id.textGenre);
+            TextView status = bookView.findViewById(R.id.textStatus);
 
             cover.setImageResource(book.getCoverResourceId());
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             genreView.setText(book.getGenre());
+
+            if (book.isAvailable()) {
+                status.setText("Available");
+                status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.green)));
+            } else {
+                status.setText("Unavailable");
+                status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.orange)));
+            }
 
             bookView.setLayoutParams(bookLayoutParams);
             if (rowLayout != null) {

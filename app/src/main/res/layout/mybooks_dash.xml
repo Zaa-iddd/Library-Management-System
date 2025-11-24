@@ -1,234 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F5F4"
-    tools:context=".MyBooksDashActivity">
+    android:background="#F7F5F4">
 
     <LinearLayout
-        android:id="@+id/navigation_bar"
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp">
-
-        <LinearLayout
-            android:id="@+id/btHome"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/home" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Home"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/btScan"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/qr" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Scan"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/btMyBooks"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/book" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="My Books"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/navigation_bar"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/button"
-        android:backgroundTint="@color/white"
-        android:orientation="vertical"
         android:padding="16dp">
 
         <ImageView
             android:id="@+id/backButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@android:drawable/ic_media_previous"
-            app:tint="@android:color/black"
-            android:padding="12dp"
-            android:contentDescription="Back" />
-
-        <LinearLayout
-            android:id="@+id/topButtonBar"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp">
+            android:src="@drawable/arrow" />
 
-            <Button
-                android:id="@+id/btnHistory"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/button"
-                android:text="History"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#FB7B42" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="My Books"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnBorrowed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/button"
-                android:text="Borrowed"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                app:backgroundTint="#FB7B42" />
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/btnReturned"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/button"
-                android:text="Returned"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                app:backgroundTint="#FB7B42" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_bar"
+        android:orientation="horizontal">
 
-        <FrameLayout
+        <Button
+            android:id="@+id/btnBorrowed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Borrowed" />
+
+        <Button
+            android:id="@+id/btnReturned"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Returned" />
+
+        <Button
+            android:id="@+id/btnHistory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="History" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabs">
+
+        <ScrollView
+            android:id="@+id/borrowed_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- Borrowed Books Content -->
-            <ScrollView
-                android:id="@+id/borrowed_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favoriteBooksRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible">
+                android:layout_height="wrap_content" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+        </ScrollView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Borrowed Books"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+        <ScrollView
+            android:id="@+id/returned_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-                    <!-- Borrowed book items will go here -->
-
-                </LinearLayout>
-            </ScrollView>
-
-            <!-- History Content -->
-            <ScrollView
-                android:id="@+id/history_content"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+                android:layout_height="wrap_content"
+                android:text="Returned books content" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+        </ScrollView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="History"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
+        <ScrollView
+            android:id="@+id/history_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-                    <!-- History items will go here -->
-
-                </LinearLayout>
-            </ScrollView>
-
-            <!-- Returned Books Content -->
-            <ScrollView
-                android:id="@+id/returned_content"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+                android.layout_height="wrap_content"
+                android:text="History content" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+        </ScrollView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Returned Books"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
-
-                    <!-- Returned book items will go here -->
-
-                </LinearLayout>
-            </ScrollView>
-        </FrameLayout>
-
-    </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>
