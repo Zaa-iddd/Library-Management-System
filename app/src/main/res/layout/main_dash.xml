@@ -27,9 +27,9 @@
             android:gravity="center_horizontal">
 
             <ImageView
-                android:layout_width="41dp"
-                android:layout_height="24dp"
-                android:src="@drawable/Home" />
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/home" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,12 +39,26 @@
 
         </LinearLayout>
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/btScan"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/QR" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/qr" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scan"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/btMyBooks"
@@ -55,9 +69,9 @@
             android:gravity="center_horizontal">
 
             <ImageView
-                android:layout_width="42dp"
-                android:layout_height="24dp"
-                android:src="@drawable/Book" />
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/book" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -222,7 +236,7 @@
             android:layout_height="19dp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android.layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
