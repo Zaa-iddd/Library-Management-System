@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         int[] covers = {R.drawable.sample_book, R.drawable.sample_book, R.drawable.sample_book, R.drawable.sample_book, R.drawable.sample_book};
 
         for (int i = 0; i < titles.length; i++) {
-            favoriteBooks.add(new Book(titles[i], authors[i], covers[i]));
+            favoriteBooks.add(new Book(titles[i], authors[i], covers[i], "", ""));
         }
 
         // Add the favorite books to the layout

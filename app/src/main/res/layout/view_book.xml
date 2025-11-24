@@ -1,145 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F7F5F4"
+    tools:context=".ViewBookActivity">
 
-    <Button
-        android:id="@+id/returnButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="32dp"
-        android:text="RETURN"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/addToFavoritesButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/returnButton">
+        android:background="@drawable/button"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="24dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView3"
+            <Button
+                android:id="@+id/returnButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:text="EDIT BOOK"
-                android:textSize="16sp"
+                android:background="@drawable/button"
+                android:text="Back"
+                app:backgroundTint="@color/orange" />
+
+            <TextView
+                android:id="@+id/bookTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Book Title"
+                android:textColor="#F97A41"
+                android:textSize="23sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="201dp"
-                app:srcCompat="@drawable/sample_book" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="STATUS" />
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Available" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="NAME:" />
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="ONE PIECE" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView18"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="AVAILABLE BOOKS" />
-
-                <TextView
-                    android:id="@+id/textView19"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="5" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="DESCRIPTION:" />
-
-            <TextView
-                android:id="@+id/textView20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Embark on a voyage of a lifetime with One Piece. The epic anime series created by renowned mangaka Eiichiro Oda is a global phenomenon, captivating the hearts of fans across generations throughout its 25-year span. This thrilling high seas adventure is filled with unwavering friendship, epic battles for freedom, and the relentless pursuit of dreams. Join Monkey D. Luffy and his lovable pirate crew as they discover the true meaning of power and justice in this great pirate era. Monkey D. Luffy refuses to let anyone or anything stand in the way of his quest to become King of the Pirates. With his rubber-like stretching powers granted by the supernatural Devil Fruit, the spirited young pirate seeks the legendary treasure known as the One Piece. He'll chart a course for the treacherous waters of the Grand Line and recruit a motley crew to build his Straw Hat Pirates one bond at a time. This is one captain who'll never drop anchor until he and his friends all reach their dreams! One Piece boasts more than 1100 episodes. Currently in the Egghead Arc, the Straw Hats finally meet the long awaited Dr. Vegapunk on Egghead Island. Crunchyroll is home to every subbed episode and also every English dubbed episode, with over 1000 and counting. In addition, One Piece has 13 television specials and 15 movies, with the latest, One Piece Film Red, being the highest-grossing film in the franchise. One Piece is produced by Toei Animation. Audio: Japanese, English, ไทย Subtitles: English, Bahasa Indonesia, Tiếng Việt, ไทย Awards: 2024 Anime Awards Nominee, 2023 Anime Awards Winner, 2023 Anime Awards Winner, 2024 Anime Awards Winner, 2025 Anime Awards Nominee Content Advisory: Drug/Alcohol Use, Profanity, Smoking, Violence Genres: Visual footage assets (subbed): FILM ©1999 Toei Animation Co., Ltd. English Subtitle ©2009 Shueisha, Fuji TV, Toei Animation ©Eiichiro Oda/Shueisha, Toei Animation OR (dubbed) FILM ©1999 Toei Animation Co., Ltd. ©Eiichiro Oda/Shueisha, Toei Animation Marketing (non-footage): Long Form: ©Eiichiro Oda/Shueisha, Toei Animation " />
-
-            <LinearLayout
-                android:id="@+id/books_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-
         </LinearLayout>
-    </ScrollView>
 
-    <Button
-        android:id="@+id/addToFavoritesButton"
-        android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/button"
-        android:text="Add to Favorites"
-        android:textColor="@android:color/white"
-        app:backgroundTint="#9C27B0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="201dp"
+                    app:srcCompat="@drawable/sample_book" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="STATUS:"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/bookStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Available"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AVAILABLE:"
+                        android:textStyle="bold"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/bookAvailability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="5"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DESCRIPTION:"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/bookDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Embark on a voyage of a lifetime with One Piece. The epic anime series created by renowned mangaka Eiichiro Oda is a global phenomenon, captivating the hearts of fans across generations throughout its 25-year span. This thrilling high seas adventure is filled with unwavering friendship, epic battles for freedom, and the relentless pursuit of dreams. Join Monkey D. Luffy and his lovable pirate crew as they discover the true meaning of power and justice in this great pirate era. Monkey D. Luffy refuses to let anyone or anything stand in the way of his quest to become King of the Pirates. With his rubber-like stretching powers granted by the supernatural Devil Fruit, the spirited young pirate seeks the legendary treasure known as the One Piece. He'll chart a course for the treacherous waters of the Grand Line and recruit a motley crew to build his Straw Hat Pirates one bond at a time. This is one captain who'll never drop anchor until he and his friends all reach their dreams! One Piece boasts more than 1100 episodes. Currently in the Egghead Arc, the Straw Hats finally meet the long awaited Dr. Vegapunk on Egghead Island. Crunchyroll is home to every subbed episode and also every English dubbed episode, with over 1000 and counting. In addition, One Piece has 13 television specials and 15 movies, with the latest, One Piece Film Red, being the highest-grossing film in the franchise. One Piece is produced by Toei Animation. Audio: Japanese, English, ไทย Subtitles: English, Bahasa Indonesia, Tiếng Việt, ไทย Awards: 2024 Anime Awards Nominee, 2023 Anime Awards Winner, 2023 Anime Awards Winner, 2024 Anime Awards Winner, 2025 Anime Awards Nominee Content Advisory: Drug/Alcohol Use, Profanity, Smoking, Violence Genres: Visual footage assets (subbed): FILM ©1999 Toei Animation Co., Ltd. English Subtitle ©2009 Shueisha, Fuji TV, Toei Animation ©Eiichiro Oda/Shueisha, Toei Animation OR (dubbed) FILM ©1999 Toei Animation Co., Ltd. ©Eiichiro Oda/Shueisha, Toei Animation Marketing (non-footage): Long Form: ©Eiichiro Oda/Shueisha, Toei Animation " />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/borrowButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button"
+            android:text="Borrow"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@color/orange" />
+
+    </LinearLayout>
+
+</RelativeLayout>

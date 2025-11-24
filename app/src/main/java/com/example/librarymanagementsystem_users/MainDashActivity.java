@@ -5,16 +5,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.librarymanagementsystem_users.functions.Book;
+import com.example.librarymanagementsystem_users.functions.BookData;
 import com.google.android.material.card.MaterialCardView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainDashActivity extends AppCompatActivity {
 
@@ -39,8 +46,7 @@ public class MainDashActivity extends AppCompatActivity {
         btMyBooks = findViewById(R.id.btMyBooks);
         bookGenre = findViewById(R.id.bookGenre);
 
-
-        addBookViews();
+        filterBooks("All");
 
         btMyBooks.setOnClickListener(v ->{
             Intent intent = new Intent(MainDashActivity.this, MyBooksDashActivity.class);
@@ -69,7 +75,9 @@ public class MainDashActivity extends AppCompatActivity {
             resetButtons();
             v.setSelected(true);
             Button selectedButton = (Button) v;
-            bookGenre.setText(selectedButton.getText().toString() + " Books");
+            String genre = selectedButton.getText().toString();
+            bookGenre.setText(genre + " Books");
+            filterBooks(genre);
         };
 
         btnAll.setOnClickListener(genreClickListener);
@@ -84,18 +92,29 @@ public class MainDashActivity extends AppCompatActivity {
         bookGenre.setText(btnAll.getText().toString() + " Books");
     }
 
-    private void addBookViews() {
+    private void filterBooks(String genre) {
+        List<Book> allBooks = BookData.getBooks();
+        List<Book> filteredBooks;
+
+        if (genre.equals("All")) {
+            filteredBooks = allBooks;
+        } else {
+            filteredBooks = allBooks.stream()
+                    .filter(book -> book.getGenre().equalsIgnoreCase(genre))
+                    .collect(Collectors.toList());
+        }
+
         LinearLayout booksContainer = findViewById(R.id.books_container);
+        booksContainer.removeAllViews(); // Clear existing views
         LayoutInflater inflater = LayoutInflater.from(this);
         final int booksPerRow = 3;
-        final int numBooks = 182; // NUMBER OF BOOKS TO DISPLAY
 
         LinearLayout.LayoutParams bookLayoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
         bookLayoutParams.setMarginEnd(16);
 
         LinearLayout rowLayout = null;
 
-        for (int i = 0; i < numBooks; i++) {
+        for (int i = 0; i < filteredBooks.size(); i++) {
             if (i % booksPerRow == 0) {
                 rowLayout = new LinearLayout(this);
                 LinearLayout.LayoutParams rowLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -107,11 +126,29 @@ public class MainDashActivity extends AppCompatActivity {
             }
 
             View bookView = inflater.inflate(R.layout.item_book, rowLayout, false);
+
+            // Set book details
+            ImageView cover = bookView.findViewById(R.id.imageBook);
+            TextView title = bookView.findViewById(R.id.textTitle);
+            TextView author = bookView.findViewById(R.id.textAuthor);
+            TextView genreView = bookView.findViewById(R.id.textGenre);
+
+            Book book = filteredBooks.get(i);
+            cover.setImageResource(book.getCoverResourceId());
+            title.setText(book.getTitle());
+            author.setText(book.getAuthor());
+            genreView.setText(book.getGenre());
+
             bookView.setLayoutParams(bookLayoutParams);
             rowLayout.addView(bookView);
 
             bookView.setOnClickListener(v -> {
                 Intent intent = new Intent(MainDashActivity.this, ViewBookActivity.class);
+                // You can pass book details to ViewBookActivity using intent extras
+                intent.putExtra("bookTitle", book.getTitle());
+                intent.putExtra("bookAuthor", book.getAuthor());
+                intent.putExtra("bookCover", book.getCoverResourceId());
+                intent.putExtra("bookDescription", book.getDescription());
                 startActivity(intent);
             });
         }

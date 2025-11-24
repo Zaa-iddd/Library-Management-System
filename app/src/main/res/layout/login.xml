@@ -97,6 +97,15 @@
                 android:textColor="#8E8E8E"
                 android:textSize="16sp" />
 
+            <Button
+                android:id="@+id/skipLoginButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Skip Login (Temp)"
+                android:background="@android:color/transparent"
+                android:textColor="#8E8E8E" />
+
         </LinearLayout>
     </ScrollView>
 

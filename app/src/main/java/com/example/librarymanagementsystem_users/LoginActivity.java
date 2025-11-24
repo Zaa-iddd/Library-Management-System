@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
     TextView welcomeText, noAccountText;
     EditText etUsername, etPassword;
-    Button loginButton;
+    Button loginButton, skipLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         loginButton = findViewById(R.id.loginButton);
+        skipLoginButton = findViewById(R.id.skipLoginButton);
 
         // Login button click
         loginButton.setOnClickListener(v -> {
@@ -79,6 +80,13 @@ public class LoginActivity extends AppCompatActivity {
         // Click "No account? Sign up" text
         noAccountText.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+        });
+
+        // Skip login button click (for temporary access)
+        skipLoginButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish(); // Optional: finish LoginActivity so user can't go back
         });
     }
 }
