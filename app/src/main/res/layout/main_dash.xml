@@ -18,33 +18,54 @@
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 
-        <Button
+        <LinearLayout
             android:id="@+id/btHome"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/button"
-            android:text="Home"
-            app:backgroundTint="@color/orange" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <Button
+            <ImageView
+                android:layout_width="41dp"
+                android:layout_height="24dp"
+                android:src="@drawable/Home" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <ImageView
             android:id="@+id/btScan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/button"
-            android:text="Scan"
-            app:backgroundTint="@color/orange" />
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:src="@drawable/QR" />
 
-        <Button
+        <LinearLayout
             android:id="@+id/btMyBooks"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/button"
-            android:text="My Books"
-            app:backgroundTint="@color/orange" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="24dp"
+                android:src="@drawable/Book" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Books"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
