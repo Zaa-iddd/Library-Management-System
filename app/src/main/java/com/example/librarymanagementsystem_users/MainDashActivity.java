@@ -7,11 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.librarymanagementsystem_users.functions.Book;
 import com.example.librarymanagementsystem_users.functions.BookData;
 import com.google.android.material.card.MaterialCardView;
@@ -19,15 +21,15 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MainDashActivity extends AppCompatActivity {
 
-    Button btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btScan, btHome,btMyBooks;
+    Button btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btScan, btHome, btMyBooks, btnSearch;
     MaterialCardView profileButton;
     TextView bookGenre;
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,17 @@ public class MainDashActivity extends AppCompatActivity {
         btHome = findViewById(R.id.btHome);
         btMyBooks = findViewById(R.id.btMyBooks);
         bookGenre = findViewById(R.id.bookGenre);
+        searchView = findViewById(R.id.searchView);
+        btnSearch = findViewById(R.id.button);
 
-        filterBooks("All");
+        filterBooks("All", null);
 
-        btMyBooks.setOnClickListener(v ->{
+        btnSearch.setOnClickListener(v -> {
+            String query = searchView.getQuery().toString();
+            filterBooks("All", query);
+        });
+
+        btMyBooks.setOnClickListener(v -> {
             Intent intent = new Intent(MainDashActivity.this, MyBooksDashActivity.class);
             startActivity(intent);
         });
@@ -77,7 +86,7 @@ public class MainDashActivity extends AppCompatActivity {
             Button selectedButton = (Button) v;
             String genre = selectedButton.getText().toString();
             bookGenre.setText(genre + " Books");
-            filterBooks(genre);
+            filterBooks(genre, null);
         };
 
         btnAll.setOnClickListener(genreClickListener);
@@ -92,7 +101,7 @@ public class MainDashActivity extends AppCompatActivity {
         bookGenre.setText(btnAll.getText().toString() + " Books");
     }
 
-    private void filterBooks(String genre) {
+    private void filterBooks(String genre, String query) {
         List<Book> allBooks = BookData.getBooks();
         List<Book> filteredBooks;
 
@@ -101,6 +110,13 @@ public class MainDashActivity extends AppCompatActivity {
         } else {
             filteredBooks = allBooks.stream()
                     .filter(book -> book.getGenre().equalsIgnoreCase(genre))
+                    .collect(Collectors.toList());
+        }
+
+        if (query != null && !query.isEmpty()) {
+            filteredBooks = filteredBooks.stream()
+                    .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                            book.getAuthor().toLowerCase().contains(query.toLowerCase()))
                     .collect(Collectors.toList());
         }
 
