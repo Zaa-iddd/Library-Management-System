@@ -71,7 +71,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Hello Christian!"
+                android:text="Reedo"
+                android:textColor="#F97A41"
                 android:textSize="23sp"
                 android:textStyle="bold" />
 

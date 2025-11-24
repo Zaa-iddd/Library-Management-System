@@ -27,6 +27,9 @@ public class HomeActivity extends AppCompatActivity {
         TextView viewBooks = findViewById(R.id.viewBooks);
         viewBooks.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MainDashActivity.class)));
 
+        TextView viewMyBook = findViewById(R.id.viewMyBook);
+        viewMyBook.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MyBooksDashActivity.class)));
+
         myBooksContainer = findViewById(R.id.myBooksContainer);
 
         // Create a dummy list of favorite books
