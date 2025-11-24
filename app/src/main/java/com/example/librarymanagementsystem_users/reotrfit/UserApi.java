@@ -1,5 +1,7 @@
 package com.example.librarymanagementsystem_users.reotrfit;
 
+
+import com.example.librarymanagementsystem_users.models.LoginRequestDto;
 import com.example.librarymanagementsystem_users.models.UserRequestDto;
 import com.example.librarymanagementsystem_users.models.UserResponseDto;
 
@@ -17,5 +19,8 @@ public interface UserApi {
     // Corrected the path to match the Spring Boot controller
     @POST("/users") 
     Call<UserResponseDto> save(@Body UserRequestDto userRequestDto);
+    //login
+    @POST("/users/login")
+    Call<UserResponseDto> login(@Body LoginRequestDto dto);
 
 }
