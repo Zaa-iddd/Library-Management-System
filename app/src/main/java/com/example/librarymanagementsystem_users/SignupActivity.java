@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.librarymanagementsystem_users.api.RetrofitClient;
-import com.example.librarymanagementsystem_users.models.UserRequestDto;
+import com.example.librarymanagementsystem_users.models.SignupRequestDto;
 
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
 
     TextView alreadyAccountText;
-    EditText etUsername, etPassword, etConfirmPassword, etEmail, etFirstName, etLastName, etAddress, etPhoneNumber;
+    EditText etUsername, etPassword, etConfirmPassword, etEmail;
     Button signupButton;
 
     @Override
@@ -38,10 +38,6 @@ public class SignupActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
-        etFirstName = findViewById(R.id.etFirstName);
-        etLastName = findViewById(R.id.etLastName);
-        etAddress = findViewById(R.id.etAddress);
-        etPhoneNumber = findViewById(R.id.etPhoneNumber);
         signupButton = findViewById(R.id.signupButton);
 
         // signup button click
@@ -50,12 +46,8 @@ public class SignupActivity extends AppCompatActivity {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
             String confirm = etConfirmPassword.getText().toString().trim();
-            String firstName = etFirstName.getText().toString().trim();
-            String lastName = etLastName.getText().toString().trim();
-            String address = etAddress.getText().toString().trim();
-            String phoneNumber = etPhoneNumber.getText().toString().trim();
 
-            if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirm.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || address.isEmpty() || phoneNumber.isEmpty()) {
+            if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -65,7 +57,7 @@ public class SignupActivity extends AppCompatActivity {
                 return;
             }
 
-            signupUser(username, email, password, firstName, lastName, address, phoneNumber);
+            signupUser(username, email, password);
         });
 
         alreadyAccountText.setOnClickListener(v -> {
@@ -73,8 +65,8 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    private void signupUser(String username, String email, String password, String firstName, String lastName, String address, String phoneNumber) {
-        UserRequestDto signupRequest = new UserRequestDto(username, email, password, firstName, lastName, address, phoneNumber);
+    private void signupUser(String username, String email, String password) {
+        SignupRequestDto signupRequest = new SignupRequestDto(username, email, password);
 
         RetrofitClient.getApiService().signup(signupRequest).enqueue(new Callback<Void>() {
             @Override

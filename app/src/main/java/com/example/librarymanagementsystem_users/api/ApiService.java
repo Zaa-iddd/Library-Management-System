@@ -2,7 +2,7 @@ package com.example.librarymanagementsystem_users.api;
 
 import com.example.librarymanagementsystem_users.models.LoginRequestDto;
 import com.example.librarymanagementsystem_users.models.LoginResponseDto;
-import com.example.librarymanagementsystem_users.models.UserRequestDto;
+import com.example.librarymanagementsystem_users.models.SignupRequestDto;
 import com.example.librarymanagementsystem_users.models.UserResponseDto;
 
 import java.util.List;
@@ -20,6 +20,6 @@ public interface ApiService {
     Call<LoginResponseDto> login(@Body LoginRequestDto loginRequest);
 
     @POST("signup")
-    Call<Void> signup(@Body UserRequestDto signupRequest);
+    Call<Void> signup(@Body SignupRequestDto signupRequest);
 
 }

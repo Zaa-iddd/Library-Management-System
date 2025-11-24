@@ -90,46 +90,6 @@
                 android:background="@drawable/border_button"
                 android:inputType="textPassword"/>
 
-            <EditText
-                android:id="@+id/etFirstName"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:hint="First Name"
-                android:padding="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/border_button"
-                android:inputType="textPersonName"/>
-
-            <EditText
-                android:id="@+id/etLastName"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:hint="Last Name"
-                android:padding="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/border_button"
-                android:inputType="textPersonName"/>
-
-            <EditText
-                android:id="@+id/etAddress"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:hint="Address"
-                android:padding="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/border_button"
-                android:inputType="textPostalAddress"/>
-
-            <EditText
-                android:id="@+id/etPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:hint="Phone Number"
-                android:padding="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/border_button"
-                android:inputType="phone"/>
-
             <Button
                 android:id="@+id/signupButton"
                 android:layout_width="match_parent"
