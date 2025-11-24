@@ -9,15 +9,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
+import com.example.librarymanagementsystem_users.functions.BookData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private LinearLayout myBooksContainer;
+    private RecyclerView trendingBooksRecyclerView;
+    private TrendingBookAdapter trendingBookAdapter;
+    private List<Book> trendingBookList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,35 +35,12 @@ public class HomeActivity extends AppCompatActivity {
         TextView viewMyBook = findViewById(R.id.viewMyBook);
         viewMyBook.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MyBooksDashActivity.class)));
 
-        myBooksContainer = findViewById(R.id.myBooksContainer);
+        trendingBooksRecyclerView = findViewById(R.id.trendingBooksRecyclerView);
+        trendingBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        // Create a dummy list of favorite books
-        List<Book> favoriteBooks = new ArrayList<>();
-        String[] titles = {"One Piece", "The Lord of the Rings", "The Hitchhiker's Guide to the Galaxy", "The Alchemist", "The Da Vinci Code"};
-        String[] authors = {"Zaid Competente", "J.R.R. Tolkien", "Douglas Adams", "Paulo Coelho", "Dan Brown"};
-        int[] covers = {R.drawable.sample_book, R.drawable.sample_book, R.drawable.sample_book, R.drawable.sample_book, R.drawable.sample_book};
+        trendingBookList = new BookData().getTrendingBooks();
 
-        for (int i = 0; i < titles.length; i++) {
-            favoriteBooks.add(new Book(titles[i], authors[i], covers[i], "", ""));
-        }
-
-        // Add the favorite books to the layout
-        for (Book book : favoriteBooks) {
-            addBookToLayout(book);
-        }
-    }
-
-    private void addBookToLayout(Book book) {
-        View bookView = LayoutInflater.from(this).inflate(R.layout.favorite_book, myBooksContainer, false);
-
-        TextView title = bookView.findViewById(R.id.textView2);
-        TextView author = bookView.findViewById(R.id.textView5);
-        ImageView cover = bookView.findViewById(R.id.imageView2);
-
-        title.setText(book.getTitle());
-        author.setText(book.getAuthor());
-        cover.setImageResource(book.getCoverResourceId());
-
-        myBooksContainer.addView(bookView);
+        trendingBookAdapter = new TrendingBookAdapter(this, trendingBookList);
+        trendingBooksRecyclerView.setAdapter(trendingBookAdapter);
     }
 }

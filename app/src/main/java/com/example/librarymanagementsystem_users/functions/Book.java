@@ -1,17 +1,20 @@
 package com.example.librarymanagementsystem_users.functions;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Book extends LibraryItem {
+public class Book extends LibraryItem implements Serializable {
     private int coverResourceId;
     private String description;
     private String genre;
+    private boolean isTrending;
 
-    public Book(String title, String author, int coverResourceId, String description, String genre) {
+    public Book(String title, String author, int coverResourceId, String description, String genre, boolean isTrending) {
         super(title, author);
         this.coverResourceId = coverResourceId;
         this.description = description;
         this.genre = genre;
+        this.isTrending = isTrending;
     }
 
     public int getCoverResourceId() {
@@ -38,18 +41,26 @@ public class Book extends LibraryItem {
         this.genre = genre;
     }
 
+    public boolean isTrending() {
+        return isTrending;
+    }
+
+    public void setTrending(boolean trending) {
+        isTrending = trending;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Book book = (Book) o;
-        return coverResourceId == book.coverResourceId && Objects.equals(description, book.description) && Objects.equals(genre, book.genre);
+        return coverResourceId == book.coverResourceId && isTrending == book.isTrending && Objects.equals(description, book.description) && Objects.equals(genre, book.genre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), coverResourceId, description, genre);
+        return Objects.hash(super.hashCode(), coverResourceId, description, genre, isTrending);
     }
 
     @Override

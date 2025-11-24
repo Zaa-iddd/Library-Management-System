@@ -1,6 +1,8 @@
 package com.example.librarymanagementsystem_users.functions;
 
-public abstract class LibraryItem {
+import java.io.Serializable;
+
+public abstract class LibraryItem implements Serializable {
     private String title;
     private String author;
 
