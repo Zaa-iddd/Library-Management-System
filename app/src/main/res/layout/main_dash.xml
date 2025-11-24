@@ -1,203 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F4F4">
-
-    <!-- Profile Button -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/profileButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/sample_book" />
-
-    </androidx.cardview.widget.CardView>
-
-    <!-- Search Bar -->
-
-    <!-- Genre Buttons -->
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/border_button"
-        android:backgroundTint="#FFFFFF"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search books..."
-        app:layout_constraintBottom_toBottomOf="@+id/profileButton"
-        app:layout_constraintEnd_toStartOf="@+id/profileButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/profileButton"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <HorizontalScrollView
-        android:id="@+id/genreScrollView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/button"
-        android:backgroundTint="#E9E9E9"
-        android:scrollbars="none"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnAll"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/button"
-                android:text="All"
-                app:backgroundTint="#FB7B42" />
-
-            <Button
-                android:id="@+id/btnAction"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/button"
-                android:text="Action"
-                app:backgroundTint="#FB7B42" />
-
-            <Button
-                android:id="@+id/btnRomance"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/button"
-                android:text="Romance"
-                app:backgroundTint="#FB7B42" />
-
-            <Button
-                android:id="@+id/btnComedy"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/button"
-                android:text="Comedy"
-                app:backgroundTint="#FB7B42" />
-
-            <Button
-                android:id="@+id/btnHorror"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/button"
-                android:text="Horror"
-                app:backgroundTint="#FB7B42" />
-
-            <Button
-                android:id="@+id/btnThriller"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/button"
-                android:text="Thriller"
-                app:backgroundTint="#FB7B42" />
-
-
-        </LinearLayout>
-    </HorizontalScrollView>
+    android:background="#F7F5F4"
+    tools:context=".MainDashActivity">
 
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="?attr/actionBarSize"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genreScrollView">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/navigation_bar">
 
         <LinearLayout
-            android:id="@+id/books_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button"
+            android:backgroundTint="@color/white"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
-            <!-- Book items will be added here dynamically -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hello Christian!"
+                    android:textSize="23sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/profileButton"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_book" />
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_button"
+                    android:backgroundTint="#D5D0D0"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Search books..." />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:text="Search"
+                    app:backgroundTint="@color/orange" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="19dp" />
+
+            <HorizontalScrollView
+                android:id="@+id/genreScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button"
+                        android:text="All"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/genre_button_tint" />
+
+                    <Button
+                        android:id="@+id/btnAction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/button"
+                        android:text="Action"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/genre_button_tint" />
+
+                    <Button
+                        android:id="@+id/btnRomance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/button"
+                        android:text="Romance"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/genre_button_tint" />
+
+                    <Button
+                        android:id="@+id/btnComedy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/button"
+                        android:text="Comedy"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/genre_button_tint" />
+
+                    <Button
+                        android:id="@+id/btnHorror"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/button"
+                        android:text="Horror"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/genre_button_tint" />
+
+                    <Button
+                        android:id="@+id/btnThriller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@drawable/button"
+                        android:text="Thriller"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/genre_button_tint" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="19dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/bookGenre"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="All Books"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="19dp" />
+
+            <LinearLayout
+                android:id="@+id/books_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
         </LinearLayout>
     </ScrollView>
-    <!-- Bottom Navigation Bar -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="0dp"
+
+    <LinearLayout
+        android:id="@+id/navigation_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
 
-        <!-- You can add menu items here using app:menu="@menu/bottom_nav_menu" -->
-        <!-- For now, adding buttons directly inside a LinearLayout wrapper as requested -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <Button
+            android:id="@+id/btHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/button"
+            android:text="Home"
+            app:backgroundTint="@color/orange" />
 
-            <Button
-                android:id="@+id/btHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/button"
-                android:text="Home"
-                app:backgroundTint="#FB7B42" />
+        <Button
+            android:id="@+id/btScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/button"
+            android:text="Scan"
+            app:backgroundTint="@color/orange" />
 
-            <Button
-                android:id="@+id/btScan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/button"
-                android:text="Scan"
-                app:backgroundTint="#FB7B42" />
+        <Button
+            android:id="@+id/btMyBooks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/button"
+            android:text="My Books"
+            app:backgroundTint="@color/orange" />
 
-            <Button
-                android:id="@+id/btMyBooks"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:background="@drawable/button"
-                android:text="My Books"
-                app:backgroundTint="#FB7B42"
-
-                />
-
-        </LinearLayout>
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</RelativeLayout>

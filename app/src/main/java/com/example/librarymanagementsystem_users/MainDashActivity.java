@@ -6,11 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import com.google.android.material.card.MaterialCardView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -18,7 +19,8 @@ import com.google.zxing.integration.android.IntentResult;
 public class MainDashActivity extends AppCompatActivity {
 
     Button btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btScan, btHome,btMyBooks;
-    CardView profileButton;
+    MaterialCardView profileButton;
+    TextView bookGenre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class MainDashActivity extends AppCompatActivity {
         btScan = findViewById(R.id.btScan);
         btHome = findViewById(R.id.btHome);
         btMyBooks = findViewById(R.id.btMyBooks);
+        bookGenre = findViewById(R.id.bookGenre);
 
 
         addBookViews();
@@ -57,17 +60,16 @@ public class MainDashActivity extends AppCompatActivity {
         });
 
         btHome.setOnClickListener(v -> {
-            Intent intent = new Intent(MainDashActivity.this, MainDashActivity.class);
+            Intent intent = new Intent(MainDashActivity.this, HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
 
         View.OnClickListener genreClickListener = v -> {
             resetButtons();
-
-            Button clicked = (Button) v;
-            clicked.setBackgroundResource(R.drawable.genre_button_selected);
-            clicked.setTextColor(getResources().getColor(android.R.color.white));
+            v.setSelected(true);
+            Button selectedButton = (Button) v;
+            bookGenre.setText(selectedButton.getText().toString() + " Books");
         };
 
         btnAll.setOnClickListener(genreClickListener);
@@ -78,8 +80,8 @@ public class MainDashActivity extends AppCompatActivity {
         btnThriller.setOnClickListener(genreClickListener);
 
         // Select All by default
-        btnAll.setBackgroundResource(R.drawable.genre_button_selected);
-        btnAll.setTextColor(getResources().getColor(android.R.color.white));
+        btnAll.setSelected(true);
+        bookGenre.setText(btnAll.getText().toString() + " Books");
     }
 
     private void addBookViews() {
@@ -116,8 +118,7 @@ public class MainDashActivity extends AppCompatActivity {
     private void resetButtons() {
         Button[] buttons = {btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller};
         for (Button b : buttons) {
-            b.setBackgroundResource(R.drawable.genre_button_default);
-            b.setTextColor(getResources().getColor(android.R.color.black));
+            b.setSelected(false);
         }
     }
 
