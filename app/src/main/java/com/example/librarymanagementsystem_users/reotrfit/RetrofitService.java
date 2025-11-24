@@ -14,7 +14,7 @@ public class RetrofitService {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     // Use 10.0.2.2 pag emulator pag dae yug ip mo
-                    .baseUrl("http://10.0.2.2:8080")
+                    .baseUrl("http://192.168.0.206:8080")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

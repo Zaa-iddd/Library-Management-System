@@ -9,6 +9,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.librarymanagementsystem_users.models.LoginRequestDto;
+import com.example.librarymanagementsystem_users.models.UserResponseDto;
+import com.example.librarymanagementsystem_users.reotrfit.RetrofitService;
+import com.example.librarymanagementsystem_users.reotrfit.UserApi;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class LoginActivity extends AppCompatActivity {
 
     TextView welcomeText, noAccountText;
@@ -27,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         loginButton = findViewById(R.id.loginButton);
 
-        // login button click
+        // Login button click
         loginButton.setOnClickListener(v -> {
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -37,19 +46,37 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // Temporary login logic
-            if (username.equals("admin") && password.equals("password")) {
-                // Successful login
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
-            } else {
-                // Failed login
-                Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-            }
+            // Step 1: Create login request
+            LoginRequestDto loginRequest = new LoginRequestDto(username, password);
+
+            // Step 2: Get Retrofit API
+            UserApi userApi = RetrofitService.getUserApi();
+
+            // Step 3: Call login endpoint
+            userApi.login(loginRequest).enqueue(new Callback<UserResponseDto>() {
+                @Override
+                public void onResponse(Call<UserResponseDto> call, Response<UserResponseDto> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        UserResponseDto user = response.body();
+                        Toast.makeText(LoginActivity.this, "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
+
+                        // Navigate to HomeActivity
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserResponseDto> call, Throwable t) {
+                    Toast.makeText(LoginActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
         });
 
-        // para diresto ki sigup
+        // Click "No account? Sign up" text
         noAccountText.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, SignupActivity.class));
         });
