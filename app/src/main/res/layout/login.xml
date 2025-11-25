@@ -102,8 +102,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Skip Login (Temp)"
                 android:background="@android:color/transparent"
+                android:text="Skip Login (Temp)"
                 android:textColor="#8E8E8E" />
 
         </LinearLayout>

@@ -7,6 +7,7 @@
     android:background="#F7F5F4">
 
     <ScrollView
+        android:id="@+id/home_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation_bar"
@@ -216,6 +217,16 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/main_dash_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <include layout="@layout/main_dash" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/navigation_bar"

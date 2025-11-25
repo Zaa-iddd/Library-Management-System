@@ -89,10 +89,12 @@ public class SignupActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
 
                 if (response.isSuccessful()) {
-
-                    String errorMessage = "Signup Failed .";
-                     try {
-
+                    Toast.makeText(SignupActivity.this, "Signup Successful!  Please login.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                    finish();
+                } else {
+                    String errorMessage = "Signup Failed.";
+                    try {
                         if (response.errorBody() != null) {
                             errorMessage = response.errorBody().string();
                         }
@@ -100,11 +102,6 @@ public class SignupActivity extends AppCompatActivity {
                         Log.e(TAG, "Error parsing error body", e);
                     }
                     Toast.makeText(SignupActivity.this, "Signup Failed: " + errorMessage, Toast.LENGTH_LONG).show();
-                } else {
-
-                    Toast.makeText(SignupActivity.this, "Signup Successful!  Please login.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                    finish();
                 }
             }
 

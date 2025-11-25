@@ -1,12 +1,9 @@
 package com.example.librarymanagementsystem_users;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -14,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.librarymanagementsystem_users.functions.Book;
 import com.example.librarymanagementsystem_users.functions.BookData;
@@ -63,9 +59,12 @@ public class MainDashActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         btnSearch = findViewById(R.id.button);
 
-        // Handle search query
+        boolean showAllTrending = getIntent().getBooleanExtra("SHOW_ALL_TRENDING", false);
         String query = getIntent().getStringExtra("SEARCH_QUERY");
-        if (query != null && !query.isEmpty()) {
+
+        if (showAllTrending) {
+            showTrendingBooks();
+        } else if (query != null && !query.isEmpty()) {
             searchView.setQuery(query, true);
             filterBooks("All", query);
         } else {
@@ -111,7 +110,11 @@ public class MainDashActivity extends AppCompatActivity {
             v.setSelected(true);
             Button selectedButton = (Button) v;
             String genre = selectedButton.getText().toString();
-            bookGenre.setText(genre + " Books");
+            if (genre.equals("All")) {
+                bookGenre.setText("All Books");
+            } else {
+                bookGenre.setText(genre + " Books");
+            }
             filterBooks(genre, null);
         };
 
@@ -122,8 +125,19 @@ public class MainDashActivity extends AppCompatActivity {
         btnHorror.setOnClickListener(genreClickListener);
         btnThriller.setOnClickListener(genreClickListener);
 
-        btnAll.setSelected(true);
-        bookGenre.setText(btnAll.getText().toString() + " Books");
+        if (showAllTrending) {
+            bookGenre.setText("Trending Books");
+        } else {
+            btnAll.setSelected(true);
+            bookGenre.setText(btnAll.getText().toString() + " Books");
+        }
+    }
+
+    private void showTrendingBooks() {
+        bookGenre.setText("Trending Books");
+        List<Book> trendingBooks = new BookData().getTrendingBooks();
+        LinearLayout booksContainer = findViewById(R.id.books_container);
+        BookViewHelper.populateBooks(this, booksContainer, trendingBooks);
     }
 
     private void filterBooks(String genre, String query) {
@@ -139,65 +153,14 @@ public class MainDashActivity extends AppCompatActivity {
         }
 
         if (query != null && !query.isEmpty()) {
+            String lowerCaseQuery = query.toLowerCase();
             filteredBooks = filteredBooks.stream()
-                    .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                            book.getAuthor().toLowerCase().contains(query.toLowerCase()))
+                    .filter(book -> book.getTitle().toLowerCase().contains(lowerCaseQuery) ||
+                            book.getAuthor().toLowerCase().contains(lowerCaseQuery))
                     .collect(Collectors.toList());
         }
-
         LinearLayout booksContainer = findViewById(R.id.books_container);
-        booksContainer.removeAllViews();
-        LayoutInflater inflater = LayoutInflater.from(this);
-        final int booksPerRow = 3;
-
-        LinearLayout.LayoutParams bookLayoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-        bookLayoutParams.setMarginEnd(16);
-
-        LinearLayout rowLayout = null;
-        for (int i = 0; i < filteredBooks.size(); i++) {
-            Book book = filteredBooks.get(i);
-
-            if (i % booksPerRow == 0) {
-                rowLayout = new LinearLayout(this);
-                LinearLayout.LayoutParams rowLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                rowLayoutParams.setMargins(0, 0, 0, 16);
-                rowLayout.setLayoutParams(rowLayoutParams);
-                rowLayout.setOrientation(LinearLayout.HORIZONTAL);
-                rowLayout.setWeightSum(booksPerRow);
-                booksContainer.addView(rowLayout);
-            }
-
-            View bookView = inflater.inflate(R.layout.item_book, rowLayout, false);
-            ImageView cover = bookView.findViewById(R.id.imageBook);
-            TextView title = bookView.findViewById(R.id.textTitle);
-            TextView author = bookView.findViewById(R.id.textAuthor);
-            TextView genreView = bookView.findViewById(R.id.textGenre);
-            TextView status = bookView.findViewById(R.id.textStatus);
-
-            cover.setImageResource(book.getCoverResourceId());
-            title.setText(book.getTitle());
-            author.setText(book.getAuthor());
-            genreView.setText(book.getGenre());
-
-            if (book.isAvailable()) {
-                status.setText("Available");
-                status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.green)));
-            } else {
-                status.setText("Unavailable");
-                status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.orange)));
-            }
-
-            bookView.setLayoutParams(bookLayoutParams);
-            if (rowLayout != null) {
-                rowLayout.addView(bookView);
-            }
-
-            bookView.setOnClickListener(v -> {
-                Intent viewBookIntent = new Intent(MainDashActivity.this, ViewBookActivity.class);
-                viewBookIntent.putExtra("book", book);
-                startActivity(viewBookIntent);
-            });
-        }
+        BookViewHelper.populateBooks(this, booksContainer, filteredBooks);
     }
 
     private void resetButtons() {
