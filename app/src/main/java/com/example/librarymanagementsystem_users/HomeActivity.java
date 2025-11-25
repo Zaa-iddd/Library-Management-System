@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
 import com.example.librarymanagementsystem_users.functions.BookData;
+import com.google.android.material.card.MaterialCardView;
 import com.journeyapps.barcodescanner.CaptureActivity;
 
 import java.util.ArrayList;
@@ -32,58 +33,82 @@ public class HomeActivity extends AppCompatActivity {
     private List<Book> favoriteBookList;
 
     private SharedPreferences sharedPreferences;
+    private long userId; // logged-in user ID
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
 
+        // Get the user ID passed from LoginActivity first
+        userId = getIntent().getLongExtra("USER_ID", 0);
         sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
 
+        // Navigate to MainDashActivity
         TextView viewBooks = findViewById(R.id.viewBooks);
-        viewBooks.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MainDashActivity.class)));
+        viewBooks.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, MainDashActivity.class);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        });
 
+        // Navigate to MyBooksDashActivity
         TextView viewMyBook = findViewById(R.id.viewMyBook);
-        viewMyBook.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this, MyBooksDashActivity.class)));
+        viewMyBook.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, MyBooksDashActivity.class);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        });
 
-        // Trending Books
+        // Trending Books RecyclerView
         trendingBooksRecyclerView = findViewById(R.id.trendingBooksRecyclerView);
         trendingBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         trendingBookList = new BookData().getTrendingBooks();
         trendingBookAdapter = new TrendingBookAdapter(this, trendingBookList);
         trendingBooksRecyclerView.setAdapter(trendingBookAdapter);
 
-        // Favorite Books
+        // Favorite Books RecyclerView
         favoriteBooksRecyclerView = findViewById(R.id.favoriteBooksRecyclerView);
         favoriteBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         loadFavoriteBooks();
 
+        // Search
         SearchView searchView = findViewById(R.id.searchView);
         Button searchButton = findViewById(R.id.button);
-
         searchButton.setOnClickListener(v -> {
             String query = searchView.getQuery().toString();
             Intent intent = new Intent(HomeActivity.this, MainDashActivity.class);
             intent.putExtra("SEARCH_QUERY", query);
+            intent.putExtra("USER_ID", userId);
             startActivity(intent);
         });
 
+        // Bottom Navigation
         Button btHome = findViewById(R.id.btHome);
         btHome.setOnClickListener(v -> {
-            startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+            startActivity(new Intent(HomeActivity.this, HomeActivity.class).putExtra("USER_ID", userId));
             finish();
         });
 
         Button btScan = findViewById(R.id.btScan);
         btScan.setOnClickListener(v -> {
-            startActivity(new Intent(HomeActivity.this, CaptureActivity.class));
-            finish();
+            Intent intent = new Intent(HomeActivity.this, CaptureActivity.class);
+            startActivity(intent);
         });
 
         Button btMyBooks = findViewById(R.id.btMyBooks);
         btMyBooks.setOnClickListener(v -> {
-            startActivity(new Intent(HomeActivity.this, MyBooksDashActivity.class));
-            finish();
+            Intent intent = new Intent(HomeActivity.this, MyBooksDashActivity.class);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        });
+
+        // Corrected: Changed type to MaterialCardView to match the layout XML
+        MaterialCardView profileCard = findViewById(R.id.btEditProfile);
+        profileCard.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
         });
     }
 

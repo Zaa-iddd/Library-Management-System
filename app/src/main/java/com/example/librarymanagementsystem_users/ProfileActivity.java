@@ -2,12 +2,8 @@ package com.example.librarymanagementsystem_users;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.PopupWindow;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
@@ -16,11 +12,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     Button logoutButton;
     Button editProfileButton;
+    private long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_info);
+
+        userId = getIntent().getLongExtra("USER_ID", 0L);
 
         logoutButton = findViewById(R.id.logoutButton);
         editProfileButton = findViewById(R.id.editProfileButton);
@@ -32,7 +31,15 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
         });
 
-        editProfileButton.setOnClickListener(this::showEditProfileOverlay);
+        editProfileButton.setOnClickListener(v -> {
+            if (userId == 0L) {
+                Toast.makeText(this, "Cannot edit profile. User ID not found.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        });
 
         Button btHome = findViewById(R.id.btHome);
         btHome.setOnClickListener(v -> {
@@ -50,67 +57,6 @@ public class ProfileActivity extends AppCompatActivity {
         btMyBooks.setOnClickListener(v -> {
             startActivity(new Intent(ProfileActivity.this, MyBooksDashActivity.class));
             finish();
-        });
-    }
-
-    private void showEditProfileOverlay(View v) {
-        // Inflate the overlay layout
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.edit_profile_overlay, null);
-
-        // Create a new popup window
-        int width = ViewGroup.LayoutParams.MATCH_PARENT;
-        int height = ViewGroup.LayoutParams.MATCH_PARENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        // Show the popup window
-        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
-
-        // Get references to the buttons in the overlay
-        Button saveButton = popupView.findViewById(R.id.saveButton);
-        Button cancelButton = popupView.findViewById(R.id.cancelButton);
-
-        // Set click listeners for the overlay buttons
-        saveButton.setOnClickListener(view -> {
-            popupWindow.dismiss();
-            showPasswordConfirmationOverlay(v);
-        });
-
-        cancelButton.setOnClickListener(view -> {
-            // Handle cancel button click
-            popupWindow.dismiss();
-        });
-    }
-
-    private void showPasswordConfirmationOverlay(View v) {
-        // Inflate the overlay layout
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.password_confirmation_overlay, null);
-
-        // Create a new popup window
-        int width = ViewGroup.LayoutParams.MATCH_PARENT;
-        int height = ViewGroup.LayoutParams.MATCH_PARENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        // Show the popup window
-        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
-
-        // Get references to the buttons in the overlay
-        Button confirmButton = popupView.findViewById(R.id.confirmButton);
-        Button returnButton = popupView.findViewById(R.id.returnButton);
-
-        // Set click listeners for the overlay buttons
-        confirmButton.setOnClickListener(view -> {
-            // Handle save button click
-            popupWindow.dismiss();
-        });
-
-        returnButton.setOnClickListener(view -> {
-            // Handle cancel button click
-            popupWindow.dismiss();
-            showEditProfileOverlay(v);
         });
     }
 }

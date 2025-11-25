@@ -2,10 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android:permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -19,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,21 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewBookActivity" android:exported="true" />
-        <activity android:name=".MainDashActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity
-            android:name=".LoginActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".MyBooksDashActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".HomeActivity" />
-
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".MyBooksDashActivity" />
+        <activity android:name=".EditProfileActivity" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
-
     </application>
 
 </manifest>

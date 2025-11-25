@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat;
 import com.example.librarymanagementsystem_users.functions.Book;
 import com.example.librarymanagementsystem_users.functions.BookData;
 import com.google.android.material.card.MaterialCardView;
-
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -33,18 +32,30 @@ public class MainDashActivity extends AppCompatActivity {
     TextView bookGenre;
     SearchView searchView;
 
+    private long userId; // logged-in user ID
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_dash);
 
+        // Correctly receive USER_ID and assign it to the class field
+        userId = getIntent().getLongExtra("USER_ID", 0);
+
+        if (userId == 0) {
+            Toast.makeText(this, "Guest mode", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "User ID: " + userId, Toast.LENGTH_SHORT).show();
+        }
+
+        // Bind Views
         btnAll = findViewById(R.id.btnAll);
         btnAction = findViewById(R.id.btnAction);
         btnRomance = findViewById(R.id.btnRomance);
         btnComedy = findViewById(R.id.btnComedy);
         btnHorror = findViewById(R.id.btnHorror);
         btnThriller = findViewById(R.id.btnThriller);
-        profileButton = findViewById(R.id.profileButton);
+        profileButton = findViewById(R.id.btEditProfile);
         btScan = findViewById(R.id.btScan);
         btHome = findViewById(R.id.btHome);
         btMyBooks = findViewById(R.id.btMyBooks);
@@ -52,9 +63,8 @@ public class MainDashActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         btnSearch = findViewById(R.id.button);
 
-        Intent intent = getIntent();
-        String query = intent.getStringExtra("SEARCH_QUERY");
-
+        // Handle search query
+        String query = getIntent().getStringExtra("SEARCH_QUERY");
         if (query != null && !query.isEmpty()) {
             searchView.setQuery(query, true);
             filterBooks("All", query);
@@ -67,14 +77,18 @@ public class MainDashActivity extends AppCompatActivity {
             filterBooks("All", searchQuery);
         });
 
-        btMyBooks.setOnClickListener(v -> {
-            Intent myBooksIntent = new Intent(MainDashActivity.this, MyBooksDashActivity.class);
-            startActivity(myBooksIntent);
+        // Bottom Navigation
+        btHome.setOnClickListener(v -> {
+            Intent homeIntent = new Intent(MainDashActivity.this, HomeActivity.class);
+            homeIntent.putExtra("USER_ID", userId);
+            homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(homeIntent);
         });
 
-        profileButton.setOnClickListener(v -> {
-            Intent profileIntent = new Intent(MainDashActivity.this, ProfileActivity.class);
-            startActivity(profileIntent);
+        btMyBooks.setOnClickListener(v -> {
+            Intent myBooksIntent = new Intent(MainDashActivity.this, MyBooksDashActivity.class);
+            myBooksIntent.putExtra("USER_ID", userId);
+            startActivity(myBooksIntent);
         });
 
         btScan.setOnClickListener(v -> {
@@ -84,12 +98,14 @@ public class MainDashActivity extends AppCompatActivity {
             intentIntegrator.initiateScan();
         });
 
-        btHome.setOnClickListener(v -> {
-            Intent homeIntent = new Intent(MainDashActivity.this, HomeActivity.class);
-            homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(homeIntent);
+        // Profile button
+        profileButton.setOnClickListener(v -> {
+            Intent profileIntent = new Intent(MainDashActivity.this, ProfileActivity.class);
+            profileIntent.putExtra("USER_ID", userId);
+            startActivity(profileIntent);
         });
 
+        // Genre filter buttons
         View.OnClickListener genreClickListener = v -> {
             resetButtons();
             v.setSelected(true);
@@ -130,7 +146,7 @@ public class MainDashActivity extends AppCompatActivity {
         }
 
         LinearLayout booksContainer = findViewById(R.id.books_container);
-        booksContainer.removeAllViews(); // Clear existing views
+        booksContainer.removeAllViews();
         LayoutInflater inflater = LayoutInflater.from(this);
         final int booksPerRow = 3;
 
@@ -138,14 +154,13 @@ public class MainDashActivity extends AppCompatActivity {
         bookLayoutParams.setMarginEnd(16);
 
         LinearLayout rowLayout = null;
-
         for (int i = 0; i < filteredBooks.size(); i++) {
-            final Book book = filteredBooks.get(i);
+            Book book = filteredBooks.get(i);
 
             if (i % booksPerRow == 0) {
                 rowLayout = new LinearLayout(this);
                 LinearLayout.LayoutParams rowLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                rowLayoutParams.setMargins(0, 0, 0, 16); // Add bottom margin to each row
+                rowLayoutParams.setMargins(0, 0, 0, 16);
                 rowLayout.setLayoutParams(rowLayoutParams);
                 rowLayout.setOrientation(LinearLayout.HORIZONTAL);
                 rowLayout.setWeightSum(booksPerRow);
@@ -153,7 +168,6 @@ public class MainDashActivity extends AppCompatActivity {
             }
 
             View bookView = inflater.inflate(R.layout.item_book, rowLayout, false);
-
             ImageView cover = bookView.findViewById(R.id.imageBook);
             TextView title = bookView.findViewById(R.id.textTitle);
             TextView author = bookView.findViewById(R.id.textAuthor);

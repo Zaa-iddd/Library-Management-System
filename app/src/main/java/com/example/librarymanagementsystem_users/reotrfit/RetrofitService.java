@@ -23,6 +23,9 @@ public class RetrofitService {
 
     // Public static method to get the UserApi service
     public static UserApi getUserApi() {
+
         return getRetrofitInstance().create(UserApi.class);
     }
+
+
 }

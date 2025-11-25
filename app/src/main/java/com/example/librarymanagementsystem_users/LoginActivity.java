@@ -47,13 +47,11 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // Step 1: Create login request
+            // Create login request using the constructor
             LoginRequestDto loginRequest = new LoginRequestDto(username, password);
 
-            // Step 2: Get Retrofit API
+            // Call API
             UserApi userApi = RetrofitService.getUserApi();
-
-            // Step 3: Call login endpoint
             userApi.login(loginRequest).enqueue(new Callback<UserResponseDto>() {
                 @Override
                 public void onResponse(Call<UserResponseDto> call, Response<UserResponseDto> response) {
@@ -61,8 +59,9 @@ public class LoginActivity extends AppCompatActivity {
                         UserResponseDto user = response.body();
                         Toast.makeText(LoginActivity.this, "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
 
-                        // Navigate to HomeActivity
+                        // Pass USER_ID to HomeActivity
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.putExtra("USER_ID", user.getId());
                         startActivity(intent);
                         finish();
                     } else {
@@ -77,16 +76,17 @@ public class LoginActivity extends AppCompatActivity {
             });
         });
 
-        // Click "No account? Sign up" text
+        // Click "No account? Sign up"
         noAccountText.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, SignupActivity.class));
         });
 
-        // Skip login button click (for temporary access)
+        // Skip login
         skipLoginButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            intent.putExtra("USER_ID", 0L); // guest user
             startActivity(intent);
-            finish(); // Optional: finish LoginActivity so user can't go back
+            finish();
         });
     }
 }
