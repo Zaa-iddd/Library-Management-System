@@ -7,9 +7,10 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.journeyapps.barcodescanner.CaptureActivity;
+
 public class ProfileActivity extends AppCompatActivity {
 
-    ImageView backButton;
     Button logoutButton;
 
     @Override
@@ -17,19 +18,30 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_info);
 
-        backButton = findViewById(R.id.backButton);
         logoutButton = findViewById(R.id.logoutButton);
-
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, MainDashActivity.class);
-            startActivity(intent);
-            finish(); // Optional: finish ProfileActivity so it's not in the back stack
-        });
 
         logoutButton.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
+        });
+
+        Button btHome = findViewById(R.id.btHome);
+        btHome.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+            finish();
+        });
+
+        Button btScan = findViewById(R.id.btScan);
+        btScan.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, CaptureActivity.class));
+            finish();
+        });
+
+        Button btMyBooks = findViewById(R.id.btMyBooks);
+        btMyBooks.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, MyBooksDashActivity.class));
             finish();
         });
     }

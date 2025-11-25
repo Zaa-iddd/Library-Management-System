@@ -18,32 +18,36 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapter.ViewHolder> {
+public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<Book> favoriteBooks;
+    private final List<Book> bookList;
     private final SharedPreferences sharedPreferences;
 
-    public FavoriteBookAdapter(Context context, List<Book> favoriteBooks) {
+    public BookAdapter(Context context, List<Book> bookList) {
         this.context = context;
-        this.favoriteBooks = favoriteBooks;
+        this.bookList = bookList;
         this.sharedPreferences = context.getSharedPreferences("favorites", Context.MODE_PRIVATE);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.favorite_book, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_book, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Book book = favoriteBooks.get(position);
+        Book book = bookList.get(position);
 
         holder.bookCover.setImageResource(book.getCoverResourceId());
         holder.bookTitle.setText(book.getTitle());
         holder.bookAuthor.setText("Writer: " + book.getAuthor());
+
+        // Set initial favorite state
+        book.setFavorite(isFavorite(book.getTitle()));
+        updateFavoriteIcon(holder.favoriteIcon, book.isFavorite());
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewBookActivity.class);
@@ -52,13 +56,24 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
         });
 
         holder.favoriteIcon.setOnClickListener(v -> {
-            int adapterPosition = holder.getAdapterPosition();
-            if (adapterPosition != RecyclerView.NO_POSITION) {
-                toggleFavorite(favoriteBooks.get(adapterPosition).getTitle());
-                favoriteBooks.remove(adapterPosition);
-                notifyItemRemoved(adapterPosition);
-            }
+            boolean isCurrentlyFavorite = isFavorite(book.getTitle());
+            book.setFavorite(!isCurrentlyFavorite);
+            toggleFavorite(book.getTitle());
+            updateFavoriteIcon(holder.favoriteIcon, book.isFavorite());
         });
+    }
+
+    private void updateFavoriteIcon(ImageView imageView, boolean isFavorite) {
+        if (isFavorite) {
+            imageView.setImageResource(R.drawable.heart_red);
+        } else {
+            imageView.setImageResource(R.drawable.heart_gray);
+        }
+    }
+
+    private boolean isFavorite(String bookTitle) {
+        Set<String> favorites = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
+        return favorites.contains(bookTitle);
     }
 
     private void toggleFavorite(String bookTitle) {
@@ -66,6 +81,8 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (favorites.contains(bookTitle)) {
             favorites.remove(bookTitle);
+        } else {
+            favorites.add(bookTitle);
         }
         editor.putStringSet("favorite_books", favorites);
         editor.apply();
@@ -73,7 +90,7 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
 
     @Override
     public int getItemCount() {
-        return favoriteBooks.size();
+        return bookList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -84,10 +101,9 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            bookCover = itemView.findViewById(R.id.imageView2);
-            bookTitle = itemView.findViewById(R.id.textView2);
-            bookAuthor = itemView.findViewById(R.id.textView5);
-            favoriteIcon = itemView.findViewById(R.id.imageView3);
+            bookCover = itemView.findViewById(R.id.imageBook);
+            bookTitle = itemView.findViewById(R.id.textTitle);
+            bookAuthor = itemView.findViewById(R.id.textAuthor);
         }
     }
 }

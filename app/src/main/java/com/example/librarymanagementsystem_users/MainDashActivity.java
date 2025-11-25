@@ -52,21 +52,29 @@ public class MainDashActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         btnSearch = findViewById(R.id.button);
 
-        filterBooks("All", null);
+        Intent intent = getIntent();
+        String query = intent.getStringExtra("SEARCH_QUERY");
+
+        if (query != null && !query.isEmpty()) {
+            searchView.setQuery(query, true);
+            filterBooks("All", query);
+        } else {
+            filterBooks("All", null);
+        }
 
         btnSearch.setOnClickListener(v -> {
-            String query = searchView.getQuery().toString();
-            filterBooks("All", query);
+            String searchQuery = searchView.getQuery().toString();
+            filterBooks("All", searchQuery);
         });
 
         btMyBooks.setOnClickListener(v -> {
-            Intent intent = new Intent(MainDashActivity.this, MyBooksDashActivity.class);
-            startActivity(intent);
+            Intent myBooksIntent = new Intent(MainDashActivity.this, MyBooksDashActivity.class);
+            startActivity(myBooksIntent);
         });
 
         profileButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainDashActivity.this, ProfileActivity.class);
-            startActivity(intent);
+            Intent profileIntent = new Intent(MainDashActivity.this, ProfileActivity.class);
+            startActivity(profileIntent);
         });
 
         btScan.setOnClickListener(v -> {
@@ -77,9 +85,9 @@ public class MainDashActivity extends AppCompatActivity {
         });
 
         btHome.setOnClickListener(v -> {
-            Intent intent = new Intent(MainDashActivity.this, HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
+            Intent homeIntent = new Intent(MainDashActivity.this, HomeActivity.class);
+            homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(homeIntent);
         });
 
         View.OnClickListener genreClickListener = v -> {
@@ -171,9 +179,9 @@ public class MainDashActivity extends AppCompatActivity {
             }
 
             bookView.setOnClickListener(v -> {
-                Intent intent = new Intent(MainDashActivity.this, ViewBookActivity.class);
-                intent.putExtra("book", book);
-                startActivity(intent);
+                Intent viewBookIntent = new Intent(MainDashActivity.this, ViewBookActivity.class);
+                viewBookIntent.putExtra("book", book);
+                startActivity(viewBookIntent);
             });
         }
     }

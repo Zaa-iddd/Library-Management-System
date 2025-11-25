@@ -1,11 +1,11 @@
 package com.example.librarymanagementsystem_users;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class MyBooksDashActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnHistory, btnBorrowed, btnReturned;
-    ScrollView historyContent, borrowedContent, returnedContent;
+    View historyContent, borrowedContent, returnedContent;
     ImageView backButton;
     RecyclerView favoriteBooksRecyclerView;
     FavoriteBookAdapter favoriteBookAdapter;
@@ -54,8 +54,7 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
 
         favoriteBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         loadFavoriteBooks();
-
-        // Show borrowed content by default
+        
         showContent(borrowedContent);
     }
 
@@ -69,6 +68,7 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
         } else if (id == R.id.btnReturned) {
             showContent(returnedContent);
         } else if (id == R.id.backButton) {
+            startActivity(new Intent(MyBooksDashActivity.this, HomeActivity.class));
             finish();
         }
     }
