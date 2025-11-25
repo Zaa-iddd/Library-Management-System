@@ -81,9 +81,9 @@
                 android:layout_height="54dp"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="22dp"
-                android:background="@drawable/button"
-                android:backgroundTint="@color/orange"
                 android:text="Edit Profile"
+                android:background="@drawable/button"
+                app:backgroundTint="@color/orange"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -94,9 +94,9 @@
                 android:layout_height="54dp"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/button"
-                android:backgroundTint="@color/orange"
                 android:text="View Favorites"
+                android:background="@drawable/button"
+                app:backgroundTint="@color/orange"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -107,9 +107,9 @@
                 android:layout_height="54dp"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/button"
-                android:backgroundTint="@color/orange"
                 android:text="Logout"
+                android:background="@drawable/button"
+                app:backgroundTint="@color/orange"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
