@@ -62,6 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
                 android:background="@drawable/button_selected"
                 android:text="Borrowed"
                 android:textColor="@color/white"
@@ -75,7 +76,8 @@
                 android:background="@drawable/genre_button_default"
                 android:text="Returned"
                 android:textColor="@color/black"
-                app:backgroundTint="#D5D0D0" />
+                app:backgroundTint="#D5D0D0"
+                android:layout_marginHorizontal="4dp"/>
 
             <Button
                 android:id="@+id/btnHistory"
@@ -85,7 +87,8 @@
                 android:background="@drawable/genre_button_default"
                 android:text="History"
                 android:textColor="@color/black"
-                app:backgroundTint="#D5D0D0" />
+                app:backgroundTint="#D5D0D0"
+                android:layout_marginHorizontal="4dp" />
 
         </LinearLayout>
 
