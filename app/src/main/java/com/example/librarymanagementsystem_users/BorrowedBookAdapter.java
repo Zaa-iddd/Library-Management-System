@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem_users;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +25,12 @@ public class BorrowedBookAdapter extends RecyclerView.Adapter<BorrowedBookAdapte
 
     private final Context context;
     private final List<BorrowedBook> bookList;
+    private final long userId;
 
-    public BorrowedBookAdapter(Context context, List<BorrowedBook> bookList) {
+    public BorrowedBookAdapter(Context context, List<BorrowedBook> bookList, long userId) {
         this.context = context;
         this.bookList = bookList;
+        this.userId = userId;
     }
 
     @NonNull
@@ -40,29 +43,43 @@ public class BorrowedBookAdapter extends RecyclerView.Adapter<BorrowedBookAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BorrowedBook book = bookList.get(position);
+
         holder.bookTitle.setText(book.getTitle());
         holder.dueDate.setText("Due: " + book.getDueDate());
         holder.bookCover.setImageResource(R.drawable.sample_book);
 
-        // Here you would get the actual database ID from your book object
-        // long databaseId = book.getDatabaseId(); 
-        // holder.borrowedBookItemLayout.setTag(databaseId);
+        // Store the databaseId in layout tag
+        holder.borrowedBookItemLayout.setTag(book.getDatabaseId());
 
+        // CLICK: Open book details
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewBookActivity.class);
+            intent.putExtra("BOOK_ID", book.getDatabaseId());  // Use database ID
+            intent.putExtra("USER_ID", userId);
+            context.startActivity(intent);
+        });
+
+        // CLICK: Return book
         holder.returnButton.setOnClickListener(v -> {
-            // long clickedDatabaseId = (long) holder.borrowedBookItemLayout.getTag();
-            removeBook(book.getTitle());
+            long clickedDatabaseId = (long) holder.borrowedBookItemLayout.getTag();
+
+            removeBookFromPrefs(clickedDatabaseId);
+
             bookList.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, bookList.size());
+
             Toast.makeText(context, "Book returned!", Toast.LENGTH_SHORT).show();
         });
     }
 
-    private void removeBook(String bookTitle) {
-        SharedPreferences borrowedBooksPrefs = context.getSharedPreferences("borrowed_books", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = borrowedBooksPrefs.edit();
-        Set<String> borrowed = borrowedBooksPrefs.getStringSet("borrowed_books_set", new HashSet<>());
-        borrowed.remove(bookTitle);
+    private void removeBookFromPrefs(long databaseId) {
+        SharedPreferences prefs = context.getSharedPreferences("borrowed_books", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        Set<String> borrowed = prefs.getStringSet("borrowed_books_set", new HashSet<>());
+        borrowed.remove(String.valueOf(databaseId));   // Remove only once
+
         editor.putStringSet("borrowed_books_set", borrowed);
         editor.apply();
     }

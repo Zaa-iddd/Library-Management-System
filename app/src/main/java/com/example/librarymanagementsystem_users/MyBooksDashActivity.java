@@ -230,17 +230,23 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
             public void onResponse(Call<List<BorrowHistory>> call, Response<List<BorrowHistory>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<BorrowHistory> borrowHistories = response.body();
-                    // Filter for books that are currently borrowed
+
                     borrowedBookList = borrowHistories.stream()
                             .filter(history -> "Borrowed".equalsIgnoreCase(history.getStatus()))
                             .map(history -> new BorrowedBook(
                                     history.getBook().getId(),
                                     history.getBook().getTitle(),
-                                    history.getReturnDate() != null ? history.getReturnDate() : "N/A" // Use returnDate as dueDate
+                                    history.getReturnDate() != null ? history.getReturnDate() : "N/A"
                             ))
                             .collect(Collectors.toList());
 
-                    borrowedBookAdapter = new BorrowedBookAdapter(MyBooksDashActivity.this, borrowedBookList);
+                    // ⭐ FIX: Pass userId
+                    borrowedBookAdapter = new BorrowedBookAdapter(
+                            MyBooksDashActivity.this,
+                            borrowedBookList,
+                            userId
+                    );
+
                     borrowedBooksRecyclerView.setAdapter(borrowedBookAdapter);
                 } else {
                     Toast.makeText(MyBooksDashActivity.this, "Failed to load borrowed books", Toast.LENGTH_SHORT).show();
