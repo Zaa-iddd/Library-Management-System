@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/borrowedBookItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -42,23 +43,22 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/bookAuthor"
+                android:id="@+id/dueDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Writer: Zaid Competente"
+                android:text="Due: 2024-06-30"
                 android:textColor="#787878" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/favorite_icon"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:background="#FDFDFD"
-            android:padding="6dp"
-            android:src="@drawable/heart_red" />
-
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/returnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Return"
+        android:textColor="@color/white"
+        android:background="@drawable/button"
+        app:backgroundTint="@color/orange"
+        android:layout_gravity="center_vertical"/>
 </LinearLayout>

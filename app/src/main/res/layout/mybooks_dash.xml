@@ -134,20 +134,20 @@
 
             </FrameLayout>
 
-            <ScrollView
-                android:id="@+id/borrowed_placeholder"
+            <FrameLayout
+                android:id="@+id/borrowed_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">
 
-                <TextView
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/borrowedBooksRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:text="Borrowed books content" />
+                    android:paddingEnd="16dp" />
 
-            </ScrollView>
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/requested_content"
