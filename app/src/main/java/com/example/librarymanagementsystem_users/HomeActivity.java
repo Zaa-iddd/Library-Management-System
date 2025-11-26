@@ -8,12 +8,16 @@ import android.widget.Button;
 import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
 import com.example.librarymanagementsystem_users.functions.BookData;
+import com.example.librarymanagementsystem_users.models.UserResponseDto;
+import com.example.librarymanagementsystem_users.reotrfit.RetrofitService;
+import com.example.librarymanagementsystem_users.reotrfit.UserApi;
 import com.google.android.material.card.MaterialCardView;
 import com.journeyapps.barcodescanner.CaptureActivity;
 
@@ -22,6 +26,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -35,6 +43,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private long userId; // logged-in user ID
+    private UserApi userApi;
+    private TextView usernameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +66,10 @@ public class HomeActivity extends AppCompatActivity {
             editor.putLong("USER_ID", userId);
             editor.apply();
         }
+
+        usernameTextView = findViewById(R.id.textView6);
+        userApi = RetrofitService.getUserApi();
+        loadUserProfile();
 
         // Show main_dash on "View All" click for trending books
         TextView viewBooks = findViewById(R.id.viewBooks);
@@ -164,6 +178,25 @@ public class HomeActivity extends AppCompatActivity {
 
         favoriteBookAdapter = new FavoriteBookAdapter(this, limitedFavoriteBooks);
         favoriteBooksRecyclerView.setAdapter(favoriteBookAdapter);
+    }
+
+    private void loadUserProfile() {
+        userApi.getUserById(userId).enqueue(new Callback<UserResponseDto>() {
+            @Override
+            public void onResponse(@NonNull Call<UserResponseDto> call, @NonNull Response<UserResponseDto> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    UserResponseDto user = response.body();
+                    usernameTextView.setText("Hello " + user.getUsername() + "!");
+                } else {
+                    // Handle error
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UserResponseDto> call, @NonNull Throwable t) {
+                // Handle failure
+            }
+        });
     }
 
     @Override
