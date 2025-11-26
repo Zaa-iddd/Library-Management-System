@@ -186,14 +186,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadFavoriteBooks() {
-        Set<String> favoriteBookTitles = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
+        Set<String> favoriteBookIds = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
         bookApi.getAllBooks().enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Book> allBooks = response.body();
                     favoriteBookList = allBooks.stream()
-                            .filter(book -> favoriteBookTitles.contains(book.getTitle()))
+                            .filter(book -> favoriteBookIds.contains(String.valueOf(book.getId())))
                             .collect(Collectors.toList());
 
                     List<Book> limitedFavoriteBooks;

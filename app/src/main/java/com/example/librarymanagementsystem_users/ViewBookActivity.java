@@ -227,13 +227,25 @@ public class ViewBookActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(ViewBookActivity.this, "Book requested successfully", Toast.LENGTH_SHORT).show();
+                    borrowButton.setText("Request Pending");
+                    borrowButton.setEnabled(false);
                 } else {
-                    Toast.makeText(ViewBookActivity.this, "Request failed (server error)", Toast.LENGTH_SHORT).show();
+                    String errorMsg = "Request failed. Code: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg += ", " + response.errorBody().string();
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Error reading error body for request book", e);
+                    }
+                    Toast.makeText(ViewBookActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                    Log.e(TAG, errorMsg);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Log.e(TAG, "Request failed on failure", t);
                 Toast.makeText(ViewBookActivity.this, "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

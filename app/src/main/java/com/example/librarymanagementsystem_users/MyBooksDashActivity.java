@@ -4,12 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,15 +19,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
-import com.example.librarymanagementsystem_users.models.BorrowHistory;
 import com.example.librarymanagementsystem_users.functions.BorrowedBook;
 import com.example.librarymanagementsystem_users.functions.RequestedBook;
+import com.example.librarymanagementsystem_users.models.BorrowHistory;
 import com.example.librarymanagementsystem_users.reotrfit.BookApi;
 import com.example.librarymanagementsystem_users.reotrfit.RetrofitService;
 import com.example.librarymanagementsystem_users.reotrfit.UserApi;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -182,12 +184,10 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
 
                     List<Book> allBooks = response.body();
 
-                    // FIX: Filter by ID, NOT title
                     favoriteBookList = allBooks.stream()
                             .filter(book -> favoriteBookIds.contains(String.valueOf(book.getId())))
                             .collect(Collectors.toList());
 
-                    // Apply search filter
                     String query = searchView.getQuery().toString();
                     List<Book> filteredList = favoriteBookList.stream()
                             .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()))
@@ -206,17 +206,34 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void loadAndFilterRequestedBooks() {
-        SharedPreferences requestedBooksPrefs = getSharedPreferences("requested_books", MODE_PRIVATE);
-        Set<String> requests = requestedBooksPrefs.getStringSet("requested_books_set", new HashSet<>());
-        requestedBookList = new ArrayList<>();
-        requestedBookList.add(new RequestedBook("1984", "Pending"));
-        requestedBookList.add(new RequestedBook("Brave New World", "Pending"));
-        for (String request : requests) {
-            requestedBookList.add(new RequestedBook(request, "Pending"));
+        if (userId == 0) {
+            Toast.makeText(this, "Please log in to view requested books.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        requestedBookAdapter = new RequestedBookAdapter(this, requestedBookList);
-        requestedBooksRecyclerView.setAdapter(requestedBookAdapter);
+        userApi.getBorrowHistory(userId).enqueue(new Callback<List<BorrowHistory>>() {
+            @Override
+            public void onResponse(Call<List<BorrowHistory>> call, Response<List<BorrowHistory>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<BorrowHistory> borrowHistories = response.body();
+
+                    requestedBookList = borrowHistories.stream()
+                            .filter(history -> history.getBook() != null && "Pending".equalsIgnoreCase(history.getStatus()))
+                            .map(history -> new RequestedBook(history.getBook().getTitle(), history.getStatus()))
+                            .collect(Collectors.toList());
+
+                    requestedBookAdapter = new RequestedBookAdapter(MyBooksDashActivity.this, requestedBookList);
+                    requestedBooksRecyclerView.setAdapter(requestedBookAdapter);
+                } else {
+                    Toast.makeText(MyBooksDashActivity.this, "Failed to load requested books", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BorrowHistory>> call, Throwable t) {
+                Toast.makeText(MyBooksDashActivity.this, "Error loading requested books: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loadAndFilterBorrowedBooks() {
@@ -232,7 +249,7 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
                     List<BorrowHistory> borrowHistories = response.body();
 
                     borrowedBookList = borrowHistories.stream()
-                            .filter(history -> "Borrowed".equalsIgnoreCase(history.getStatus()))
+                            .filter(history -> history.getBook() != null && "Borrowed".equalsIgnoreCase(history.getStatus()))
                             .map(history -> new BorrowedBook(
                                     history.getBook().getId(),
                                     history.getBook().getTitle(),
@@ -240,7 +257,6 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
                             ))
                             .collect(Collectors.toList());
 
-                    // ⭐ FIX: Pass userId
                     borrowedBookAdapter = new BorrowedBookAdapter(
                             MyBooksDashActivity.this,
                             borrowedBookList,
@@ -249,12 +265,22 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
 
                     borrowedBooksRecyclerView.setAdapter(borrowedBookAdapter);
                 } else {
-                    Toast.makeText(MyBooksDashActivity.this, "Failed to load borrowed books", Toast.LENGTH_SHORT).show();
+                    String errorMsg = "Failed to load borrowed books. Code: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg += ", " + response.errorBody().string();
+                        }
+                    } catch (IOException e) {
+                        Log.e("MyBooksDashActivity", "Error reading error body for borrowed books", e);
+                    }
+                    Toast.makeText(MyBooksDashActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                    Log.e("MyBooksDashActivity", errorMsg);
                 }
             }
 
             @Override
             public void onFailure(Call<List<BorrowHistory>> call, Throwable t) {
+                Log.e("MyBooksDashActivity", "Error loading borrowed books", t);
                 Toast.makeText(MyBooksDashActivity.this, "Error loading borrowed books: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -272,17 +298,28 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
                 if (response.isSuccessful() && response.body() != null) {
                     List<BorrowHistory> borrowHistories = response.body();
                     historyBookList = borrowHistories.stream()
+                            .filter(history -> history.getBook() != null && !"Borrowed".equalsIgnoreCase(history.getStatus()) && !"Pending".equalsIgnoreCase(history.getStatus()))
                             .map(BorrowHistory::getBook)
                             .collect(Collectors.toList());
                     historyBookAdapter = new HistoryBookAdapter(MyBooksDashActivity.this, historyBookList, userId);
                     historyBooksRecyclerView.setAdapter(historyBookAdapter);
                 } else {
-                    Toast.makeText(MyBooksDashActivity.this, "Failed to load history", Toast.LENGTH_SHORT).show();
+                    String errorMsg = "Failed to load history. Code: " + response.code();
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg += ", " + response.errorBody().string();
+                        }
+                    } catch (IOException e) {
+                        Log.e("MyBooksDashActivity", "Error reading error body for history", e);
+                    }
+                    Toast.makeText(MyBooksDashActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                    Log.e("MyBooksDashActivity", errorMsg);
                 }
             }
 
             @Override
             public void onFailure(Call<List<BorrowHistory>> call, Throwable t) {
+                Log.e("MyBooksDashActivity", "Error loading history", t);
                 Toast.makeText(MyBooksDashActivity.this, "Error loading history: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

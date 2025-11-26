@@ -49,6 +49,6 @@ public interface BookApi {
      * @param bookId The ID of the book to be borrowed.
      * @param userId The ID of the user borrowing the book.
      */
-    @POST("borrow/{bookId}/{userId}")
+    @POST("/borrow/{bookId}/{userId}")
     Call<Void> requestBook(@Path("bookId") long bookId, @Path("userId") long userId);
 }

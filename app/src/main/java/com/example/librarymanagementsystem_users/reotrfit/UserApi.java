@@ -4,7 +4,9 @@ import com.example.librarymanagementsystem_users.models.LoginRequestDto;
 import com.example.librarymanagementsystem_users.models.UserProfileDto;
 import com.example.librarymanagementsystem_users.models.UserRequestDto;
 import com.example.librarymanagementsystem_users.models.UserResponseDto;
-import com.example.librarymanagementsystem_users.models.BorrowHistory; // ADD THIS IMPORT
+import com.example.librarymanagementsystem_users.models.BorrowHistory;
+import com.example.librarymanagementsystem_users.functions.RequestedBook;
+
 
 import java.util.List;
 
@@ -17,28 +19,31 @@ import retrofit2.http.Path;
 
 public interface UserApi {
 
-    @GET("/users")
+    @GET("users")
     Call<List<UserResponseDto>> getAllUsers();
 
-    @POST("/users")
+    @POST("users")
     Call<UserResponseDto> save(@Body UserRequestDto userRequestDto);
 
-    @POST("/users/userLogin")
+    @POST("users/userLogin")
     Call<UserResponseDto> userLogin(@Body LoginRequestDto dto);
 
-    @PUT("/users/{id}")
+    @PUT("users/{id}")
     Call<UserResponseDto> updateUserProfile(
             @Path("id") Long id,
             @Body UserProfileDto dto
     );
 
-    @GET("/users/{id}")
+    @GET("users/{id}")
     Call<UserResponseDto> getUserById(@Path("id") Long id);
 
-    @POST("/users/android/signup")
+    @POST("users/android/signup")
     Call<UserResponseDto> createUser(@Body UserRequestDto userRequestDto);
 
     @GET("/users/{id}/borrow-history")
     Call<List<BorrowHistory>> getBorrowHistory(@Path("id") Long id);
+
+    @GET("users/{id}/requested-books")
+    Call<List<RequestedBook>> getRequestedBooks(@Path("id") Long id);
 
 }
