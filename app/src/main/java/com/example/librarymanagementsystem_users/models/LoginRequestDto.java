@@ -1,18 +1,31 @@
 package com.example.librarymanagementsystem_users.models;
 
 public class LoginRequestDto {
-    private String username;
+    private String usernameOrEmail;
     private String password;
 
-    // Constructor that takes username and password
-    public LoginRequestDto(String username, String password) {
-        this.username = username;
+    // Empty constructor (needed by Retrofit/Gson)
+    public LoginRequestDto() {}
+
+    // Constructor with fields
+    public LoginRequestDto(String usernameOrEmail, String password) {
+        this.usernameOrEmail = usernameOrEmail;
         this.password = password;
     }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public String getUsernameOrEmail() {
+        return usernameOrEmail;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setUsernameOrEmail(String usernameOrEmail) {
+        this.usernameOrEmail = usernameOrEmail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

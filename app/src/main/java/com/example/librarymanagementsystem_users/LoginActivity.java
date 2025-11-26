@@ -37,35 +37,33 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         skipLoginButton = findViewById(R.id.skipLoginButton);
 
-        // Login button click
         loginButton.setOnClickListener(v -> {
-            String username = etUsername.getText().toString().trim();
+            String usernameOrEmail = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
-            if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Please enter username and password", Toast.LENGTH_SHORT).show();
+            if (usernameOrEmail.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Please enter username/email and password", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Create login request using the constructor
-            LoginRequestDto loginRequest = new LoginRequestDto(username, password);
+            LoginRequestDto loginRequest = new LoginRequestDto();
+            loginRequest.setUsernameOrEmail(usernameOrEmail);
+            loginRequest.setPassword(password);
 
-            // Call API
             UserApi userApi = RetrofitService.getUserApi();
-            userApi.login(loginRequest).enqueue(new Callback<UserResponseDto>() {
+            userApi.userLogin(loginRequest).enqueue(new Callback<UserResponseDto>() {
                 @Override
                 public void onResponse(Call<UserResponseDto> call, Response<UserResponseDto> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         UserResponseDto user = response.body();
                         Toast.makeText(LoginActivity.this, "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
 
-                        // Pass USER_ID to HomeActivity
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         intent.putExtra("USER_ID", user.getId());
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Invalid username/email or password", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -76,12 +74,8 @@ public class LoginActivity extends AppCompatActivity {
             });
         });
 
-        // Click "No account? Sign up"
-        noAccountText.setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, SignupActivity.class));
-        });
+        noAccountText.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, SignupActivity.class)));
 
-        // Skip login
         skipLoginButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             intent.putExtra("USER_ID", 0L); // guest user

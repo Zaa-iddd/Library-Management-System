@@ -1,6 +1,5 @@
 package com.example.librarymanagementsystem_users.reotrfit;
 
-
 import com.example.librarymanagementsystem_users.models.LoginRequestDto;
 import com.example.librarymanagementsystem_users.models.UserProfileDto;
 import com.example.librarymanagementsystem_users.models.UserRequestDto;
@@ -16,17 +15,18 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UserApi {
+
     @GET("/users/get-all")
     Call<List<UserResponseDto>> getAllUsers();
 
-    // Corrected the path to match the Spring Boot controller
-    @POST("/users") 
+    @POST("/users")
     Call<UserResponseDto> save(@Body UserRequestDto userRequestDto);
-    //login
-    @POST("/users/login")
-    Call<UserResponseDto> login(@Body LoginRequestDto dto);
 
-    @PUT("users/{id}/profile")
+    // Android users only
+    @POST("/users/userLogin")
+    Call<UserResponseDto> userLogin(@Body LoginRequestDto dto);
+
+    @PUT("/users/{id}/profile")
     Call<UserResponseDto> updateUserProfile(
             @Path("id") Long id,
             @Body UserProfileDto dto
@@ -34,5 +34,4 @@ public interface UserApi {
 
     @GET("/users/{id}")
     Call<UserResponseDto> getUserById(@Path("id") Long id);
-
 }
