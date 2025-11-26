@@ -5,10 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,23 +36,12 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private long userId; // logged-in user ID
 
-    private ScrollView homeScrollView;
-    private RelativeLayout mainDashContainer;
-
-    // Views from main_dash
-    private Button btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btnSearch;
-    private TextView bookGenre;
-    private SearchView searchView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
 
         sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
-
-        homeScrollView = findViewById(R.id.home_scroll_view);
-        mainDashContainer = findViewById(R.id.main_dash_container);
 
         // Get the user ID passed from LoginActivity first, or from SharedPreferences
         userId = getIntent().getLongExtra("USER_ID", 0);
@@ -68,52 +54,13 @@ public class HomeActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        // --- Logic for main_dash inside HomeActivity ---
-        // Bind Views from main_dash
-        btnAll = mainDashContainer.findViewById(R.id.btnAll);
-        btnAction = mainDashContainer.findViewById(R.id.btnAction);
-        btnRomance = mainDashContainer.findViewById(R.id.btnRomance);
-        btnComedy = mainDashContainer.findViewById(R.id.btnComedy);
-        btnHorror = mainDashContainer.findViewById(R.id.btnHorror);
-        btnThriller = mainDashContainer.findViewById(R.id.btnThriller);
-        bookGenre = mainDashContainer.findViewById(R.id.bookGenre);
-        searchView = mainDashContainer.findViewById(R.id.searchView);
-        btnSearch = mainDashContainer.findViewById(R.id.button);
-
-        // Genre filter buttons
-        View.OnClickListener genreClickListener = v -> {
-            resetButtons();
-            v.setSelected(true);
-            Button selectedButton = (Button) v;
-            String genre = selectedButton.getText().toString();
-            if (genre.equals("All")) {
-                bookGenre.setText("All Books");
-            } else {
-                bookGenre.setText(genre + " Books");
-            }
-            filterBooks(genre, null);
-        };
-
-        btnAll.setOnClickListener(genreClickListener);
-        btnAction.setOnClickListener(genreClickListener);
-        btnRomance.setOnClickListener(genreClickListener);
-        btnComedy.setOnClickListener(genreClickListener);
-        btnHorror.setOnClickListener(genreClickListener);
-        btnThriller.setOnClickListener(genreClickListener);
-
-        btnSearch.setOnClickListener(v -> {
-            String searchQuery = searchView.getQuery().toString();
-            filterBooks("All", searchQuery);
-        });
-        // --- End of logic for main_dash ---
-
-        // Show main_dash on "View All" click
+        // Show main_dash on "View All" click for trending books
         TextView viewBooks = findViewById(R.id.viewBooks);
         viewBooks.setOnClickListener(v -> {
-            homeScrollView.setVisibility(View.GONE);
-            mainDashContainer.setVisibility(View.VISIBLE);
-            resetButtons();
-            showTrendingBooksInDash();
+            Intent intent = new Intent(HomeActivity.this, MainDashActivity.class);
+            intent.putExtra("SHOW_ALL_TRENDING", true);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
         });
 
         // Navigate to MyBooksDashActivity
@@ -127,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         // Trending Books RecyclerView
         trendingBooksRecyclerView = findViewById(R.id.trendingBooksRecyclerView);
         trendingBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        trendingBookList = new BookData().getTrendingBooks();
+        trendingBookList = BookData.getTrendingBooks();
         trendingBookAdapter = new TrendingBookAdapter(this, trendingBookList);
         trendingBooksRecyclerView.setAdapter(trendingBookAdapter);
 
@@ -137,23 +84,30 @@ public class HomeActivity extends AppCompatActivity {
         loadFavoriteBooks();
 
         // Search on home screen
-        SearchView homeSearchView = homeScrollView.findViewById(R.id.searchView);
-        Button homeSearchButton = homeScrollView.findViewById(R.id.button);
-        homeSearchButton.setOnClickListener(v -> {
-            String query = homeSearchView.getQuery().toString();
-            Intent intent = new Intent(HomeActivity.this, MainDashActivity.class);
-            intent.putExtra("SEARCH_QUERY", query);
-            intent.putExtra("USER_ID", userId);
-            startActivity(intent);
+        SearchView homeSearchView = findViewById(R.id.homeSearchView);
+        Button homeSearchButton = findViewById(R.id.homeSearchButton);
+        homeSearchButton.setVisibility(View.GONE);
+
+        homeSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(HomeActivity.this, MainDashActivity.class);
+                intent.putExtra("SEARCH_QUERY", query);
+                intent.putExtra("USER_ID", userId);
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
         });
 
         // Bottom Navigation
         Button btHome = findViewById(R.id.btHome);
         btHome.setOnClickListener(v -> {
-            if (mainDashContainer.getVisibility() == View.VISIBLE) {
-                mainDashContainer.setVisibility(View.GONE);
-                homeScrollView.setVisibility(View.VISIBLE);
-            }
+            // Already on home, do nothing or refresh
         });
 
         Button btScan = findViewById(R.id.btScan);
@@ -205,49 +159,6 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mainDashContainer.getVisibility() == View.VISIBLE) {
-            mainDashContainer.setVisibility(View.GONE);
-            homeScrollView.setVisibility(View.VISIBLE);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    // --- Methods for main_dash ---
-    private void showTrendingBooksInDash() {
-        if(bookGenre != null) bookGenre.setText("Trending Books");
-        List<Book> trendingBooks = new BookData().getTrendingBooks();
-        LinearLayout booksContainer = mainDashContainer.findViewById(R.id.books_container);
-        BookViewHelper.populateBooks(this, booksContainer, trendingBooks);
-    }
-
-    private void filterBooks(String genre, String query) {
-        List<Book> allBooks = BookData.getBooks();
-        List<Book> filteredBooks;
-
-        if (genre.equals("All")) {
-            filteredBooks = allBooks;
-        } else {
-            filteredBooks = allBooks.stream()
-                    .filter(book -> book.getGenre().equalsIgnoreCase(genre))
-                    .collect(Collectors.toList());
-        }
-
-        if (query != null && !query.isEmpty()) {
-            String lowerCaseQuery = query.toLowerCase();
-            filteredBooks = filteredBooks.stream()
-                    .filter(book -> book.getTitle().toLowerCase().contains(lowerCaseQuery) ||
-                            book.getAuthor().toLowerCase().contains(lowerCaseQuery))
-                    .collect(Collectors.toList());
-        }
-        LinearLayout booksContainer = mainDashContainer.findViewById(R.id.books_container);
-        BookViewHelper.populateBooks(this, booksContainer, filteredBooks);
-    }
-
-    private void resetButtons() {
-        Button[] buttons = {btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller};
-        for (Button b : buttons) {
-            if (b != null) b.setSelected(false);
-        }
+        super.onBackPressed();
     }
 }

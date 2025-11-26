@@ -2,7 +2,6 @@ package com.example.librarymanagementsystem_users;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,30 +9,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapter.ViewHolder> {
 
     private final Context context;
     private final List<Book> favoriteBooks;
-    private final SharedPreferences sharedPreferences;
 
     public FavoriteBookAdapter(Context context, List<Book> favoriteBooks) {
         this.context = context;
         this.favoriteBooks = favoriteBooks;
-        this.sharedPreferences = context.getSharedPreferences("favorites", Context.MODE_PRIVATE);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.favorite_book, parent, false);
+        // Programmatically set the background to override the faulty XML.
+        view.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
         return new ViewHolder(view);
     }
 
@@ -50,30 +48,6 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
             intent.putExtra("book", book);
             context.startActivity(intent);
         });
-
-        holder.favoriteIcon.setOnClickListener(v -> {
-            int adapterPosition = holder.getAdapterPosition();
-            if (adapterPosition != RecyclerView.NO_POSITION) {
-                toggleFavorite(favoriteBooks.get(adapterPosition));
-                favoriteBooks.remove(adapterPosition);
-                notifyItemRemoved(adapterPosition);
-                notifyItemRangeChanged(adapterPosition, favoriteBooks.size());
-            }
-        });
-    }
-
-    private void toggleFavorite(Book book) {
-        Set<String> favorites = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        Set<String> newFavorites = new HashSet<>(favorites);
-
-        if (newFavorites.contains(book.getTitle())) {
-            newFavorites.remove(book.getTitle());
-        }
-
-        editor.putStringSet("favorite_books", newFavorites);
-        editor.apply();
     }
 
     @Override
@@ -85,14 +59,12 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
         ImageView bookCover;
         TextView bookTitle;
         TextView bookAuthor;
-        ImageView favoriteIcon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            bookCover = itemView.findViewById(R.id.imageView2);
-            bookTitle = itemView.findViewById(R.id.textView2);
-            bookAuthor = itemView.findViewById(R.id.textView5);
-            favoriteIcon = itemView.findViewById(R.id.imageView3);
+            bookCover = itemView.findViewById(R.id.bookCover);
+            bookTitle = itemView.findViewById(R.id.bookTitle);
+            bookAuthor = itemView.findViewById(R.id.bookAuthor);
         }
     }
 }

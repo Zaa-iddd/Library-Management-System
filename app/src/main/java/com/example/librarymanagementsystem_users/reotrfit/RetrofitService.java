@@ -1,5 +1,8 @@
 package com.example.librarymanagementsystem_users.reotrfit;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -12,10 +15,14 @@ public class RetrofitService {
 
     private static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+
             retrofit = new Retrofit.Builder()
                     // Use 10.0.2.2 pag emulator pag dae yug ip mo
                     .baseUrl("http://192.168.0.206:8080")
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;

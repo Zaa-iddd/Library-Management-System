@@ -58,8 +58,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/button"
-            android:backgroundTint="@color/white"
+            android:background="@color/white"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -102,16 +101,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <SearchView
+                <androidx.appcompat.widget.SearchView
                     android:id="@+id/searchView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/border_button"
-                    android:backgroundTint="#D5D0D0"
-                    android:iconifiedByDefault="false"
-                    android:queryHint="Search books..." />
+                    android:background="@drawable/search_bar_bg"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="Search books..." />
 
                 <Button
                     android:id="@+id/button"

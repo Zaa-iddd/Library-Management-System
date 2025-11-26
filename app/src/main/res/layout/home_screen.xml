@@ -19,8 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:background="@drawable/button"
-            android:backgroundTint="@color/white"
+            android:background="@color/white"
             android:orientation="vertical"
             android:paddingTop="16dp"
             android:paddingBottom="16dp">
@@ -69,24 +68,22 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <SearchView
-                    android:id="@+id/searchView"
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/homeSearchView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/border_button"
-                    android:backgroundTint="#D5D0D0"
-                    android:iconifiedByDefault="false"
-                    android:queryHint="Search books..." />
+                    android:background="@drawable/search_bar_bg"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="Search books..." />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/homeSearchButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button"
-                    android:text="Search"
-                    app:backgroundTint="#FD7C43" />
+                    android:background="@drawable/button_orange"
+                    android:text="Search" />
             </LinearLayout>
 
             <Space
@@ -168,7 +165,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/favoriteBooksRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:clipToPadding="false"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
@@ -218,16 +215,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
-        android:id="@+id/main_dash_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <include layout="@layout/main_dash" />
-
-    </RelativeLayout>
-
     <LinearLayout
         android:id="@+id/navigation_bar"
         android:layout_width="match_parent"
@@ -244,9 +231,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/button"
-            android:text="Home"
-            app:backgroundTint="@color/orange" />
+            android:background="@drawable/button_orange"
+            android:text="Home"/>
 
         <Button
             android:id="@+id/btScan"
@@ -254,18 +240,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/button"
-            android:text="Scan"
-            app:backgroundTint="@color/orange" />
+            android:background="@drawable/button_orange"
+            android:text="Scan"/>
 
         <Button
             android:id="@+id/btMyBooks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:background="@drawable/button"
-            android:text="My Books"
-            app:backgroundTint="@color/orange" />
+            android:background="@drawable/button_orange"
+            android:text="My Books"/>
 
     </LinearLayout>
 
