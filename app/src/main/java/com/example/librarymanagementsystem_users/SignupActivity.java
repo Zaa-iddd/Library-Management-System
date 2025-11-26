@@ -28,7 +28,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private static final String TAG = "SignupActivity";
 
-    private EditText etUsername, etPassword, etConfirmPassword, etEmail;
+    private EditText etUsername, etEmail, etPassword, etConfirmPassword;
     private Button signupButton;
     private TextView alreadyAccountText;
     private ProgressBar progressBar;
@@ -38,6 +38,7 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
+
         initializeComponents();
     }
 
@@ -55,8 +56,9 @@ public class SignupActivity extends AppCompatActivity {
 
         signupButton.setOnClickListener(v -> performSignup());
 
-        alreadyAccountText.setOnClickListener(v -> 
-            startActivity(new Intent(SignupActivity.this, LoginActivity.class)));
+        alreadyAccountText.setOnClickListener(v ->
+                startActivity(new Intent(SignupActivity.this, LoginActivity.class))
+        );
     }
 
     private void performSignup() {
@@ -65,40 +67,38 @@ public class SignupActivity extends AppCompatActivity {
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
 
-
-
-        // 1. Check if passwords match
+        // Check passwords match
         if (!password.equals(confirmPassword)) {
             Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 2. Check if any field is empty
+        // Check empty fields
         if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Show progress and hide button
+        // Show progress bar and hide button
         signupButton.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
 
-        UserRequestDto userRequestDto = new UserRequestDto(username, email, password);
+        UserRequestDto request = new UserRequestDto(username, email, password);
         UserApi userApi = RetrofitService.getUserApi();
 
-        userApi.save(userRequestDto).enqueue(new Callback<UserResponseDto>() {
+        userApi.createUser(request).enqueue(new Callback<UserResponseDto>() {
             @Override
             public void onResponse(Call<UserResponseDto> call, Response<UserResponseDto> response) {
                 // Hide progress and show button
                 signupButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
 
-                if (response.isSuccessful()) {
-                    Toast.makeText(SignupActivity.this, "Signup Successful!  Please login.", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(SignupActivity.this, "Signup Successful! Please login.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                     finish();
                 } else {
-                    String errorMessage = "Signup Failed.";
+                    String errorMessage = "Signup Failed";
                     try {
                         if (response.errorBody() != null) {
                             errorMessage = response.errorBody().string();
@@ -107,12 +107,12 @@ public class SignupActivity extends AppCompatActivity {
                         Log.e(TAG, "Error parsing error body", e);
                     }
                     Toast.makeText(SignupActivity.this, "Signup Failed: " + errorMessage, Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Signup failed: code=" + response.code() + ", body=" + errorMessage);
                 }
             }
 
             @Override
             public void onFailure(Call<UserResponseDto> call, Throwable t) {
-                // Hide progress kina show button
                 signupButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
 

@@ -10,9 +10,6 @@ public class RetrofitService {
 
     private static Retrofit retrofit = null;
 
-    // para dae paulit uit
-    public RetrofitService() {}
-
     private static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
             Gson gson = new GsonBuilder()
@@ -20,19 +17,15 @@ public class RetrofitService {
                     .create();
 
             retrofit = new Retrofit.Builder()
-                    // Use 10.0.2.2 pag emulator pag dae yug ip mo
-                    .baseUrl("http://192.168.0.206:8080")
+                    // Use your PC's local network IP (same Wi-Fi)
+                    .baseUrl("http://192.168.0.206:8081/") // ✅ trailing slash is important
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;
     }
 
-    // Public static method to get the UserApi service
     public static UserApi getUserApi() {
-
         return getRetrofitInstance().create(UserApi.class);
     }
-
-
 }

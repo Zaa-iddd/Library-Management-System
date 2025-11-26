@@ -16,8 +16,11 @@ import retrofit2.http.Path;
 
 public interface UserApi {
 
-    @GET("/users/get-all")
+    @GET("/users")
     Call<List<UserResponseDto>> getAllUsers();
+
+    @POST("/users/signup")
+    Call<UserResponseDto> createUser(@Body UserRequestDto dto);
 
     @POST("/users")
     Call<UserResponseDto> save(@Body UserRequestDto userRequestDto);
@@ -26,7 +29,9 @@ public interface UserApi {
     @POST("/users/userLogin")
     Call<UserResponseDto> userLogin(@Body LoginRequestDto dto);
 
-    @PUT("/users/{id}/profile")
+
+
+    @PUT("/users/{id}")
     Call<UserResponseDto> updateUserProfile(
             @Path("id") Long id,
             @Body UserProfileDto dto
