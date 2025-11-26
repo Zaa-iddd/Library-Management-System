@@ -1,8 +1,10 @@
 package com.example.librarymanagementsystem_users;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ public class ViewBookActivity extends AppCompatActivity {
     private ImageView backButton;
     private Book book;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences requestedBooksPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class ViewBookActivity extends AppCompatActivity {
         setContentView(R.layout.view_book);
 
         sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
+        requestedBooksPrefs = getSharedPreferences("requested_books", MODE_PRIVATE);
 
         ImageView bookCover = findViewById(R.id.imageView);
         TextView bookTitle = findViewById(R.id.bookTitle);
@@ -69,10 +73,38 @@ public class ViewBookActivity extends AppCompatActivity {
         });
 
         borrowButton.setOnClickListener(v -> {
-            Toast.makeText(ViewBookActivity.this, "Book Borrowed!", Toast.LENGTH_SHORT).show();
+            showConfirmationDialog();
         });
 
         backButton.setOnClickListener(v -> finish());
+    }
+
+    private void showConfirmationDialog() {
+        Dialog dialog = new Dialog(ViewBookActivity.this);
+        dialog.setContentView(R.layout.dialog_borrow_confirmation);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+
+        Button cancelButton = dialog.findViewById(R.id.cancelButton);
+        Button confirmButton = dialog.findViewById(R.id.confirmButton);
+
+        cancelButton.setOnClickListener(v1 -> dialog.dismiss());
+
+        confirmButton.setOnClickListener(v1 -> {
+            addRequest(book.getTitle());
+            Toast.makeText(ViewBookActivity.this, "Borrow request sent!", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        dialog.show();
+    }
+
+    private void addRequest(String bookTitle) {
+        Set<String> requests = requestedBooksPrefs.getStringSet("requested_books_set", new HashSet<>());
+        SharedPreferences.Editor editor = requestedBooksPrefs.edit();
+        requests.add(bookTitle);
+        editor.putStringSet("requested_books_set", requests);
+        editor.apply();
     }
 
     private void updateFavoriteButton() {

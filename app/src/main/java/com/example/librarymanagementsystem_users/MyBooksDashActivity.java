@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem_users;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,30 +15,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
 import com.example.librarymanagementsystem_users.functions.BookData;
+import com.example.librarymanagementsystem_users.functions.RequestedBook;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MyBooksDashActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Buttons for tabs and actions
-    Button btnHistory, btnBorrowed, btnFavorite, btScan, btnSearch, btHome;
+    Button btnBorrowed, btnFavorite, btnRequested, btScan, btnSearch, btHome;
     ImageView backButton;
 
     // RecyclerView and its adapter
-    RecyclerView favoriteBooksRecyclerView;
-    FavoriteBookAdapter bookAdapter;
+    RecyclerView favoriteBooksRecyclerView, requestedBooksRecyclerView;
+    FavoriteBookAdapter favoriteBookAdapter;
+    RequestedBookAdapter requestedBookAdapter;
 
     // Data list
     List<Book> favoriteBookList;
+    List<RequestedBook> requestedBookList;
 
     // UI elements
     private Button selectedButton;
     private SearchView searchView;
-    private View favoriteContent, borrowedPlaceholder, historyPlaceholder;
+    private View favoriteContent, borrowedPlaceholder, requestedContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +51,9 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.mybooks_dash);
 
         // Initialize buttons
-        btnHistory = findViewById(R.id.btnHistory);
         btnBorrowed = findViewById(R.id.btnBorrowed);
         btnFavorite = findViewById(R.id.btnFavorite);
+        btnRequested = findViewById(R.id.btnRequested);
         backButton = findViewById(R.id.backButton);
         btScan = findViewById(R.id.btScan);
         btnSearch = findViewById(R.id.btnSearch);
@@ -58,20 +64,22 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
 
         // Initialize content views from XML
         favoriteBooksRecyclerView = findViewById(R.id.favoriteBooksRecyclerView);
+        requestedBooksRecyclerView = findViewById(R.id.requestedBooksRecyclerView);
         favoriteContent = findViewById(R.id.favorite_content);
         borrowedPlaceholder = findViewById(R.id.borrowed_placeholder);
-        historyPlaceholder = findViewById(R.id.history_placeholder);
+        requestedContent = findViewById(R.id.requested_content);
 
         // Set click listeners
-        btnHistory.setOnClickListener(this);
         btnBorrowed.setOnClickListener(this);
         btnFavorite.setOnClickListener(this);
+        btnRequested.setOnClickListener(this);
         backButton.setOnClickListener(this);
         btScan.setOnClickListener(this);
         btnSearch.setOnClickListener(this);
         btHome.setOnClickListener(this);
 
         favoriteBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        requestedBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Set initial state
         selectedButton = btnFavorite;
@@ -81,7 +89,7 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.btnFavorite || id == R.id.btnBorrowed || id == R.id.btnHistory) {
+        if (id == R.id.btnFavorite || id == R.id.btnBorrowed || id == R.id.btnRequested) {
             if (selectedButton != null) {
                 selectedButton.setSelected(false);
             }
@@ -93,8 +101,9 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
                 loadAndFilterFavoriteBooks();
             } else if (id == R.id.btnBorrowed) {
                 showContent(borrowedPlaceholder);
-            } else if (id == R.id.btnHistory) {
-                showContent(historyPlaceholder);
+            } else if (id == R.id.btnRequested) {
+                showContent(requestedContent);
+                loadAndFilterRequestedBooks();
             }
         } else if (id == R.id.backButton) {
             finish();
@@ -117,7 +126,7 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
     private void showContent(View contentToShow) {
         favoriteContent.setVisibility(View.GONE);
         borrowedPlaceholder.setVisibility(View.GONE);
-        historyPlaceholder.setVisibility(View.GONE);
+        requestedContent.setVisibility(View.GONE);
         if (contentToShow != null) {
             contentToShow.setVisibility(View.VISIBLE);
         }
@@ -135,8 +144,20 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
                     .collect(Collectors.toList());
         }
 
-        bookAdapter = new FavoriteBookAdapter(this, filteredList);
-        favoriteBooksRecyclerView.setAdapter(bookAdapter);
+        favoriteBookAdapter = new FavoriteBookAdapter(this, filteredList);
+        favoriteBooksRecyclerView.setAdapter(favoriteBookAdapter);
+    }
+
+    private void loadAndFilterRequestedBooks() {
+        SharedPreferences requestedBooksPrefs = getSharedPreferences("requested_books", MODE_PRIVATE);
+        Set<String> requests = requestedBooksPrefs.getStringSet("requested_books_set", new HashSet<>());
+        requestedBookList = new ArrayList<>();
+        for (String request : requests) {
+            requestedBookList.add(new RequestedBook(request, "Pending"));
+        }
+
+        requestedBookAdapter = new RequestedBookAdapter(this, requestedBookList);
+        requestedBooksRecyclerView.setAdapter(requestedBookAdapter);
     }
 
     @Override
@@ -162,8 +183,9 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
             loadAndFilterFavoriteBooks();
         } else if (selectedId == R.id.btnBorrowed) {
             showContent(borrowedPlaceholder);
-        } else if (selectedId == R.id.btnHistory) {
-            showContent(historyPlaceholder);
+        } else if (selectedId == R.id.btnRequested) {
+            showContent(requestedContent);
+            loadAndFilterRequestedBooks();
         }
     }
 }

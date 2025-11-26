@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView welcomeText, noAccountText;
     EditText etUsername, etPassword;
     Button loginButton, skipLoginButton;
+    ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         loginButton = findViewById(R.id.loginButton);
         skipLoginButton = findViewById(R.id.skipLoginButton);
+        backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(v -> finish());
 
         loginButton.setOnClickListener(v -> {
             String usernameOrEmail = etUsername.getText().toString().trim();

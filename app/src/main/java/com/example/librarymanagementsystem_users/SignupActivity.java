@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class SignupActivity extends AppCompatActivity {
     private Button signupButton;
     private TextView alreadyAccountText;
     private ProgressBar progressBar;
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,9 @@ public class SignupActivity extends AppCompatActivity {
         signupButton = findViewById(R.id.signupButton);
         alreadyAccountText = findViewById(R.id.alreadyAccountText);
         progressBar = findViewById(R.id.progressBar);
+        backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(v -> finish());
 
         signupButton.setOnClickListener(v -> performSignup());
 
