@@ -54,20 +54,25 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
         holder.favoriteIcon.setOnClickListener(v -> {
             int adapterPosition = holder.getAdapterPosition();
             if (adapterPosition != RecyclerView.NO_POSITION) {
-                toggleFavorite(favoriteBooks.get(adapterPosition).getTitle());
+                toggleFavorite(favoriteBooks.get(adapterPosition));
                 favoriteBooks.remove(adapterPosition);
                 notifyItemRemoved(adapterPosition);
+                notifyItemRangeChanged(adapterPosition, favoriteBooks.size());
             }
         });
     }
 
-    private void toggleFavorite(String bookTitle) {
+    private void toggleFavorite(Book book) {
         Set<String> favorites = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (favorites.contains(bookTitle)) {
-            favorites.remove(bookTitle);
+
+        Set<String> newFavorites = new HashSet<>(favorites);
+
+        if (newFavorites.contains(book.getTitle())) {
+            newFavorites.remove(book.getTitle());
         }
-        editor.putStringSet("favorite_books", favorites);
+
+        editor.putStringSet("favorite_books", newFavorites);
         editor.apply();
     }
 

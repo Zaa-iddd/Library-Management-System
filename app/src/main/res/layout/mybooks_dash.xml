@@ -11,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/navigation_bar"
-        android:orientation="vertical"
         android:background="@color/white"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp">
+        android:paddingBottom="16dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/top_bar"
@@ -45,39 +45,63 @@
 
         </LinearLayout>
 
-        <Space
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="12dp" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_bar_bg"
+                app:iconifiedByDefault="false"
+                app:queryHint="Search books..." />
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button2"
+                android:text="Search"
+                app:backgroundTint="@color/orange"/>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
             <Button
-                android:id="@+id/btnBorrowed"
+                android:id="@+id/btnFavorite"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="4dp"
+                android:layout_weight="1"
                 android:background="@drawable/button_selected"
-                android:text="Borrowed"
+                android:text="Favorite"
                 android:textColor="@color/white"
                 app:backgroundTint="@color/orange" />
 
             <Button
-                android:id="@+id/btnReturned"
+                android:id="@+id/btnBorrowed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/genre_button_default"
-                android:text="Returned"
+                android:text="Borrowed"
                 android:textColor="@color/black"
-                app:backgroundTint="#D5D0D0"
-                android:layout_marginHorizontal="4dp"/>
+                app:backgroundTint="#D5D0D0" />
 
             <Button
                 android:id="@+id/btnHistory"
@@ -87,8 +111,8 @@
                 android:background="@drawable/genre_button_default"
                 android:text="History"
                 android:textColor="@color/black"
-                app:backgroundTint="#D5D0D0"
-                android:layout_marginHorizontal="4dp" />
+                android:layout_marginHorizontal="4dp"
+                app:backgroundTint="#D5D0D0" />
 
         </LinearLayout>
 
@@ -99,7 +123,7 @@
             android:layout_marginTop="16dp">
 
             <FrameLayout
-                android:id="@+id/borrowed_content"
+                android:id="@+id/favorite_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -113,7 +137,7 @@
             </FrameLayout>
 
             <ScrollView
-                android:id="@+id/returned_content"
+                android:id="@+id/borrowed_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">
@@ -123,12 +147,12 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:text="Returned books content" />
+                    android:text="Borrowed books content" />
 
             </ScrollView>
 
             <ScrollView
-                android:id="@+id/history_content"
+                android:id="@+id/history_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">

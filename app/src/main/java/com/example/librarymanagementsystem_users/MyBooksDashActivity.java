@@ -1,14 +1,15 @@
 package com.example.librarymanagementsystem_users;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import androidx.appcompat.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,80 +18,140 @@ import com.example.librarymanagementsystem_users.functions.BookData;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MyBooksDashActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnHistory, btnBorrowed, btnReturned, btScan;
-    View historyContent, borrowedContent, returnedContent;
+    // Buttons for tabs and actions
+    Button btnHistory, btnBorrowed, btnFavorite, btScan, btnSearch;
     ImageView backButton;
-    RecyclerView favoriteBooksRecyclerView;
-    FavoriteBookAdapter favoriteBookAdapter;
-    List<Book> favoriteBookList;
-    private SharedPreferences sharedPreferences;
 
+    // RecyclerView and its adapter
+    RecyclerView favoriteBooksRecyclerView;
+    FavoriteBookAdapter bookAdapter;
+
+    // Data list
+    List<Book> favoriteBookList;
+
+    // UI elements
+    private Button selectedButton;
+    private SearchView searchView;
+    private View favoriteContent, borrowedPlaceholder, historyPlaceholder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mybooks_dash);
 
-        sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
-
+        // Initialize buttons
         btnHistory = findViewById(R.id.btnHistory);
         btnBorrowed = findViewById(R.id.btnBorrowed);
-        btnReturned = findViewById(R.id.btnReturned);
+        btnFavorite = findViewById(R.id.btnFavorite);
         backButton = findViewById(R.id.backButton);
         btScan = findViewById(R.id.btScan);
+        btnSearch = findViewById(R.id.btnSearch);
 
-        historyContent = findViewById(R.id.history_content);
-        borrowedContent = findViewById(R.id.borrowed_content);
-        returnedContent = findViewById(R.id.returned_content);
+        // Initialize search view
+        searchView = findViewById(R.id.searchView);
+
+        // Initialize content views from XML
         favoriteBooksRecyclerView = findViewById(R.id.favoriteBooksRecyclerView);
+        favoriteContent = findViewById(R.id.favorite_content);
+        borrowedPlaceholder = findViewById(R.id.borrowed_placeholder);
+        historyPlaceholder = findViewById(R.id.history_placeholder);
 
+        // Set click listeners
         btnHistory.setOnClickListener(this);
         btnBorrowed.setOnClickListener(this);
-        btnReturned.setOnClickListener(this);
+        btnFavorite.setOnClickListener(this);
         backButton.setOnClickListener(this);
         btScan.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
 
         favoriteBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        loadFavoriteBooks();
 
-        showContent(borrowedContent);
+        // Set initial state
+        selectedButton = btnFavorite;
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.btnHistory) {
-            showContent(historyContent);
+        if (id == R.id.btnFavorite) {
+            selectedButton = btnFavorite;
+            updateButtonStates();
+            showContent(favoriteContent);
+            loadAndFilterFavoriteBooks();
         } else if (id == R.id.btnBorrowed) {
-            showContent(borrowedContent);
-        } else if (id == R.id.btnReturned) {
-            showContent(returnedContent);
+            selectedButton = btnBorrowed;
+            updateButtonStates();
+            showContent(borrowedPlaceholder);
+        } else if (id == R.id.btnHistory) {
+            selectedButton = btnHistory;
+            updateButtonStates();
+            showContent(historyPlaceholder);
         } else if (id == R.id.backButton) {
-            startActivity(new Intent(MyBooksDashActivity.this, HomeActivity.class));
             finish();
         } else if (id == R.id.btScan) {
+            // QR Code scan logic
             IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
             integrator.setPrompt("Scan a QR code");
-            integrator.setCameraId(0);
-            integrator.setBeepEnabled(false);
-            integrator.setBarcodeImageEnabled(true);
             integrator.initiateScan();
+        } else if (id == R.id.btnSearch) {
+            if (selectedButton.getId() == R.id.btnFavorite) {
+                loadAndFilterFavoriteBooks();
+            }
         }
+    }
+
+    private void updateButtonStates() {
+        Button[] buttons = {btnFavorite, btnBorrowed, btnHistory};
+        for (Button button : buttons) {
+            if (button == selectedButton) {
+                button.setBackgroundResource(R.drawable.button_selected);
+                button.setTextColor(ContextCompat.getColor(this, R.color.white));
+                button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.orange));
+            } else {
+                button.setBackgroundResource(R.drawable.genre_button_default);
+                button.setTextColor(ContextCompat.getColor(this, R.color.black));
+                button.setBackgroundTintList(ContextCompat.getColorStateList(this, com.google.android.material.R.color.material_dynamic_neutral80));
+            }
+        }
+    }
+
+    private void showContent(View contentToShow) {
+        favoriteContent.setVisibility(View.GONE);
+        borrowedPlaceholder.setVisibility(View.GONE);
+        historyPlaceholder.setVisibility(View.GONE);
+        if (contentToShow != null) {
+            contentToShow.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void loadAndFilterFavoriteBooks() {
+        favoriteBookList = BookData.getFavoriteBooks(this);
+
+        String query = searchView.getQuery().toString();
+
+        List<Book> filteredList = new ArrayList<>();
+        if (favoriteBookList != null) {
+            filteredList = favoriteBookList.stream()
+                    .filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        bookAdapter = new FavoriteBookAdapter(this, filteredList);
+        favoriteBooksRecyclerView.setAdapter(bookAdapter);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(result != null) {
-            if(result.getContents() == null) {
+        if (result != null) {
+            if (result.getContents() == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
@@ -100,28 +161,19 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void showContent(View contentToShow) {
-        historyContent.setVisibility(View.GONE);
-        borrowedContent.setVisibility(View.GONE);
-        returnedContent.setVisibility(View.GONE);
-        contentToShow.setVisibility(View.VISIBLE);
-    }
-
-    private void loadFavoriteBooks() {
-        Set<String> favoriteBookTitles = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
-        List<Book> allBooks = BookData.getBooks();
-
-        favoriteBookList = allBooks.stream()
-                .filter(book -> favoriteBookTitles.contains(book.getTitle()))
-                .collect(Collectors.toList());
-
-        favoriteBookAdapter = new FavoriteBookAdapter(this, favoriteBookList);
-        favoriteBooksRecyclerView.setAdapter(favoriteBookAdapter);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        loadFavoriteBooks();
+        updateButtonStates();
+
+        int selectedId = selectedButton.getId();
+        if (selectedId == R.id.btnFavorite) {
+            showContent(favoriteContent);
+            loadAndFilterFavoriteBooks();
+        } else if (selectedId == R.id.btnBorrowed) {
+            showContent(borrowedPlaceholder);
+        } else if (selectedId == R.id.btnHistory) {
+            showContent(historyPlaceholder);
+        }
     }
 }

@@ -88,17 +88,6 @@
                 android:textSize="16sp" />
 
             <!-- View Favorites Button -->
-            <Button
-                android:id="@+id/viewFavoritesButton"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginHorizontal="32dp"
-                android:layout_marginTop="12dp"
-                android:text="View Favorites"
-                android:background="@drawable/button"
-                app:backgroundTint="@color/orange"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
 
             <!-- Logout -->
             <Button
