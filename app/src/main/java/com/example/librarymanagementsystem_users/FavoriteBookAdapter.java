@@ -20,10 +20,12 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
 
     private final Context context;
     private final List<Book> favoriteBooks;
+    private final long userId;
 
-    public FavoriteBookAdapter(Context context, List<Book> favoriteBooks) {
+    public FavoriteBookAdapter(Context context, List<Book> favoriteBooks, long userId) {
         this.context = context;
         this.favoriteBooks = favoriteBooks;
+        this.userId = userId;
     }
 
     @NonNull
@@ -47,7 +49,8 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewBookActivity.class);
-            intent.putExtra("book", book);
+            intent.putExtra("BOOK_ID", book.getId());
+            intent.putExtra("USER_ID", userId);
             context.startActivity(intent);
         });
     }

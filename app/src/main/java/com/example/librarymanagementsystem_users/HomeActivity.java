@@ -3,6 +3,7 @@ package com.example.librarymanagementsystem_users;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.widget.SearchView;
@@ -15,16 +16,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
-import com.example.librarymanagementsystem_users.functions.BookApi;
-import com.example.librarymanagementsystem_users.functions.StaticBookApi;
+import com.example.librarymanagementsystem_users.reotrfit.BookApi;
 import com.example.librarymanagementsystem_users.models.UserResponseDto;
 import com.example.librarymanagementsystem_users.reotrfit.RetrofitService;
 import com.example.librarymanagementsystem_users.reotrfit.UserApi;
 import com.google.android.material.card.MaterialCardView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.journeyapps.barcodescanner.CaptureActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,6 +37,7 @@ import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private static final String TAG = "HomeActivity";
     private RecyclerView trendingBooksRecyclerView;
     private TrendingBookAdapter trendingBookAdapter;
     private List<Book> trendingBookList;
@@ -48,8 +49,8 @@ public class HomeActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private long userId; // logged-in user ID
     private UserApi userApi;
-    private TextView usernameTextView;
     private BookApi bookApi;
+    private TextView usernameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_screen);
 
         sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
-        bookApi = new StaticBookApi();
 
         // Get the user ID passed from LoginActivity first, or from SharedPreferences
         userId = getIntent().getLongExtra("USER_ID", 0);
@@ -72,6 +72,7 @@ public class HomeActivity extends AppCompatActivity {
 
         usernameTextView = findViewById(R.id.textView6);
         userApi = RetrofitService.getUserApi();
+        bookApi = RetrofitService.getBookApi();
         loadUserProfile();
 
         // Show main_dash on "View All" click for trending books
@@ -94,9 +95,7 @@ public class HomeActivity extends AppCompatActivity {
         // Trending Books RecyclerView
         trendingBooksRecyclerView = findViewById(R.id.trendingBooksRecyclerView);
         trendingBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        trendingBookList = bookApi.getTrendingBooks();
-        trendingBookAdapter = new TrendingBookAdapter(this, trendingBookList);
-        trendingBooksRecyclerView.setAdapter(trendingBookAdapter);
+        loadTrendingBooks();
 
         // Favorite Books RecyclerView
         favoriteBooksRecyclerView = findViewById(R.id.favoriteBooksRecyclerView);
@@ -166,23 +165,56 @@ public class HomeActivity extends AppCompatActivity {
         loadFavoriteBooks();
     }
 
+    private void loadTrendingBooks() {
+        bookApi.getAllBooks().enqueue(new Callback<List<Book>>() {
+            @Override
+            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    trendingBookList = response.body().stream().limit(3).collect(Collectors.toList());
+                    trendingBookAdapter = new TrendingBookAdapter(HomeActivity.this, trendingBookList, userId);
+                    trendingBooksRecyclerView.setAdapter(trendingBookAdapter);
+                } else {
+                    Log.e(TAG, "Failed to load trending books. Code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Book>> call, Throwable t) {
+                Log.e(TAG, "Failed to load trending books.", t);
+            }
+        });
+    }
+
     private void loadFavoriteBooks() {
         Set<String> favoriteBookTitles = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
-        List<Book> allBooks = bookApi.getBooks();
+        bookApi.getAllBooks().enqueue(new Callback<List<Book>>() {
+            @Override
+            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Book> allBooks = response.body();
+                    favoriteBookList = allBooks.stream()
+                            .filter(book -> favoriteBookTitles.contains(book.getTitle()))
+                            .collect(Collectors.toList());
 
-        favoriteBookList = allBooks.stream()
-                .filter(book -> favoriteBookTitles.contains(book.getTitle()))
-                .collect(Collectors.toList());
+                    List<Book> limitedFavoriteBooks;
+                    if (favoriteBookList.size() > 2) {
+                        limitedFavoriteBooks = new ArrayList<>(favoriteBookList.subList(0, 2));
+                    } else {
+                        limitedFavoriteBooks = new ArrayList<>(favoriteBookList);
+                    }
 
-        List<Book> limitedFavoriteBooks;
-        if (favoriteBookList.size() > 2) {
-            limitedFavoriteBooks = new ArrayList<>(favoriteBookList.subList(0, 2));
-        } else {
-            limitedFavoriteBooks = new ArrayList<>(favoriteBookList);
-        }
+                    favoriteBookAdapter = new FavoriteBookAdapter(HomeActivity.this, limitedFavoriteBooks, userId);
+                    favoriteBooksRecyclerView.setAdapter(favoriteBookAdapter);
+                } else {
+                    Log.e(TAG, "Failed to load favorite books. Code: " + response.code());
+                }
+            }
 
-        favoriteBookAdapter = new FavoriteBookAdapter(this, limitedFavoriteBooks);
-        favoriteBooksRecyclerView.setAdapter(favoriteBookAdapter);
+            @Override
+            public void onFailure(Call<List<Book>> call, Throwable t) {
+                Log.e(TAG, "Failed to load favorite books.", t);
+            }
+        });
     }
 
     private void loadUserProfile() {
@@ -193,13 +225,13 @@ public class HomeActivity extends AppCompatActivity {
                     UserResponseDto user = response.body();
                     usernameTextView.setText("Hello " + user.getUsername() + "!");
                 } else {
-                    // Handle error
+                    Log.e(TAG, "Failed to load user profile. Code: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<UserResponseDto> call, @NonNull Throwable t) {
-                // Handle failure
+                Log.e(TAG, "Failed to load user profile.", t);
             }
         });
     }
@@ -218,20 +250,13 @@ public class HomeActivity extends AppCompatActivity {
             } else {
                 try {
                     long bookId = Long.parseLong(result.getContents());
-                    Book scannedBook = bookApi.getBooks().stream()
-                            .filter(book -> book.getId() == bookId)
-                            .findFirst()
-                            .orElse(null);
-
-                    if (scannedBook != null) {
-                        Intent intent = new Intent(this, ViewBookActivity.class);
-                        intent.putExtra("book", scannedBook);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(this, "Book not found", Toast.LENGTH_LONG).show();
-                    }
+                    Intent intent = new Intent(HomeActivity.this, ViewBookActivity.class);
+                    intent.putExtra("BOOK_ID", bookId);
+                    intent.putExtra("USER_ID", userId);
+                    startActivity(intent);
                 } catch (NumberFormatException e) {
                     Toast.makeText(this, "Invalid QR code", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Invalid QR code format.", e);
                 }
             }
         } else {
