@@ -9,7 +9,6 @@ import androidx.appcompat.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 public class MyBooksDashActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Buttons for tabs and actions
-    Button btnHistory, btnBorrowed, btnFavorite, btScan, btnSearch;
+    Button btnHistory, btnBorrowed, btnFavorite, btScan, btnSearch, btHome;
     ImageView backButton;
 
     // RecyclerView and its adapter
@@ -52,6 +51,7 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
         backButton = findViewById(R.id.backButton);
         btScan = findViewById(R.id.btScan);
         btnSearch = findViewById(R.id.btnSearch);
+        btHome = findViewById(R.id.btHome);
 
         // Initialize search view
         searchView = findViewById(R.id.searchView);
@@ -69,29 +69,33 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
         backButton.setOnClickListener(this);
         btScan.setOnClickListener(this);
         btnSearch.setOnClickListener(this);
+        btHome.setOnClickListener(this);
 
         favoriteBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Set initial state
         selectedButton = btnFavorite;
+        btnFavorite.setSelected(true);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.btnFavorite) {
-            selectedButton = btnFavorite;
-            updateButtonStates();
-            showContent(favoriteContent);
-            loadAndFilterFavoriteBooks();
-        } else if (id == R.id.btnBorrowed) {
-            selectedButton = btnBorrowed;
-            updateButtonStates();
-            showContent(borrowedPlaceholder);
-        } else if (id == R.id.btnHistory) {
-            selectedButton = btnHistory;
-            updateButtonStates();
-            showContent(historyPlaceholder);
+        if (id == R.id.btnFavorite || id == R.id.btnBorrowed || id == R.id.btnHistory) {
+            if (selectedButton != null) {
+                selectedButton.setSelected(false);
+            }
+            selectedButton = (Button) v;
+            selectedButton.setSelected(true);
+
+            if (id == R.id.btnFavorite) {
+                showContent(favoriteContent);
+                loadAndFilterFavoriteBooks();
+            } else if (id == R.id.btnBorrowed) {
+                showContent(borrowedPlaceholder);
+            } else if (id == R.id.btnHistory) {
+                showContent(historyPlaceholder);
+            }
         } else if (id == R.id.backButton) {
             finish();
         } else if (id == R.id.btScan) {
@@ -104,21 +108,9 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
             if (selectedButton.getId() == R.id.btnFavorite) {
                 loadAndFilterFavoriteBooks();
             }
-        }
-    }
-
-    private void updateButtonStates() {
-        Button[] buttons = {btnFavorite, btnBorrowed, btnHistory};
-        for (Button button : buttons) {
-            if (button == selectedButton) {
-                button.setBackgroundResource(R.drawable.button_selected);
-                button.setTextColor(ContextCompat.getColor(this, R.color.white));
-                button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.orange));
-            } else {
-                button.setBackgroundResource(R.drawable.genre_button_default);
-                button.setTextColor(ContextCompat.getColor(this, R.color.black));
-                button.setBackgroundTintList(ContextCompat.getColorStateList(this, com.google.android.material.R.color.material_dynamic_neutral80));
-            }
+        } else if (id == R.id.btHome) {
+            Intent intent = new Intent(MyBooksDashActivity.this, HomeActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -164,8 +156,6 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        updateButtonStates();
-
         int selectedId = selectedButton.getId();
         if (selectedId == R.id.btnFavorite) {
             showContent(favoriteContent);
