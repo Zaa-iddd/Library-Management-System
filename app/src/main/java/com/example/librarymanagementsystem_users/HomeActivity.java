@@ -43,6 +43,9 @@ public class HomeActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
 
+        // Initialize BookData
+        BookData.initialize(this);
+
         // Get the user ID passed from LoginActivity first, or from SharedPreferences
         userId = getIntent().getLongExtra("USER_ID", 0);
         if (userId == 0) {
@@ -86,7 +89,13 @@ public class HomeActivity extends AppCompatActivity {
         // Search on home screen
         SearchView homeSearchView = findViewById(R.id.homeSearchView);
         Button homeSearchButton = findViewById(R.id.homeSearchButton);
-        homeSearchButton.setVisibility(View.GONE);
+        homeSearchButton.setVisibility(View.VISIBLE);
+        homeSearchButton.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, MainDashActivity.class);
+            intent.putExtra("SEARCH_QUERY", homeSearchView.getQuery().toString());
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        });
 
         homeSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

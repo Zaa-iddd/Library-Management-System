@@ -45,180 +45,174 @@
 
     </LinearLayout>
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/header_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/navigation_bar"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:paddingTop="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reedo"
+                android:textColor="#F97A41"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btEditProfile"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardCornerRadius="30dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sample_book" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_bar_bg"
+                app:iconifiedByDefault="false"
+                app:queryHint="Search books..." />
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_orange"
+                android:text="Search" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="19dp" />
+
+        <HorizontalScrollView
+            android:id="@+id/genreScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Reedo"
-                    android:textColor="#F97A41"
-                    android:textSize="23sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btEditProfile"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    app:cardCornerRadius="30dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/sample_book" />
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="12dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/searchView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/search_bar_bg"
-                    app:iconifiedByDefault="false"
-                    app:queryHint="Search books..." />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnAll"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_orange"
-                    android:text="Search" />
-            </LinearLayout>
+                    android:layout_height="40dp"
+                    android:background="@drawable/genre_button_selector"
+                    android:text="All"
+                    android:textColor="@color/genre_button_text_color_selector" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="19dp" />
-
-            <HorizontalScrollView
-                android:id="@+id/genreScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none">
-
-                <LinearLayout
+                <Button
+                    android:id="@+id/btnAction"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/genre_button_selector"
+                    android:text="Action"
+                    android:textColor="@color/genre_button_text_color_selector" />
 
-                    <Button
-                        android:id="@+id/btnAll"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:background="@drawable/button_orange"
-                        android:text="All"
-                        android:textColor="@android:color/white" />
+                <Button
+                    android:id="@+id/btnRomance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/genre_button_selector"
+                    android:text="Romance"
+                    android:textColor="@color/genre_button_text_color_selector" />
 
-                    <Button
-                        android:id="@+id/btnAction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/button_orange"
-                        android:text="Action"
-                        android:textColor="@android:color/white" />
+                <Button
+                    android:id="@+id/btnComedy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/genre_button_selector"
+                    android:text="Comedy"
+                    android:textColor="@color/genre_button_text_color_selector" />
 
-                    <Button
-                        android:id="@+id/btnRomance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/button_orange"
-                        android:text="Romance"
-                        android:textColor="@android:color/white" />
+                <Button
+                    android:id="@+id/btnHorror"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/genre_button_selector"
+                    android:text="Horror"
+                    android:textColor="@color/genre_button_text_color_selector" />
 
-                    <Button
-                        android:id="@+id/btnComedy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/button_orange"
-                        android:text="Comedy"
-                        android:textColor="@android:color/white" />
-
-                    <Button
-                        android:id="@+id/btnHorror"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/button_orange"
-                        android:text="Horror"
-                        android:textColor="@android:color/white" />
-
-                    <Button
-                        android:id="@+id/btnThriller"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/button_orange"
-                        android:text="Thriller"
-                        android:textColor="@android:color/white" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="19dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/bookGenre"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="All Books"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
+                <Button
+                    android:id="@+id/btnThriller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/genre_button_selector"
+                    android:text="Thriller"
+                    android:textColor="@color/genre_button_text_color_selector" />
             </LinearLayout>
+        </HorizontalScrollView>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="19dp" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="19dp" />
 
-            <LinearLayout
-                android:id="@+id/books_container"
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bookGenre"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:layout_weight="1"
+                android:text="All Books"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
-    </ScrollView>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/books_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/navigation_bar"
+        android:layout_below="@id/header_container"
+        android:padding="11dp"
+        android:clipToPadding="false"/>
 
 </RelativeLayout>

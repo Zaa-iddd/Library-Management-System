@@ -77,12 +77,13 @@ public class BookViewHelper {
             });
         }
 
+        // Fill empty space in the last row
         if (rowLayout != null) {
             int childCount = rowLayout.getChildCount();
             if (childCount > 0 && childCount < booksPerRow) {
                 for (int i = 0; i < booksPerRow - childCount; i++) {
                     View emptyView = new View(activity);
-                    LinearLayout.LayoutParams emptyViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+                    LinearLayout.LayoutParams emptyViewParams = new LinearLayout.LayoutParams(0, 0, 1f);
                     emptyViewParams.setMarginEnd(16);
                     emptyView.setLayoutParams(emptyViewParams);
                     rowLayout.addView(emptyView);

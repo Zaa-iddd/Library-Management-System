@@ -15,32 +15,36 @@
         android:theme="@style/Theme.LibraryManagementSystem_Users"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".WelcomeActivity" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
+        <activity android:name=".LoginActivity" android:exported="false" />
         <activity android:name=".MainActivity" />
         <activity android:name=".HomeActivity" />
+
+        <!-- ✅ REQUIRED: this was missing -->
+        <activity android:name=".MainDashActivity" />
+
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MyBooksDashActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".ViewBookActivity" />
+
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:windowSoftInputMode="stateAlwaysHidden"
             tools:replace="screenOrientation" />
-    </application>
 
+    </application>
 </manifest>
