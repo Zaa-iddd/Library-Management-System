@@ -36,7 +36,9 @@ public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book book = bookList.get(position);
         holder.title.setText(book.getTitle());
-        holder.cover.setImageResource(book.getCoverResourceId());
+        // TODO: Use a library like Glide or Picasso to load the image from the URL
+        // For example: Glide.with(context).load(book.getCover_image_url()).into(holder.cover);
+        holder.cover.setImageResource(R.drawable.sample_book); // Using a placeholder image
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewBookActivity.class);
