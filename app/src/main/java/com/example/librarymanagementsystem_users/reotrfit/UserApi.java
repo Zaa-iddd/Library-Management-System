@@ -4,6 +4,7 @@ import com.example.librarymanagementsystem_users.models.LoginRequestDto;
 import com.example.librarymanagementsystem_users.models.UserProfileDto;
 import com.example.librarymanagementsystem_users.models.UserRequestDto;
 import com.example.librarymanagementsystem_users.models.UserResponseDto;
+import com.example.librarymanagementsystem_users.models.BorrowHistory; // ADD THIS IMPORT
 
 import java.util.List;
 
@@ -19,15 +20,11 @@ public interface UserApi {
     @GET("/users")
     Call<List<UserResponseDto>> getAllUsers();
 
-
     @POST("/users")
     Call<UserResponseDto> save(@Body UserRequestDto userRequestDto);
 
-    // Android users only
     @POST("/users/userLogin")
     Call<UserResponseDto> userLogin(@Body LoginRequestDto dto);
-
-
 
     @PUT("/users/{id}")
     Call<UserResponseDto> updateUserProfile(
@@ -38,9 +35,10 @@ public interface UserApi {
     @GET("/users/{id}")
     Call<UserResponseDto> getUserById(@Path("id") Long id);
 
-    @POST("/users/android/signup")  // <-- make sure this matches your Spring Boot controller mapping
+    @POST("/users/android/signup")
     Call<UserResponseDto> createUser(@Body UserRequestDto userRequestDto);
 
-
+    @GET("/users/{id}/borrow-history")
+    Call<List<BorrowHistory>> getBorrowHistory(@Path("id") Long id);
 
 }
