@@ -19,32 +19,31 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/returnButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button"
-                android:text="Back"
-                app:backgroundTint="@color/orange" />
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="6dp"
+                android:src="@drawable/arrow"
+                app:tint="@android:color/black" />
 
             <TextView
                 android:id="@+id/bookTitle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
+                android:layout_centerInParent="true"
                 android:text="Book Title"
                 android:textColor="#F97A41"
                 android:textSize="23sp"
                 android:textStyle="bold" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -170,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/button"
-                android:text="Borrow"
+                android:text="Borrow Request"
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/orange" />
 

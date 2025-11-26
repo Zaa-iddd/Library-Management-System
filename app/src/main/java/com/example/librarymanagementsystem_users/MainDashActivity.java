@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ public class MainDashActivity extends AppCompatActivity {
     // -- Views and Adapters --
     Button btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller, btScan, btHome, btMyBooks, btnSearch;
     MaterialCardView profileButton;
+    ImageView backButton;
     TextView bookGenre;
     SearchView searchView;
     RecyclerView booksRecyclerView;
@@ -67,12 +69,15 @@ public class MainDashActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         btnSearch = findViewById(R.id.searchButton);
         booksRecyclerView = findViewById(R.id.books_container);
+        backButton = findViewById(R.id.backButton);
 
         BookData.initialize(this);
 
         setupRecyclerView();
 
         // -- UI & Event Listener Setup --
+
+        backButton.setOnClickListener(v -> finish());
 
         // Re-enable the search button.
         btnSearch.setVisibility(View.VISIBLE);

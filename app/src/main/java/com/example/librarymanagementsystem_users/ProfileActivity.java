@@ -3,6 +3,7 @@ package com.example.librarymanagementsystem_users;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     Button logoutButton;
     Button editProfileButton;
+    ImageView backButton;
     private long userId;
 
     @Override
@@ -23,6 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         logoutButton = findViewById(R.id.logoutButton);
         editProfileButton = findViewById(R.id.editProfileButton);
+        backButton = findViewById(R.id.backButton);
 
         logoutButton.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
@@ -40,6 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
             intent.putExtra("USER_ID", userId);
             startActivity(intent);
         });
+
+        backButton.setOnClickListener(v -> finish());
 
         Button btHome = findViewById(R.id.btHome);
         btHome.setOnClickListener(v -> {

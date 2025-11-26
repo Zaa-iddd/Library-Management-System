@@ -19,6 +19,7 @@ import java.util.Set;
 public class ViewBookActivity extends AppCompatActivity {
 
     private ImageView favoriteButton;
+    private ImageView backButton;
     private Book book;
     private SharedPreferences sharedPreferences;
 
@@ -34,7 +35,7 @@ public class ViewBookActivity extends AppCompatActivity {
         TextView bookDescription = findViewById(R.id.bookDescription);
         TextView bookStatus = findViewById(R.id.bookStatus);
         Button borrowButton = findViewById(R.id.borrowButton);
-        Button returnButton = findViewById(R.id.returnButton);
+        backButton = findViewById(R.id.backButton);
         favoriteButton = findViewById(R.id.favoriteButton);
 
         book = (Book) getIntent().getSerializableExtra("book");
@@ -71,7 +72,7 @@ public class ViewBookActivity extends AppCompatActivity {
             Toast.makeText(ViewBookActivity.this, "Book Borrowed!", Toast.LENGTH_SHORT).show();
         });
 
-        returnButton.setOnClickListener(v -> finish());
+        backButton.setOnClickListener(v -> finish());
     }
 
     private void updateFavoriteButton() {
