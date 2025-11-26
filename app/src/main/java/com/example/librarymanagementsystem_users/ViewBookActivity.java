@@ -24,6 +24,7 @@ public class ViewBookActivity extends AppCompatActivity {
     private ImageView backButton;
     private Book book;
     private SharedPreferences requestedBooksPrefs;
+    private SharedPreferences favoritesPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class ViewBookActivity extends AppCompatActivity {
         setContentView(R.layout.view_book);
 
         requestedBooksPrefs = getSharedPreferences("requested_books", MODE_PRIVATE);
+        favoritesPrefs = getSharedPreferences("favorites", MODE_PRIVATE);
 
         ImageView bookCover = findViewById(R.id.imageView);
         TextView bookTitle = findViewById(R.id.bookTitle);
@@ -51,6 +53,7 @@ public class ViewBookActivity extends AppCompatActivity {
         book = (Book) getIntent().getSerializableExtra("book");
 
         if (book != null) {
+            updateFavoriteButton();
             // bookCover.setImageResource(book.getCoverResourceId());
             bookTitle.setText(book.getTitle());
             bookDescription.setText(book.getSummary());
@@ -74,7 +77,9 @@ public class ViewBookActivity extends AppCompatActivity {
         }
 
         favoriteButton.setOnClickListener(v -> {
-            // Handle favorite button click
+            if (book != null) {
+                toggleFavorite(book.getTitle());
+            }
         });
 
         borrowButton.setOnClickListener(v -> {
@@ -82,6 +87,32 @@ public class ViewBookActivity extends AppCompatActivity {
         });
 
         backButton.setOnClickListener(v -> finish());
+    }
+
+    private boolean isFavorite(String bookTitle) {
+        Set<String> favorites = favoritesPrefs.getStringSet("favorite_books", new HashSet<>());
+        return favorites.contains(bookTitle);
+    }
+
+    private void toggleFavorite(String bookTitle) {
+        Set<String> favorites = favoritesPrefs.getStringSet("favorite_books", new HashSet<>());
+        SharedPreferences.Editor editor = favoritesPrefs.edit();
+        if (favorites.contains(bookTitle)) {
+            favorites.remove(bookTitle);
+        } else {
+            favorites.add(bookTitle);
+        }
+        editor.putStringSet("favorite_books", favorites);
+        editor.apply();
+        updateFavoriteButton();
+    }
+
+    private void updateFavoriteButton() {
+        if (isFavorite(book.getTitle())) {
+            favoriteButton.setImageResource(R.drawable.heart_red);
+        } else {
+            favoriteButton.setImageResource(R.drawable.heart_gray);
+        }
     }
 
     private void showConfirmationDialog() {

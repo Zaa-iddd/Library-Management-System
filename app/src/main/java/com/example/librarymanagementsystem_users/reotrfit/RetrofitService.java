@@ -17,8 +17,8 @@ public class RetrofitService {
                     .create();
 
             retrofit = new Retrofit.Builder()
-                    // Use your PC's local network IP (same Wi-Fi)
-                    .baseUrl("http://192.168.0.206:8081/") // ✅ trailing slash is important
+                    // PC's local network IP (same Wi-Fi)
+                    .baseUrl("http://192.168.0.206:8081/") //trailing slash is important
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
