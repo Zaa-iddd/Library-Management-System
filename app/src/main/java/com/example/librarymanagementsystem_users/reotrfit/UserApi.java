@@ -23,7 +23,6 @@ public interface UserApi {
     @POST("/users")
     Call<UserResponseDto> save(@Body UserRequestDto userRequestDto);
 
-    // Android users only
     @POST("/users/userLogin")
     Call<UserResponseDto> userLogin(@Body LoginRequestDto dto);
 
@@ -38,7 +37,7 @@ public interface UserApi {
     @GET("/users/{id}")
     Call<UserResponseDto> getUserById(@Path("id") Long id);
 
-    @POST("/users/android/signup")  // <-- make sure this matches your Spring Boot controller mapping
+    @POST("/users/android/signup")
     Call<UserResponseDto> createUser(@Body UserRequestDto userRequestDto);
 
 

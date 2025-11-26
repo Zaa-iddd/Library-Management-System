@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
-import com.example.librarymanagementsystem_users.functions.BookData;
+import com.example.librarymanagementsystem_users.functions.BookApi;
+import com.example.librarymanagementsystem_users.functions.StaticBookApi;
 import com.example.librarymanagementsystem_users.models.UserResponseDto;
 import com.example.librarymanagementsystem_users.reotrfit.RetrofitService;
 import com.example.librarymanagementsystem_users.reotrfit.UserApi;
 import com.google.android.material.card.MaterialCardView;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureActivity;
 
 import java.util.ArrayList;
@@ -45,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     private long userId; // logged-in user ID
     private UserApi userApi;
     private TextView usernameTextView;
+    private BookApi bookApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_screen);
 
         sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
-
-        // Initialize BookData
-        BookData.initialize(this);
+        bookApi = new StaticBookApi();
 
         // Get the user ID passed from LoginActivity first, or from SharedPreferences
         userId = getIntent().getLongExtra("USER_ID", 0);
@@ -91,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
         // Trending Books RecyclerView
         trendingBooksRecyclerView = findViewById(R.id.trendingBooksRecyclerView);
         trendingBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        trendingBookList = BookData.getTrendingBooks();
+        trendingBookList = bookApi.getTrendingBooks();
         trendingBookAdapter = new TrendingBookAdapter(this, trendingBookList);
         trendingBooksRecyclerView.setAdapter(trendingBookAdapter);
 
@@ -135,8 +138,10 @@ public class HomeActivity extends AppCompatActivity {
 
         Button btScan = findViewById(R.id.btScan);
         btScan.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, CaptureActivity.class);
-            startActivity(intent);
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+            integrator.setPrompt("Scan a QR code");
+            integrator.initiateScan();
         });
 
         Button btMyBooks = findViewById(R.id.btMyBooks);
@@ -163,7 +168,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void loadFavoriteBooks() {
         Set<String> favoriteBookTitles = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
-        List<Book> allBooks = BookData.getBooks();
+        List<Book> allBooks = bookApi.getBooks();
 
         favoriteBookList = allBooks.stream()
                 .filter(book -> favoriteBookTitles.contains(book.getTitle()))
@@ -202,5 +207,35 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                try {
+                    long bookId = Long.parseLong(result.getContents());
+                    Book scannedBook = bookApi.getBooks().stream()
+                            .filter(book -> book.getId() == bookId)
+                            .findFirst()
+                            .orElse(null);
+
+                    if (scannedBook != null) {
+                        Intent intent = new Intent(this, ViewBookActivity.class);
+                        intent.putExtra("book", scannedBook);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, "Book not found", Toast.LENGTH_LONG).show();
+                    }
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Invalid QR code", Toast.LENGTH_LONG).show();
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

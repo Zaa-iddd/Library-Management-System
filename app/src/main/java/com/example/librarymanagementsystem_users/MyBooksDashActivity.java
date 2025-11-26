@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
-import com.example.librarymanagementsystem_users.functions.BookData;
+import com.example.librarymanagementsystem_users.functions.BookApi;
 import com.example.librarymanagementsystem_users.functions.BorrowedBook;
 import com.example.librarymanagementsystem_users.functions.RequestedBook;
+import com.example.librarymanagementsystem_users.functions.StaticBookApi;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -47,11 +48,14 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
     private Button selectedButton;
     private SearchView searchView;
     private View favoriteContent, borrowedContent, requestedContent;
+    private BookApi bookApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mybooks_dash);
+
+        bookApi = new StaticBookApi();
 
         // Initialize buttons
         btnBorrowed = findViewById(R.id.btnBorrowed);
@@ -149,7 +153,7 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void loadAndFilterFavoriteBooks() {
-        favoriteBookList = BookData.getFavoriteBooks(this);
+        favoriteBookList = bookApi.getFavoriteBooks(this);
 
         String query = searchView.getQuery().toString();
 
@@ -168,8 +172,9 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
         SharedPreferences requestedBooksPrefs = getSharedPreferences("requested_books", MODE_PRIVATE);
         Set<String> requests = requestedBooksPrefs.getStringSet("requested_books_set", new HashSet<>());
         requestedBookList = new ArrayList<>();
+        requestedBookList.add(new RequestedBook("1984", "Pending"));
+        requestedBookList.add(new RequestedBook("Brave New World", "Pending"));
         for (String request : requests) {
-            // In the future, you would get the real database ID for the book
             requestedBookList.add(new RequestedBook(request, "Pending"));
         }
 
@@ -182,6 +187,8 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
         Set<String> borrowed = borrowedBooksPrefs.getStringSet("borrowed_books_set", new HashSet<>());
         borrowedBookList = new ArrayList<>();
         long idCounter = 0; // Placeholder for database IDs
+        borrowedBookList.add(new BorrowedBook(idCounter++, "The Great Gatsby", "2024-08-01"));
+        borrowedBookList.add(new BorrowedBook(idCounter++, "To Kill a Mockingbird", "2024-08-15"));
         for (String bookTitle : borrowed) {
             // In the future, you would get the real database ID and due date for the book
             borrowedBookList.add(new BorrowedBook(idCounter++, bookTitle, "2024-06-30"));
@@ -199,7 +206,23 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
             if (result.getContents() == null) {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                try {
+                    long bookId = Long.parseLong(result.getContents());
+                    Book scannedBook = bookApi.getBooks().stream()
+                            .filter(book -> book.getId() == bookId)
+                            .findFirst()
+                            .orElse(null);
+
+                    if (scannedBook != null) {
+                        Intent intent = new Intent(this, ViewBookActivity.class);
+                        intent.putExtra("book", scannedBook);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, "Book not found", Toast.LENGTH_LONG).show();
+                    }
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Invalid QR code", Toast.LENGTH_LONG).show();
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
