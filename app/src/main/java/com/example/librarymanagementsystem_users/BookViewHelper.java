@@ -45,16 +45,15 @@ public class BookViewHelper {
             TextView genreView = bookView.findViewById(R.id.textGenre);
             TextView status = bookView.findViewById(R.id.textStatus);
 
-            try {
-                cover.setImageResource(book.getCoverResourceId());
-            } catch (Exception e) {
-                cover.setImageResource(R.drawable.sample_book);
-            }
+            // TODO: Use a library like Glide or Picasso to load the image from the URL
+            // cover.setImageResource(book.getCover_image_url());
+            cover.setImageResource(R.drawable.sample_book);
+
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             genreView.setText(book.getGenre());
 
-            if (book.isAvailable()) {
+            if ("Available".equalsIgnoreCase(book.getStatus())) {
                 status.setText("Available");
                 status.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.green)));
             } else {

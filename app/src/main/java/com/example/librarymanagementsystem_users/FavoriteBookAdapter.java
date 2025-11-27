@@ -39,7 +39,9 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book book = favoriteBooks.get(position);
 
-        holder.bookCover.setImageResource(book.getCoverResourceId());
+        // TODO: Use a library like Glide or Picasso to load the image from the URL
+        // For example: Glide.with(context).load(book.getCover_image_url()).into(holder.bookCover);
+        holder.bookCover.setImageResource(R.drawable.sample_book); // Using a placeholder image
         holder.bookTitle.setText(book.getTitle());
         holder.bookAuthor.setText("Writer: " + book.getAuthor());
 

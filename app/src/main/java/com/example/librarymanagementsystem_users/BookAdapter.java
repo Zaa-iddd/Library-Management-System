@@ -38,12 +38,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book book = books.get(position);
 
-        holder.bookCover.setImageResource(book.getCoverResourceId());
+        // TODO: Load image from URL using a library like Glide or Picasso
+        holder.bookCover.setImageResource(R.drawable.sample_book);
         holder.bookTitle.setText(book.getTitle());
         holder.bookAuthor.setText(book.getAuthor());
         holder.textGenre.setText(book.getGenre());
 
-        if (book.isAvailable()) {
+        if ("Available".equalsIgnoreCase(book.getStatus())) {
             holder.textStatus.setText("Available");
             holder.textStatus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green)));
         } else {

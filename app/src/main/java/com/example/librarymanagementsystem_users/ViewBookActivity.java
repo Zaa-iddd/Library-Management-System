@@ -23,7 +23,6 @@ public class ViewBookActivity extends AppCompatActivity {
     private ImageView favoriteButton;
     private ImageView backButton;
     private Book book;
-    private SharedPreferences sharedPreferences;
     private SharedPreferences requestedBooksPrefs;
 
     @Override
@@ -31,13 +30,20 @@ public class ViewBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_book);
 
-        sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
         requestedBooksPrefs = getSharedPreferences("requested_books", MODE_PRIVATE);
 
         ImageView bookCover = findViewById(R.id.imageView);
         TextView bookTitle = findViewById(R.id.bookTitle);
         TextView bookDescription = findViewById(R.id.bookDescription);
         TextView bookStatus = findViewById(R.id.bookStatus);
+        TextView bookAvailability = findViewById(R.id.bookAvailability);
+        TextView bookAuthor = findViewById(R.id.bookAuthor);
+        TextView bookGenre = findViewById(R.id.bookGenre);
+        TextView bookPublisher = findViewById(R.id.bookPublisher);
+        TextView bookPublicationDate = findViewById(R.id.bookPublicationDate);
+        TextView bookPages = findViewById(R.id.bookPages);
+        TextView bookLanguage = findViewById(R.id.bookLanguage);
+        TextView bookTotalCopies = findViewById(R.id.bookTotalCopies);
         Button borrowButton = findViewById(R.id.borrowButton);
         backButton = findViewById(R.id.backButton);
         favoriteButton = findViewById(R.id.favoriteButton);
@@ -45,31 +51,30 @@ public class ViewBookActivity extends AppCompatActivity {
         book = (Book) getIntent().getSerializableExtra("book");
 
         if (book != null) {
-            book.setFavorite(isFavorite(book.getTitle()));
-
-            bookCover.setImageResource(book.getCoverResourceId());
+            // bookCover.setImageResource(book.getCoverResourceId());
             bookTitle.setText(book.getTitle());
-            bookDescription.setText(book.getDescription());
+            bookDescription.setText(book.getSummary());
+            bookStatus.setText(book.getStatus());
+            bookAvailability.setText(String.valueOf(book.getCopies_available()));
+            bookAuthor.setText(book.getAuthor());
+            bookGenre.setText(book.getGenre());
+            bookPublisher.setText(book.getPublisher());
+            bookPublicationDate.setText(book.getPublication_date());
+            bookPages.setText(String.valueOf(book.getNumber_of_pages()));
+            bookLanguage.setText(book.getLanguage());
+            bookTotalCopies.setText(String.valueOf(book.getTotal_copies()));
 
-            if (book.isAvailable()) {
-                bookStatus.setText("Available");
+            if (book.getStatus().equals("Available")) {
                 bookStatus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.green)));
                 borrowButton.setEnabled(true);
             } else {
-                bookStatus.setText("Unavailable");
                 bookStatus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.orange)));
                 borrowButton.setEnabled(false);
             }
-
-            updateFavoriteButton();
         }
 
         favoriteButton.setOnClickListener(v -> {
-            if (book != null) {
-                toggleFavorite(book.getTitle());
-                book.setFavorite(isFavorite(book.getTitle()));
-                updateFavoriteButton();
-            }
+            // Handle favorite button click
         });
 
         borrowButton.setOnClickListener(v -> {
@@ -104,33 +109,6 @@ public class ViewBookActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = requestedBooksPrefs.edit();
         requests.add(bookTitle);
         editor.putStringSet("requested_books_set", requests);
-        editor.apply();
-    }
-
-    private void updateFavoriteButton() {
-        if (book.isFavorite()) {
-            favoriteButton.setImageResource(R.drawable.heart_red);
-        } else {
-            favoriteButton.setImageResource(R.drawable.heart_gray);
-        }
-    }
-
-    private boolean isFavorite(String bookTitle) {
-        Set<String> favorites = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
-        return favorites.contains(bookTitle);
-    }
-
-    private void toggleFavorite(String bookTitle) {
-        Set<String> favorites = sharedPreferences.getStringSet("favorite_books", new HashSet<>());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        if (favorites.contains(bookTitle)) {
-            favorites.remove(bookTitle);
-        } else {
-            favorites.add(bookTitle);
-        }
-
-        editor.putStringSet("favorite_books", favorites);
         editor.apply();
     }
 }
