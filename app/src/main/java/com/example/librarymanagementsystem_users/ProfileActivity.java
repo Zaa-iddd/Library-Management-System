@@ -13,6 +13,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     Button logoutButton;
     Button editProfileButton;
+    Button viewBorrowedButton;
     ImageView backButton;
     private long userId;
 
@@ -25,6 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         logoutButton = findViewById(R.id.logoutButton);
         editProfileButton = findViewById(R.id.editProfileButton);
+        viewBorrowedButton = findViewById(R.id.viewBorrowedButton);
         backButton = findViewById(R.id.backButton);
 
         logoutButton.setOnClickListener(v -> {
@@ -41,6 +43,12 @@ public class ProfileActivity extends AppCompatActivity {
             }
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
             intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        });
+
+        viewBorrowedButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, MyBooksDashActivity.class);
+            intent.putExtra("fragmentToLoad", "borrowed");
             startActivity(intent);
         });
 
