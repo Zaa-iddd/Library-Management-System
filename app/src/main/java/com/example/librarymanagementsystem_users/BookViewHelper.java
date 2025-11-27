@@ -45,8 +45,7 @@ public class BookViewHelper {
             TextView genreView = bookView.findViewById(R.id.textGenre);
             TextView status = bookView.findViewById(R.id.textStatus);
 
-            // TODO: Use a library like Glide or Picasso to load the image from the URL
-            // cover.setImageResource(book.getCover_image_url());
+            //para sa url
             cover.setImageResource(R.drawable.sample_book);
 
             title.setText(book.getTitle());

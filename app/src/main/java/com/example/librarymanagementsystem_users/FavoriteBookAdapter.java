@@ -33,7 +33,7 @@ public class FavoriteBookAdapter extends RecyclerView.Adapter<FavoriteBookAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.favorite_book, parent, false);
-        // Programmatically set the background to override the faulty XML.
+
         view.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
         return new ViewHolder(view);
     }

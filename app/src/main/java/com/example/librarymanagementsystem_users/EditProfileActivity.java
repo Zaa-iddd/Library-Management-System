@@ -39,7 +39,7 @@ public class EditProfileActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.editAddress);
         btnUpdate = findViewById(R.id.saveButton);
 
-        // Get userId from Intent
+        // Get userid sa Intent
         userId = getIntent().getLongExtra("USER_ID", 0L);
         if (userId == 0L) {
             Toast.makeText(this, "User ID not found!", Toast.LENGTH_SHORT).show();
@@ -50,7 +50,7 @@ public class EditProfileActivity extends AppCompatActivity {
         // Use RetrofitService
         userApi = RetrofitService.getUserApi();
 
-        loadUserProfile(); // Load current user data
+        loadUserProfile(); // load ki current user
 
         btnUpdate.setOnClickListener(v -> updateUser());
     }

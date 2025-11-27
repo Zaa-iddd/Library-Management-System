@@ -59,7 +59,7 @@ public class HomeActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("favorites", MODE_PRIVATE);
 
-        // Get the user ID passed from LoginActivity first, or from SharedPreferences
+        // Retrieve userId sa SharedPref
         userId = getIntent().getLongExtra("USER_ID", 0);
         if (userId == 0) {
             userId = sharedPreferences.getLong("USER_ID", 0);
@@ -75,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
         bookApi = RetrofitService.getBookApi();
         loadUserProfile();
 
-        // Show main_dash on "View All" click for trending books
+
         TextView viewBooks = findViewById(R.id.viewBooks);
         viewBooks.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, MainDashActivity.class);
@@ -84,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Navigate to MyBooksDashActivity
+
         TextView viewMyBook = findViewById(R.id.viewMyBook);
         viewMyBook.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, MyBooksDashActivity.class);
@@ -92,17 +92,15 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Trending Books RecyclerView
         trendingBooksRecyclerView = findViewById(R.id.trendingBooksRecyclerView);
         trendingBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         loadTrendingBooks();
 
-        // Favorite Books RecyclerView
         favoriteBooksRecyclerView = findViewById(R.id.favoriteBooksRecyclerView);
         favoriteBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         loadFavoriteBooks();
 
-        // Search on home screen
+
         SearchView homeSearchView = findViewById(R.id.homeSearchView);
         Button homeSearchButton = findViewById(R.id.homeSearchButton);
         homeSearchButton.setVisibility(View.VISIBLE);
@@ -129,10 +127,10 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Bottom Navigation
+
         Button btHome = findViewById(R.id.btHome);
         btHome.setOnClickListener(v -> {
-            // Already on home, do nothing or refresh
+
         });
 
         Button btScan = findViewById(R.id.btScan);

@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
         signupButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SignupActivity.class)));
         loginButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
 
-        // You can now call your method from here if needed, for example:
-        // fetchUsersFromApi();
-    } // The onCreate() method ends here
+
+    }
 
 }

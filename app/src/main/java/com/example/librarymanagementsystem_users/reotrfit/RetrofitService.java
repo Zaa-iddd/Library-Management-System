@@ -21,7 +21,7 @@ public class RetrofitService {
                     .baseUrl("http://10.140.35.83:8081")
                     // For Android Emulator localhost
                     //.baseUrl("http://10.0.2.2:8080/")
-                    //trailing slash is important
+
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }

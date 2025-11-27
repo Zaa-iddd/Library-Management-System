@@ -20,27 +20,25 @@ public class DatabaseBookApi implements BookApiFunction {
 
     @Override
     public void getFavoriteBooks(Context context, Callback<List<Book>> callback) {
-        // If your backend has a favorites endpoint, call it here.
-        // Example (if you add endpoint): api.getFavoritesForUser(userId).enqueue(callback);
-        // For now fall back to all books (your app can filter locally or you can implement endpoint).
+
         api.getBooksByGenre("Science Fiction").enqueue(callback);
     }
 
     @Override
     public void getBorrowedBooks(Callback<List<Book>> callback) {
-        // Replace with actual backend call when available.
+
         api.getBooksByGenre("Science Fiction").enqueue(callback);
     }
 
     @Override
     public void getHistoryBooks(Context context, Callback<List<Book>> callback) {
-        // Replace with actual backend call when available.
+
         api.getBooksByGenre("Science Fiction").enqueue(callback);
     }
 
     @Override
     public void getTrendingBooks(Callback<List<Book>> callback) {
-        // Replace with actual backend endpoint when available.
+
         api.getBooksByGenre("Science Fiction").enqueue(callback);
     }
 }

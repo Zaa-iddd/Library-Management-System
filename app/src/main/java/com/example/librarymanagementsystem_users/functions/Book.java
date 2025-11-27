@@ -14,10 +14,11 @@ public class Book implements Serializable {
     @SerializedName("author")
     private String author;
 
-    @SerializedName("copiesAvailable")  // backend uses camelCase? (check)
+    @SerializedName("copiesAvailable")
     private int copies_available;
 
-    @SerializedName("coverImageUrl")  // THIS IS CORRECT
+    @SerializedName("coverImageUrl")
+
     private String cover_image_url;
 
     @SerializedName("genre")
@@ -46,7 +47,7 @@ public class Book implements Serializable {
 
     public Book() {}
 
-    // ---------- GETTERS ----------
+    // getters
     public long getId() { return id; }
     public String getTitle() { return title; }
     public String getAuthor() { return author; }

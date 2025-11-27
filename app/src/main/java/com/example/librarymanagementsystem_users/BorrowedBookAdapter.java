@@ -53,10 +53,9 @@ public class BorrowedBookAdapter extends RecyclerView.Adapter<BorrowedBookAdapte
                 .placeholder(R.drawable.sample_book)
                 .into(holder.bookCover);
 
-        // Store the databaseId in layout tag
+        //store sa databse
         holder.borrowedBookItemLayout.setTag(book.getDatabaseId());
 
-        // CLICK: Open book details
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewBookActivity.class);
             intent.putExtra("BOOK_ID", book.getDatabaseId());  // Use database ID
@@ -64,7 +63,7 @@ public class BorrowedBookAdapter extends RecyclerView.Adapter<BorrowedBookAdapte
             context.startActivity(intent);
         });
 
-        // CLICK: Return book
+        // clcik para return
         holder.returnButton.setOnClickListener(v -> {
             long clickedDatabaseId = (long) holder.borrowedBookItemLayout.getTag();
 

@@ -52,26 +52,20 @@ public interface BookApi {
     @GET("borrow")
     Call<List<BorrowHistory>> getAllBorrowHistory();
 
-    /**
-     * GET /borrow/user/{userId}
-     * (This is the one your user dashboard needs)
-     */
+
+
     @GET("borrow/user/{userId}")
     Call<List<BorrowHistory>> getBorrowHistoryByUser(
             @Path("userId") long userId
     );
 
-    /**
-     * GET /borrow/book/{bookId}
-     */
+
     @GET("borrow/book/{bookId}")
     Call<List<BorrowHistory>> getBorrowHistoryByBook(
             @Path("bookId") long bookId
     );
 
-    /**
-     * GET /borrow/{historyId}
-     */
+
     @GET("borrow/{historyId}")
     Call<BorrowHistory> getBorrowHistoryById(
             @Path("historyId") long historyId

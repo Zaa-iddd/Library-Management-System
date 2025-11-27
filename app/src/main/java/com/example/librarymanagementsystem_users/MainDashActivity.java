@@ -100,7 +100,7 @@ public class MainDashActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Live search can be implemented here if desired
+
                 return false;
             }
         });

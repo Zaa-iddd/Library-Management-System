@@ -3,22 +3,20 @@ package com.example.librarymanagementsystem_users.models;
 import com.example.librarymanagementsystem_users.functions.Book;
 import com.google.gson.annotations.SerializedName;
 
-// This is the POJO for the Android client. No JPA annotations.
+
 public class BorrowHistory {
 
     @SerializedName("id")
     private Long id;
 
-    // Assumes the JSON from the server will contain a nested 'user' object.
-    // You must have a UserResponseDto.java class in this package.
+
     @SerializedName("user")
     private UserResponseDto user;
 
-    // Assumes the JSON from the server will contain a nested 'book' object.
+
     @SerializedName("book")
     private Book book;
 
-    // The server will send dates as Strings in the JSON.
     @SerializedName("borrowDate")
     private String borrowDate;
 
@@ -28,7 +26,7 @@ public class BorrowHistory {
     @SerializedName("status")
     private String status;
 
-    // --- GETTERS AND SETTERS for all fields ---
+    // setters and getters
 
     public Long getId() {
         return id;

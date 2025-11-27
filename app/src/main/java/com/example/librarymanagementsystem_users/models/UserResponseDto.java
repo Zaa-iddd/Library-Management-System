@@ -31,7 +31,7 @@ public class UserResponseDto {
     @SerializedName("role")
     private String role;
 
-    // --- GETTERS AND SETTERS ---
+    // set and get uni
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
