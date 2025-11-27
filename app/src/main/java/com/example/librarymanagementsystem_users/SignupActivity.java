@@ -83,13 +83,15 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
 
+        // Create request object with role automatically set to "User"
         UserRequestDto request = new UserRequestDto(username, email, password);
+
         UserApi userApi = RetrofitService.getUserApi();
 
+        // Call the Android-specific signup endpoint
         userApi.createUser(request).enqueue(new Callback<UserResponseDto>() {
             @Override
             public void onResponse(Call<UserResponseDto> call, Response<UserResponseDto> response) {
-                // Hide progress and show button
                 signupButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
 
