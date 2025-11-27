@@ -18,13 +18,17 @@ public class RetrofitService {
 
             retrofit = new Retrofit.Builder()
                     //  PC's local network IP (same Wi-Fi)
-                    .baseUrl("http://192.168.1.4:8080/")
+                    .baseUrl("http://10.23.204.14:8080/")
+                    // For Android Emulator localhost
+                    //.baseUrl("http://10.0.2.2:8080/")
                     //trailing slash is important
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;
     }
+
+
 
     public static UserApi getUserApi() {
         return getRetrofitInstance().create(UserApi.class);

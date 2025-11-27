@@ -42,6 +42,7 @@ public class RequestedBookAdapter extends RecyclerView.Adapter<RequestedBookAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RequestedBook book = bookList.get(position);
+
         holder.bookTitle.setText(book.getTitle());
         holder.bookAuthor.setText(book.getAuthor());
         holder.requestStatus.setText(book.getStatus());
@@ -53,9 +54,7 @@ public class RequestedBookAdapter extends RecyclerView.Adapter<RequestedBookAdap
 
         holder.requestedBookItemLayout.setTag(book.getId());
 
-        holder.itemView.setOnClickListener(v -> {
-            showCancelDialog(book, position);
-        });
+        holder.itemView.setOnClickListener(v -> showCancelDialog(book, position));
     }
 
     private void showCancelDialog(RequestedBook book, int position) {
@@ -70,23 +69,33 @@ public class RequestedBookAdapter extends RecyclerView.Adapter<RequestedBookAdap
         noButton.setOnClickListener(v1 -> dialog.dismiss());
 
         yesButton.setOnClickListener(v1 -> {
-            removeRequest(book.getTitle());
+            removeRequest(book.getId());
+
             bookList.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, bookList.size());
+
             Toast.makeText(context, "Request canceled!", Toast.LENGTH_SHORT).show();
+
             dialog.dismiss();
         });
 
         dialog.show();
     }
 
-    private void removeRequest(String bookTitle) {
-        SharedPreferences requestedBooksPrefs = context.getSharedPreferences("requested_books", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = requestedBooksPrefs.edit();
-        Set<String> requests = requestedBooksPrefs.getStringSet("requested_books_set", new HashSet<>());
-        requests.remove(bookTitle);
-        editor.putStringSet("requested_books_set", requests);
+    /**
+     * Remove the request by book ID (correct way)
+     */
+    private void removeRequest(long bookId) {
+        SharedPreferences prefs = context.getSharedPreferences("requested_books", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        Set<String> requests = prefs.getStringSet("requested_ids", new HashSet<>());
+
+        // Remove the book ID from SharedPreferences
+        requests.remove(String.valueOf(bookId));
+
+        editor.putStringSet("requested_ids", requests);
         editor.apply();
     }
 

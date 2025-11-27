@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem_users.reotrfit;
 
 import com.example.librarymanagementsystem_users.functions.Book;
+import com.example.librarymanagementsystem_users.models.BorrowHistory;
 
 import java.util.List;
 
@@ -12,43 +13,67 @@ import retrofit2.http.Query;
 
 public interface BookApi {
 
-    /**
-     * Fetches a list of all books from the server.
-     * Corresponds to the endpoint: GET /books
-     */
+    // --------------------- BOOK ENDPOINTS ---------------------
+
+    /** GET /books */
     @GET("books")
     Call<List<Book>> getAllBooks();
 
-    /**
-     * Fetches a single book by its unique ID.
-     * Corresponds to the endpoint: GET /books/{id}
-     * @param id The ID of the book to retrieve.
-     */
+    /** GET /books/{id} */
     @GET("books/{id}")
     Call<Book> getBookById(@Path("id") Long id);
 
-    /**
-     * Searches for books based on a query string (e.g., title, author).
-     * Corresponds to the endpoint: GET /books/search?query=...
-     * @param query The search term.
-     */
+    /** GET /books/search?query=... */
     @GET("books/search")
     Call<List<Book>> searchBooks(@Query("query") String query);
 
-    /**
-     * Fetches books belonging to a specific genre.
-     * Corresponds to the endpoint: GET /books/genre?genre=...
-     * @param genre The genre to filter by.
-     */
+    /** GET /books/genre?genre=... */
     @GET("books/genre")
     Call<List<Book>> getBooksByGenre(@Query("genre") String genre);
 
+
+    // --------------------- BORROW REQUEST ENDPOINTS ---------------------
+
     /**
-     * Sends a request to borrow a book.
-     * Corresponds to the endpoint: POST /borrow/{bookId}/{userId}
-     * @param bookId The ID of the book to be borrowed.
-     * @param userId The ID of the user borrowing the book.
+     * POST /borrow/{userId}/{bookId}
+     * (Matches your backend controller)
      */
-    @POST("/borrow/{bookId}/{userId}")
-    Call<Void> requestBook(@Path("bookId") long bookId, @Path("userId") long userId);
+    @POST("borrow/{userId}/{bookId}")
+    Call<BorrowHistory> borrowBook(
+            @Path("userId") long userId,
+            @Path("bookId") long bookId
+    );
+
+    // --------------------- BORROW HISTORY ---------------------
+
+    /**
+     * GET /borrow
+     */
+    @GET("borrow")
+    Call<List<BorrowHistory>> getAllBorrowHistory();
+
+    /**
+     * GET /borrow/user/{userId}
+     * (This is the one your user dashboard needs)
+     */
+    @GET("borrow/user/{userId}")
+    Call<List<BorrowHistory>> getBorrowHistoryByUser(
+            @Path("userId") long userId
+    );
+
+    /**
+     * GET /borrow/book/{bookId}
+     */
+    @GET("borrow/book/{bookId}")
+    Call<List<BorrowHistory>> getBorrowHistoryByBook(
+            @Path("bookId") long bookId
+    );
+
+    /**
+     * GET /borrow/{historyId}
+     */
+    @GET("borrow/{historyId}")
+    Call<BorrowHistory> getBorrowHistoryById(
+            @Path("historyId") long historyId
+    );
 }

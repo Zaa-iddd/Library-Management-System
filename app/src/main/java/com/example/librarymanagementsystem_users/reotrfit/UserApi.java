@@ -40,7 +40,7 @@ public interface UserApi {
     @POST("users/android/signup")
     Call<UserResponseDto> createUser(@Body UserRequestDto userRequestDto);
 
-    @GET("/users/{id}/borrow-history")
+    @GET("users/{id}/borrow-history")
     Call<List<BorrowHistory>> getBorrowHistory(@Path("id") Long id);
 
     @GET("users/{id}/requested-books")

@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.librarymanagementsystem_users.functions.Book;
+import com.example.librarymanagementsystem_users.models.BorrowHistory;
 import com.example.librarymanagementsystem_users.reotrfit.BookApi;
 import com.example.librarymanagementsystem_users.reotrfit.RetrofitService;
 
@@ -229,12 +230,18 @@ public class ViewBookActivity extends AppCompatActivity {
 
     private void requestBook(long bookId, long userId) {
         BookApi bookApi = RetrofitService.getBookApi();
-        Call<Void> call = bookApi.requestBook(bookId, userId);
+        Call<BorrowHistory> call = bookApi.borrowBook(userId, bookId);
 
-        call.enqueue(new Callback<Void>() {
+        call.enqueue(new Callback<BorrowHistory>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            public void onResponse(@NonNull Call<BorrowHistory> call, @NonNull Response<BorrowHistory> response) {
                 if (response.isSuccessful()) {
+                    // Save to local prefs
+                    SharedPreferences prefs = getSharedPreferences("requested_books", MODE_PRIVATE);
+                    Set<String> requests = prefs.getStringSet("requested_ids", new HashSet<>());
+                    requests.add(String.valueOf(bookId));
+                    prefs.edit().putStringSet("requested_ids", requests).apply();
+
                     Toast.makeText(ViewBookActivity.this, "Book requested successfully", Toast.LENGTH_SHORT).show();
                     borrowButton.setText("Request Pending");
                     borrowButton.setEnabled(false);
@@ -255,7 +262,7 @@ public class ViewBookActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<BorrowHistory> call, @NonNull Throwable t) {
                 Log.e(TAG, "Request failed on failure", t);
                 Toast.makeText(ViewBookActivity.this, "Request failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }

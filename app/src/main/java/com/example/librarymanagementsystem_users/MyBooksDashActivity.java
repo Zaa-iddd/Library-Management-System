@@ -18,16 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
-import com.example.librarymanagementsystem_users.functions.BorrowedBook;
-import com.example.librarymanagementsystem_users.functions.RequestedBook;
-import com.example.librarymanagementsystem_users.models.BorrowHistory;
 import com.example.librarymanagementsystem_users.reotrfit.BookApi;
 import com.example.librarymanagementsystem_users.reotrfit.RetrofitService;
-import com.example.librarymanagementsystem_users.reotrfit.UserApi;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-//huhu habo kona
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,20 +35,15 @@ import retrofit2.Response;
 
 public class MyBooksDashActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnBorrowed, btnFavorite, btnRequested, selectedButton, btScan, btnSearch, btHome;
+    private Button btnFavorite, selectedButton, btScan, btnSearch, btHome;
     private ImageView backButton;
-    private RecyclerView favoriteBooksRecyclerView, requestedBooksRecyclerView, borrowedBooksRecyclerView;
+    private RecyclerView favoriteBooksRecyclerView;
     private FavoriteBookAdapter favoriteBookAdapter;
-    private RequestedBookAdapter requestedBookAdapter;
-    private BorrowedBookAdapter borrowedBookAdapter;
     private final List<Book> favoriteBookList = new ArrayList<>();
-    private final List<RequestedBook> requestedBookList = new ArrayList<>();
-    private final List<BorrowedBook> borrowedBookList = new ArrayList<>();
-    private FrameLayout favoriteContent, borrowedContent, requestedContent;
+    private FrameLayout favoriteContent;
     private SearchView searchView;
 
     private BookApi bookApi;
-    private UserApi userApi;
     private long userId;
 
     @SuppressLint("WrongViewCast")
@@ -63,13 +53,10 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.mybooks_dash);
 
         bookApi = RetrofitService.getBookApi();
-        userApi = RetrofitService.getUserApi();
         userId = getIntent().getLongExtra("USER_ID", 0L);
 
         // Initialize buttons
-        btnBorrowed = findViewById(R.id.btnBorrowed);
         btnFavorite = findViewById(R.id.btnFavorite);
-        btnRequested = findViewById(R.id.btnRequested);
         backButton = findViewById(R.id.backButton);
         btScan = findViewById(R.id.btScan);
         btnSearch = findViewById(R.id.btnSearch);
@@ -80,16 +67,10 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
 
         // Initialize content views from XML
         favoriteBooksRecyclerView = findViewById(R.id.favoriteBooksRecyclerView);
-        requestedBooksRecyclerView = findViewById(R.id.requestedBooksRecyclerView);
-        borrowedBooksRecyclerView = findViewById(R.id.borrowedBooksRecyclerView);
         favoriteContent = findViewById(R.id.favorite_content);
-        borrowedContent = findViewById(R.id.borrowed_content);
-        requestedContent = findViewById(R.id.requested_content);
 
         // Set click listeners
-        btnBorrowed.setOnClickListener(this);
         btnFavorite.setOnClickListener(this);
-        btnRequested.setOnClickListener(this);
         backButton.setOnClickListener(this);
         btScan.setOnClickListener(this);
         btnSearch.setOnClickListener(this);
@@ -100,49 +81,24 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
         favoriteBookAdapter = new FavoriteBookAdapter(this, favoriteBookList, userId);
         favoriteBooksRecyclerView.setAdapter(favoriteBookAdapter);
 
-        requestedBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        requestedBookAdapter = new RequestedBookAdapter(this, requestedBookList);
-        requestedBooksRecyclerView.setAdapter(requestedBookAdapter);
-
-        borrowedBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        borrowedBookAdapter = new BorrowedBookAdapter(this, borrowedBookList, userId);
-        borrowedBooksRecyclerView.setAdapter(borrowedBookAdapter);
-
         // Set initial state
-        String fragmentToLoad = getIntent().getStringExtra("fragmentToLoad");
-        if (fragmentToLoad != null && fragmentToLoad.equals("borrowed")) {
-            selectedButton = btnBorrowed;
-            btnBorrowed.setSelected(true);
-            showContent(borrowedContent);
-            loadAndFilterBorrowedBooks();
-        } else {
-            selectedButton = btnFavorite;
-            btnFavorite.setSelected(true);
-            showContent(favoriteContent);
-            loadAndFilterFavoriteBooks();
-        }
+        selectedButton = btnFavorite;
+        btnFavorite.setSelected(true);
+        showContent(favoriteContent);
+        loadAndFilterFavoriteBooks();
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.btnFavorite || id == R.id.btnBorrowed || id == R.id.btnRequested) {
+        if (id == R.id.btnFavorite) {
             if (selectedButton != null) {
                 selectedButton.setSelected(false);
             }
             selectedButton = (Button) v;
             selectedButton.setSelected(true);
-
-            if (id == R.id.btnFavorite) {
-                showContent(favoriteContent);
-                loadAndFilterFavoriteBooks();
-            } else if (id == R.id.btnBorrowed) {
-                showContent(borrowedContent);
-                loadAndFilterBorrowedBooks();
-            } else if (id == R.id.btnRequested) {
-                showContent(requestedContent);
-                loadAndFilterRequestedBooks();
-            }
+            showContent(favoriteContent);
+            loadAndFilterFavoriteBooks();
         } else if (id == R.id.backButton) {
             finish();
         } else if (id == R.id.btScan) {
@@ -152,9 +108,7 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
             integrator.setPrompt("Scan a QR code");
             integrator.initiateScan();
         } else if (id == R.id.btnSearch) {
-            if (selectedButton.getId() == R.id.btnFavorite) {
-                loadAndFilterFavoriteBooks();
-            }
+            loadAndFilterFavoriteBooks();
         } else if (id == R.id.btHome) {
             Intent intent = new Intent(MyBooksDashActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -163,8 +117,6 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
 
     private void showContent(View contentToShow) {
         favoriteContent.setVisibility(View.GONE);
-        borrowedContent.setVisibility(View.GONE);
-        requestedContent.setVisibility(View.GONE);
         if (contentToShow != null) {
             contentToShow.setVisibility(View.VISIBLE);
         }
@@ -199,92 +151,6 @@ public class MyBooksDashActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
                 Toast.makeText(MyBooksDashActivity.this, "Error loading favorites: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadAndFilterRequestedBooks() {
-        if (userId == 0) {
-            Toast.makeText(this, "Please log in to view requested books.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        userApi.getBorrowHistory(userId).enqueue(new Callback<List<BorrowHistory>>() {
-            @Override
-            public void onResponse(Call<List<BorrowHistory>> call, Response<List<BorrowHistory>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<BorrowHistory> borrowHistories = response.body();
-
-                    List<RequestedBook> newRequestedList = borrowHistories.stream()
-                            .filter(history -> history.getBook() != null && "Pending".equalsIgnoreCase(history.getStatus()))
-                            .map(history -> new RequestedBook(
-                                    history.getBook().getId(),
-                                    history.getBook().getTitle(),
-                                    history.getBook().getAuthor(),
-                                    history.getStatus(),
-                                    history.getBook().getCover_image_url()
-                            ))
-                            .collect(Collectors.toList());
-
-                    requestedBookList.clear();
-                    requestedBookList.addAll(newRequestedList);
-                    requestedBookAdapter.notifyDataSetChanged();
-                } else {
-                    Toast.makeText(MyBooksDashActivity.this, "Failed to load requested books", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<BorrowHistory>> call, Throwable t) {
-                Toast.makeText(MyBooksDashActivity.this, "Error loading requested books: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadAndFilterBorrowedBooks() {
-        if (userId == 0) {
-            Toast.makeText(this, "Please log in to view borrowed books.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        userApi.getBorrowHistory(userId).enqueue(new Callback<List<BorrowHistory>>() {
-            @Override
-            public void onResponse(Call<List<BorrowHistory>> call, Response<List<BorrowHistory>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<BorrowHistory> borrowHistories = response.body();
-
-                    List<BorrowedBook> newBorrowedList = borrowHistories.stream()
-                            .filter(history -> history.getBook() != null && "Borrowed".equalsIgnoreCase(history.getStatus()))
-                            .map(history -> new BorrowedBook(
-                                    history.getBook().getId(),
-                                    history.getBook().getTitle(),
-                                    history.getReturnDate() != null ? history.getReturnDate() : "N/A",
-                                    history.getBook().getCover_image_url()
-                            ))
-                            .collect(Collectors.toList());
-
-                    borrowedBookList.clear();
-                    borrowedBookList.addAll(newBorrowedList);
-                    borrowedBookAdapter.notifyDataSetChanged();
-
-                } else {
-                    String errorMsg = "Failed to load borrowed books. Code: " + response.code();
-                    try {
-                        if (response.errorBody() != null) {
-                            errorMsg += ", " + response.errorBody().string();
-                        }
-                    } catch (IOException e) {
-                        Log.e("MyBooksDashActivity", "Error reading error body for borrowed books", e);
-                    }
-                    Toast.makeText(MyBooksDashActivity.this, errorMsg, Toast.LENGTH_LONG).show();
-                    Log.e("MyBooksDashActivity", errorMsg);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<BorrowHistory>> call, Throwable t) {
-                Log.e("MyBooksDashActivity", "Error loading borrowed books", t);
-                Toast.makeText(MyBooksDashActivity.this, "Error loading borrowed books: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

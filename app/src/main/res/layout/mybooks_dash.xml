@@ -92,26 +92,6 @@
                 android:text="Favorite"
                 android:textColor="@color/genre_button_text_color_selector" />
 
-            <Button
-                android:id="@+id/btnBorrowed"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginHorizontal="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/genre_button_selector"
-                android:text="Borrowed"
-                android:textColor="@color/genre_button_text_color_selector" />
-
-            <Button
-                android:id="@+id/btnRequested"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginHorizontal="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/genre_button_selector"
-                android:text="Requested"
-                android:textColor="@color/genre_button_text_color_selector" />
-
         </LinearLayout>
 
         <FrameLayout
@@ -120,7 +100,6 @@
             android:layout_weight="1"
             android:layout_marginTop="16dp">
 
-            <!-- FAVORITE -->
             <FrameLayout
                 android:id="@+id/favorite_content"
                 android:layout_width="match_parent"
@@ -135,43 +114,10 @@
 
             </FrameLayout>
 
-            <!-- BORROWED -->
-            <FrameLayout
-                android:id="@+id/borrowed_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/borrowedBooksRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp" />
-
-            </FrameLayout>
-
-            <!-- REQUESTED -->
-            <FrameLayout
-                android:id="@+id/requested_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/requestedBooksRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp" />
-
-            </FrameLayout>
-
         </FrameLayout>
 
     </LinearLayout>
 
-    <!-- NAVIGATION BAR -->
     <LinearLayout
         android:id="@+id/navigation_bar"
         android:layout_width="match_parent"

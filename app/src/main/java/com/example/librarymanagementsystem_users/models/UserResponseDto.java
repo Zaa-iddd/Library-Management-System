@@ -1,18 +1,37 @@
-// UserResponseDto.java
 package com.example.librarymanagementsystem_users.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class UserResponseDto {
+
+    @SerializedName("id")
     private Long id;
+
+    @SerializedName("username")
     private String username;
+
+    @SerializedName("email")
     private String email;
+
+    @SerializedName("firstName")
     private String firstName;
+
+    @SerializedName("lastName")
     private String lastName;
+
+    @SerializedName("address")
     private String address;
+
+    @SerializedName("phoneNumber")
     private String phoneNumber;
+
+    @SerializedName("status")
     private String status;
+
+    @SerializedName("role")
     private String role;
 
-    // Getters and Setters
+    // --- GETTERS AND SETTERS ---
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
