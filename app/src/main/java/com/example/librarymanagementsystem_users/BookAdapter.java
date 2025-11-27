@@ -21,12 +21,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
     private final Context context;
     private final List<Book> books;
-    private final long userId;
 
-    public BookAdapter(Context context, List<Book> books, long userId) {
+    public BookAdapter(Context context, List<Book> books) {
         this.context = context;
         this.books = books;
-        this.userId = userId;
     }
 
     @NonNull
@@ -56,8 +54,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewBookActivity.class);
-            intent.putExtra("BOOK_ID", book.getId());
-            intent.putExtra("USER_ID", userId);
+            intent.putExtra("book", book);
             context.startActivity(intent);
         });
     }

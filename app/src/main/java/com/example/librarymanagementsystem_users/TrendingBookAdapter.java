@@ -19,12 +19,10 @@ public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapte
 
     private final Context context;
     private final List<Book> bookList;
-    private final long userId;
 
-    public TrendingBookAdapter(Context context, List<Book> bookList, long userId) {
+    public TrendingBookAdapter(Context context, List<Book> bookList) {
         this.context = context;
         this.bookList = bookList;
-        this.userId = userId;
     }
 
     @NonNull
@@ -44,8 +42,7 @@ public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapte
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewBookActivity.class);
-            intent.putExtra("BOOK_ID", book.getId());
-            intent.putExtra("USER_ID", userId);
+            intent.putExtra("book", book);
             context.startActivity(intent);
         });
     }

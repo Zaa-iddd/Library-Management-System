@@ -9,25 +9,21 @@ import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.librarymanagementsystem_users.functions.Book;
-import com.example.librarymanagementsystem_users.reotrfit.BookApi;
-import com.example.librarymanagementsystem_users.reotrfit.RetrofitService;
+import com.example.librarymanagementsystem_users.functions.BookData;
 import com.google.android.material.card.MaterialCardView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MainDashActivity extends AppCompatActivity {
 
@@ -40,8 +36,7 @@ public class MainDashActivity extends AppCompatActivity {
     RecyclerView booksRecyclerView;
     BookAdapter bookAdapter;
     List<Book> bookList = new ArrayList<>();
-    BookApi bookApi;
-
+    
     // -- State --
     private String currentGenre = "All";
     private long userId; // logged-in user ID
@@ -52,7 +47,6 @@ public class MainDashActivity extends AppCompatActivity {
         setContentView(R.layout.main_dash);
 
         userId = getIntent().getLongExtra("USER_ID", 0);
-        bookApi = RetrofitService.getBookApi();
 
         if (userId == 0) {
             Toast.makeText(this, "Guest mode", Toast.LENGTH_SHORT).show();
@@ -76,6 +70,8 @@ public class MainDashActivity extends AppCompatActivity {
         btnSearch = findViewById(R.id.searchButton);
         booksRecyclerView = findViewById(R.id.books_container);
         backButton = findViewById(R.id.backButton);
+
+        BookData.initialize(this);
 
         setupRecyclerView();
 
@@ -131,11 +127,14 @@ public class MainDashActivity extends AppCompatActivity {
         btnComedy.setOnClickListener(genreClickListener);
         btnHorror.setOnClickListener(genreClickListener);
         btnThriller.setOnClickListener(genreClickListener);
-
+        
         // -- Initial Data Load --
+        boolean showAllTrending = getIntent().getBooleanExtra("SHOW_ALL_TRENDING", false);
         String query = getIntent().getStringExtra("SEARCH_QUERY");
 
-        if (query != null && !query.isEmpty()) {
+        if (showAllTrending) {
+            showTrendingBooks();
+        } else if (query != null && !query.isEmpty()) {
             searchView.setQuery(query, true);
             filterBooks("All", query);
         } else {
@@ -143,7 +142,7 @@ public class MainDashActivity extends AppCompatActivity {
             btnAll.setSelected(true);
             currentGenre = "All";
             bookGenre.setText("All Books");
-            loadAllBooks();
+            filterBooks(currentGenre, null);
         }
 
         // -- Navigation --
@@ -175,66 +174,49 @@ public class MainDashActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        bookAdapter = new BookAdapter(this, bookList, userId);
+        bookAdapter = new BookAdapter(this, bookList);
         booksRecyclerView.setAdapter(bookAdapter);
         booksRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
     }
 
-    private void loadAllBooks() {
-        bookApi.getAllBooks().enqueue(new Callback<List<Book>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    bookList.clear();
-                    bookList.addAll(response.body());
-                    bookAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
-                Toast.makeText(MainDashActivity.this, "Error loading books", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void showTrendingBooks() {
+        bookGenre.setText("Trending Books");
+        currentGenre = "All"; // Trending books are from all genres.
+        List<Book> trendingBooks = BookData.getTrendingBooks();
+        bookList.clear();
+        bookList.addAll(trendingBooks);
+        bookAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Filters books based on the selected genre and a search query.
+     * This uses Java Streams for a modern, efficient implementation.
+     */
     private void filterBooks(String genre, String query) {
-        if (query != null && !query.isEmpty()) {
-            bookApi.searchBooks(query).enqueue(new Callback<List<Book>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        bookList.clear();
-                        bookList.addAll(response.body());
-                        bookAdapter.notifyDataSetChanged();
-                    }
-                }
+        List<Book> allBooks = BookData.getBooks();
+        Stream<Book> bookStream = allBooks.stream();
 
-                @Override
-                public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
-                    Toast.makeText(MainDashActivity.this, "Error searching books", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else if (genre != null && !genre.equalsIgnoreCase("All")) {
-            bookApi.getBooksByGenre(genre).enqueue(new Callback<List<Book>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        bookList.clear();
-                        bookList.addAll(response.body());
-                        bookAdapter.notifyDataSetChanged();
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
-                    Toast.makeText(MainDashActivity.this, "Error filtering books", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            loadAllBooks();
+        // 1. Filter by genre
+        if (genre != null && !genre.equalsIgnoreCase("All")) {
+            bookStream = bookStream.filter(book -> book.getGenre().equalsIgnoreCase(genre));
         }
+
+        // 2. Filter by search query (title or author)
+        if (query != null && !query.isEmpty()) {
+            final String lowerCaseQuery = query.toLowerCase();
+            bookStream = bookStream.filter(book ->
+                    book.getTitle().toLowerCase().contains(lowerCaseQuery) ||
+                    book.getAuthor().toLowerCase().contains(lowerCaseQuery));
+        }
+
+        List<Book> filteredBooks = bookStream.collect(Collectors.toList());
+
+        // Update the RecyclerView
+        bookList.clear();
+        bookList.addAll(filteredBooks);
+        bookAdapter.notifyDataSetChanged();
     }
+
 
     private void resetButtons() {
         Button[] buttons = {btnAll, btnAction, btnRomance, btnComedy, btnHorror, btnThriller};
