@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.librarymanagementsystem_users.functions.RequestedBook;
 
 import java.util.HashSet;
@@ -42,18 +43,17 @@ public class RequestedBookAdapter extends RecyclerView.Adapter<RequestedBookAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RequestedBook book = bookList.get(position);
         holder.bookTitle.setText(book.getTitle());
-        // You may need to fetch the book details to get the cover and author
-        // For now, we'll use a placeholder
-        holder.bookCover.setImageResource(R.drawable.sample_book);
-        holder.bookAuthor.setText("Author Name");
+        holder.bookAuthor.setText(book.getAuthor());
         holder.requestStatus.setText(book.getStatus());
 
-        // Here you would get the actual database ID from your book object
-        // long databaseId = book.getDatabaseId(); 
-        // holder.requestedBookItemLayout.setTag(databaseId);
+        Glide.with(context)
+                .load(book.getCover_image_url())
+                .placeholder(R.drawable.sample_book)
+                .into(holder.bookCover);
+
+        holder.requestedBookItemLayout.setTag(book.getId());
 
         holder.itemView.setOnClickListener(v -> {
-            // long clickedDatabaseId = (long) holder.requestedBookItemLayout.getTag();
             showCancelDialog(book, position);
         });
     }

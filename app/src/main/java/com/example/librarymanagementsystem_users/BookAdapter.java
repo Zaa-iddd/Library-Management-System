@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.librarymanagementsystem_users.functions.Book;
 
 import java.util.List;
@@ -40,8 +41,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book book = books.get(position);
 
-        // TODO: Load image from URL using a library like Glide or Picasso
-        holder.bookCover.setImageResource(R.drawable.sample_book);
+        Glide.with(context)
+                .load(book.getCover_image_url())
+                .placeholder(R.drawable.sample_book) // optional placeholder
+                .into(holder.bookCover);
+
         holder.bookTitle.setText(book.getTitle());
         holder.bookAuthor.setText(book.getAuthor());
         holder.textGenre.setText(book.getGenre());

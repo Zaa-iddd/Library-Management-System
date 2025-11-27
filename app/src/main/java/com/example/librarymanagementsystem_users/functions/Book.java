@@ -14,10 +14,10 @@ public class Book implements Serializable {
     @SerializedName("author")
     private String author;
 
-    @SerializedName("copies_available")
+    @SerializedName("copiesAvailable")  // backend uses camelCase? (check)
     private int copies_available;
 
-    @SerializedName("cover_image_url")
+    @SerializedName("coverImageUrl")  // THIS IS CORRECT
     private String cover_image_url;
 
     @SerializedName("genre")
@@ -26,10 +26,10 @@ public class Book implements Serializable {
     @SerializedName("language")
     private String language;
 
-    @SerializedName("number_of_pages")
+    @SerializedName("numberOfPages")
     private int number_of_pages;
 
-    @SerializedName("publication_date")
+    @SerializedName("publicationDate")
     private String publication_date;
 
     @SerializedName("publisher")
@@ -41,16 +41,24 @@ public class Book implements Serializable {
     @SerializedName("summary")
     private String summary;
 
-    @SerializedName("total_copies")
+    @SerializedName("totalCopies")
     private int total_copies;
 
     public Book() {}
 
+    // ---------- GETTERS ----------
     public long getId() { return id; }
     public String getTitle() { return title; }
     public String getAuthor() { return author; }
     public int getCopies_available() { return copies_available; }
-    public String getCover_image_url() { return cover_image_url; }
+
+    public String getCover_image_url() {
+        if (cover_image_url != null && !cover_image_url.startsWith("http")) {
+            return "https://pjhjpxgexmagumhdeocm.supabase.co/storage/v1/object/public/" + cover_image_url;
+        }
+        return cover_image_url;
+    }
+
     public String getGenre() { return genre; }
     public String getLanguage() { return language; }
     public int getNumber_of_pages() { return number_of_pages; }

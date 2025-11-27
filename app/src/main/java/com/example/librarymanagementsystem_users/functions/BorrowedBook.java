@@ -7,11 +7,13 @@ public class BorrowedBook implements Serializable {
     private long databaseId;
     private String title;
     private String dueDate;
+    private String cover_image_url;
 
-    public BorrowedBook(long databaseId, String title, String dueDate) {
+    public BorrowedBook(long databaseId, String title, String dueDate, String cover_image_url) {
         this.databaseId = databaseId;
         this.title = title;
         this.dueDate = dueDate;
+        this.cover_image_url = cover_image_url;
     }
 
     public long getDatabaseId() {
@@ -36,5 +38,13 @@ public class BorrowedBook implements Serializable {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getCover_image_url() {
+        return cover_image_url;
+    }
+
+    public void setCover_image_url(String cover_image_url) {
+        this.cover_image_url = cover_image_url;
     }
 }

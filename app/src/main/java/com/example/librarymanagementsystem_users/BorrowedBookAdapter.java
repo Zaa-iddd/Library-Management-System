@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.librarymanagementsystem_users.functions.BorrowedBook;
 
 import java.util.HashSet;
@@ -46,7 +47,11 @@ public class BorrowedBookAdapter extends RecyclerView.Adapter<BorrowedBookAdapte
 
         holder.bookTitle.setText(book.getTitle());
         holder.dueDate.setText("Due: " + book.getDueDate());
-        holder.bookCover.setImageResource(R.drawable.sample_book);
+
+        Glide.with(context)
+                .load(book.getCover_image_url())
+                .placeholder(R.drawable.sample_book)
+                .into(holder.bookCover);
 
         // Store the databaseId in layout tag
         holder.borrowedBookItemLayout.setTag(book.getDatabaseId());

@@ -24,6 +24,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +41,7 @@ public class MainDashActivity extends AppCompatActivity {
     RecyclerView booksRecyclerView;
     BookAdapter bookAdapter;
     List<Book> bookList = new ArrayList<>();
+    List<Book> allBooks = new ArrayList<>(); // To store the master list of books
     BookApi bookApi;
 
     // -- State --
@@ -83,30 +85,26 @@ public class MainDashActivity extends AppCompatActivity {
 
         backButton.setOnClickListener(v -> finish());
 
-        // Re-enable the search button.
-        btnSearch.setVisibility(View.VISIBLE);
         btnSearch.setOnClickListener(v -> {
-            filterBooks(currentGenre, searchView.getQuery().toString());
+            applyFilters(currentGenre, searchView.getQuery().toString());
             searchView.clearFocus();
         });
 
-        // Restore the listener and fix the typing issue.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                filterBooks(currentGenre, query);
-                searchView.clearFocus(); // Hide keyboard
+                applyFilters(currentGenre, query);
+                searchView.clearFocus();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Return false to allow the SearchView to update its text internally.
+                // Live search can be implemented here if desired
                 return false;
             }
         });
 
-        // Setup genre filter buttons
         View.OnClickListener genreClickListener = v -> {
             resetButtons();
             v.setSelected(true);
@@ -119,10 +117,7 @@ public class MainDashActivity extends AppCompatActivity {
                 bookGenre.setText(currentGenre + " Books");
             }
 
-            // Clear search when changing genre and re-filter.
-            searchView.setQuery("", false);
-            searchView.clearFocus();
-            filterBooks(currentGenre, null);
+            applyFilters(currentGenre, searchView.getQuery().toString());
         };
 
         btnAll.setOnClickListener(genreClickListener);
@@ -133,18 +128,7 @@ public class MainDashActivity extends AppCompatActivity {
         btnThriller.setOnClickListener(genreClickListener);
 
         // -- Initial Data Load --
-        String query = getIntent().getStringExtra("SEARCH_QUERY");
-
-        if (query != null && !query.isEmpty()) {
-            searchView.setQuery(query, true);
-            filterBooks("All", query);
-        } else {
-            // Default view
-            btnAll.setSelected(true);
-            currentGenre = "All";
-            bookGenre.setText("All Books");
-            loadAllBooks();
-        }
+        loadAllBooks();
 
         // -- Navigation --
         btHome.setOnClickListener(v -> {
@@ -185,55 +169,53 @@ public class MainDashActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    bookList.clear();
-                    bookList.addAll(response.body());
-                    bookAdapter.notifyDataSetChanged();
+                    allBooks.clear();
+                    allBooks.addAll(response.body());
+
+                    // Apply initial filters from intent
+                    String query = getIntent().getStringExtra("SEARCH_QUERY");
+                    searchView.setQuery(query, false);
+                    btnAll.setSelected(true);
+                    bookGenre.setText("All Books");
+                    applyFilters("All", query);
+                } else {
+                    Toast.makeText(MainDashActivity.this, "Error loading books", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
-                Toast.makeText(MainDashActivity.this, "Error loading books", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainDashActivity.this, "Error loading books: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void filterBooks(String genre, String query) {
-        if (query != null && !query.isEmpty()) {
-            bookApi.searchBooks(query).enqueue(new Callback<List<Book>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        bookList.clear();
-                        bookList.addAll(response.body());
-                        bookAdapter.notifyDataSetChanged();
-                    }
-                }
+    private void applyFilters(String genre, String query) {
+        List<Book> filteredList = new ArrayList<>();
 
-                @Override
-                public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
-                    Toast.makeText(MainDashActivity.this, "Error searching books", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else if (genre != null && !genre.equalsIgnoreCase("All")) {
-            bookApi.getBooksByGenre(genre).enqueue(new Callback<List<Book>>() {
-                @Override
-                public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        bookList.clear();
-                        bookList.addAll(response.body());
-                        bookAdapter.notifyDataSetChanged();
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
-                    Toast.makeText(MainDashActivity.this, "Error filtering books", Toast.LENGTH_SHORT).show();
-                }
-            });
+        // 1. Filter by genre
+        if (genre == null || genre.equalsIgnoreCase("All")) {
+            filteredList.addAll(allBooks);
         } else {
-            loadAllBooks();
+            for (Book book : allBooks) {
+                if (genre.equalsIgnoreCase(book.getGenre())) {
+                    filteredList.add(book);
+                }
+            }
         }
+
+        // 2. Filter by search query
+        if (query != null && !query.isEmpty()) {
+            String lowerCaseQuery = query.toLowerCase();
+            filteredList = filteredList.stream()
+                    .filter(book -> book.getTitle().toLowerCase().contains(lowerCaseQuery) || book.getAuthor().toLowerCase().contains(lowerCaseQuery))
+                    .collect(Collectors.toList());
+        }
+
+        // Update the adapter
+        bookList.clear();
+        bookList.addAll(filteredList);
+        bookAdapter.notifyDataSetChanged();
     }
 
     private void resetButtons() {

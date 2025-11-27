@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.librarymanagementsystem_users.functions.Book;
 import com.example.librarymanagementsystem_users.reotrfit.BookApi;
 import com.example.librarymanagementsystem_users.reotrfit.RetrofitService;
@@ -32,7 +33,7 @@ public class ViewBookActivity extends AppCompatActivity {
 
     private static final String TAG = "ViewBookActivity";
 
-    private ImageView favoriteButton;
+    private ImageView favoriteButton, bookCover;
     private Button borrowButton;
     private TextView bookTitle, bookDescription, bookStatus, bookAvailability, bookAuthor, bookGenre, bookPublisher, bookPublicationDate, bookPages, bookLanguage, bookTotalCopies;
 
@@ -68,6 +69,7 @@ public class ViewBookActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
+        bookCover = findViewById(R.id.bookCover);
         bookTitle = findViewById(R.id.bookTitle);
         bookDescription = findViewById(R.id.bookDescription);
         bookStatus = findViewById(R.id.bookStatus);
@@ -123,6 +125,13 @@ public class ViewBookActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to display book details.", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // Load image with Glide
+        Glide.with(this)
+                .load(book.getCover_image_url())
+                .placeholder(R.drawable.sample_book)
+                .error(R.drawable.sample_book)
+                .into(bookCover);
 
         // Populate data
         bookTitle.setText(book.getTitle());
@@ -231,12 +240,14 @@ public class ViewBookActivity extends AppCompatActivity {
                     borrowButton.setEnabled(false);
                 } else {
                     String errorMsg = "Request failed. Code: " + response.code();
-                    try {
-                        if (response.errorBody() != null) {
-                            errorMsg += ", " + response.errorBody().string();
+                    if (response.errorBody() != null) {
+                        try {
+                            // You can only read the error body once
+                            String errorBody = response.errorBody().string();
+                            errorMsg += ", " + errorBody;
+                        } catch (IOException e) {
+                            Log.e(TAG, "Error reading error body for request book", e);
                         }
-                    } catch (IOException e) {
-                        Log.e(TAG, "Error reading error body for request book", e);
                     }
                     Toast.makeText(ViewBookActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                     Log.e(TAG, errorMsg);

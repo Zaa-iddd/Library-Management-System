@@ -170,7 +170,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    trendingBookList = response.body().stream().limit(3).collect(Collectors.toList());
+                    trendingBookList = response.body().stream().limit(10).collect(Collectors.toList());
                     trendingBookAdapter = new TrendingBookAdapter(HomeActivity.this, trendingBookList, userId);
                     trendingBooksRecyclerView.setAdapter(trendingBookAdapter);
                 } else {
@@ -197,8 +197,8 @@ public class HomeActivity extends AppCompatActivity {
                             .collect(Collectors.toList());
 
                     List<Book> limitedFavoriteBooks;
-                    if (favoriteBookList.size() > 2) {
-                        limitedFavoriteBooks = new ArrayList<>(favoriteBookList.subList(0, 2));
+                    if (favoriteBookList.size() > 5) {
+                        limitedFavoriteBooks = new ArrayList<>(favoriteBookList.subList(0, 5));
                     } else {
                         limitedFavoriteBooks = new ArrayList<>(favoriteBookList);
                     }

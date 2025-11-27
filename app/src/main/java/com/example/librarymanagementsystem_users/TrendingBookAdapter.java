@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.librarymanagementsystem_users.functions.Book;
 
 import java.util.List;
@@ -37,10 +38,16 @@ public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Book book = bookList.get(position);
+
+        String finalUrl = book.getCover_image_url();
+        android.util.Log.d("IMAGE_URL_DEBUG", "Final URL: " + finalUrl);
+
         holder.title.setText(book.getTitle());
-        // TODO: Use a library like Glide or Picasso to load the image from the URL
-        // For example: Glide.with(context).load(book.getCover_image_url()).into(holder.cover);
-        holder.cover.setImageResource(R.drawable.sample_book); // Using a placeholder image
+
+        Glide.with(context)
+                .load(finalUrl)
+                .placeholder(R.drawable.sample_book)
+                .into(holder.cover);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ViewBookActivity.class);
@@ -49,6 +56,7 @@ public class TrendingBookAdapter extends RecyclerView.Adapter<TrendingBookAdapte
             context.startActivity(intent);
         });
     }
+
 
     @Override
     public int getItemCount() {
