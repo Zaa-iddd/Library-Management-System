@@ -1,4 +1,4 @@
-package com.projectone.library_management_system.controller;
+package com.example.librarymanagementsystem_users.models;
 
 import java.util.ArrayList;
 import java.util.List;
